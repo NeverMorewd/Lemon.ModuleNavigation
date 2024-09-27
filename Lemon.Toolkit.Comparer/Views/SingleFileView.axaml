@@ -1,0 +1,82 @@
+<UserControl
+    x:Class="Lemon.Toolkit.Comparer.Views.SingleFileView"
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:vm="using:Lemon.Toolkit.Comparer.ViewModels"
+    d:DesignHeight="450"
+    d:DesignWidth="800"
+    x:DataType="vm:MainWindowViewModel"
+    mc:Ignorable="d">
+    <Design.DataContext>
+        <vm:MainWindowViewModel />
+    </Design.DataContext>
+    <Grid RowDefinitions="Auto, Auto, Auto, Auto">
+        <StackPanel
+            Grid.Row="0"
+            Orientation="Horizontal"
+            Spacing="5">
+            <TextBox
+                Width="700"
+                Height="40"
+                Classes="Bordered"
+                Text="{Binding FilePath}"
+                Watermark="Enter filepath or Select a file with the button 'Browse'" />
+            <Button Command="{Binding BrowseFileCommand}" Content="Browse" />
+            <TextBlock
+                VerticalAlignment="Center"
+                Foreground="Orange"
+                Text="{Binding FileSize}" />
+        </StackPanel>
+        <StackPanel
+            Grid.Row="1"
+            Margin="0,3,0,0"
+            Orientation="Vertical"
+            Spacing="3">
+            <Label Content="MD5:" Target="{Binding ElementName=md5Txt}" />
+            <TextBox
+                Name="md5Txt"
+                Classes="TextArea"
+                Foreground="Orange"
+                Text="{Binding MD5Text}"
+                Watermark="MD5" />
+        </StackPanel>
+        <StackPanel
+            Grid.Row="2"
+            Margin="0,3,0,0"
+            Orientation="Vertical"
+            Spacing="3">
+            <Label Content="SHA256:" Target="{Binding ElementName=sha256Txt}" />
+            <TextBox
+                Name="sha256Txt"
+                Classes="TextArea"
+                Foreground="Orange"
+                Text="{Binding SHA256Text}"
+                Watermark="SHA256" />
+        </StackPanel>
+        <StackPanel
+            Grid.Row="3"
+            Margin="0,3,0,0"
+            VerticalAlignment="Top"
+            Orientation="Horizontal"
+            Spacing="5">
+            <Button
+                Command="{Binding CopyCommand}"
+                CommandParameter="{Binding MD5Text}"
+                Content="复制MD5到剪切板" />
+            <Button
+                Command="{Binding CopyCommand}"
+                CommandParameter="{Binding SHA256Text}"
+                Content="复制SHA256到剪切板" />
+            <Button Command="{Binding CopyCommand}" Content="复制MD5和SHA256到剪切板">
+                <Button.CommandParameter>
+                    <MultiBinding>
+                        <Binding Path="MD5Text" />
+                        <Binding Path="SHA256Text" />
+                    </MultiBinding>
+                </Button.CommandParameter>
+            </Button>
+        </StackPanel>
+    </Grid>
+</UserControl>
