@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Lemon.Toolkit.Services
+namespace Lemon.Toolkit.Framework
 {
-    internal class FileCompareService
+    internal class Module
     {
     }
 }

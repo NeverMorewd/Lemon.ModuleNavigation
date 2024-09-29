@@ -1,7 +1,7 @@
 ﻿using Avalonia.Media;
 using System;
 
-namespace Lemon.Toolkit.Comparer.Models
+namespace Lemon.Toolkit.Models
 {
     public class ConsoleTextModel
     {

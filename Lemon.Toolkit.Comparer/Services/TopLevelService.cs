@@ -1,5 +1,6 @@
 ﻿using Avalonia.Controls;
 using Avalonia.Controls.ApplicationLifetimes;
+using Avalonia.Controls.Notifications;
 using System;
 using System.Linq;
 using System.Reactive.Linq;
@@ -7,11 +8,12 @@ using System.Reactive.Threading.Tasks;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Lemon.Toolkit.Comparer.Services
+namespace Lemon.Toolkit.Services
 {
     public class TopLevelService
     {
         private TopLevel? _topLevel;
+        private WindowNotificationManager? _notificationManager;
         private readonly SemaphoreSlim _semaphore = new(1, 1);
         public TopLevelService()
         {
@@ -72,7 +74,24 @@ namespace Lemon.Toolkit.Comparer.Services
             }
             return _topLevel;
         }
-
+        public WindowNotificationManager? NotificationManager
+        {
+            get
+            {
+                if (_notificationManager == null)
+                {
+                    if (_topLevel != null)
+                    {
+                        _notificationManager = new WindowNotificationManager(_topLevel!)
+                        {
+                            MaxItems = 3,
+                            Position = NotificationPosition.BottomRight
+                        };
+                    }
+                }
+                return _notificationManager;
+            }
+        }
 
         private TopLevel? GetTopLevelCore()
         {

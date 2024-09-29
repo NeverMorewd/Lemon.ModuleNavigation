@@ -1,17 +1,22 @@
 ﻿using Avalonia;
 using Avalonia.ReactiveUI;
 using Lemon.Hosting.AvaloniauiDesktop;
-using Lemon.Toolkit.Comparer.Services;
-using Lemon.Toolkit.Comparer.ViewModels;
-using Lemon.Toolkit.Comparer.Views;
+using Lemon.Toolkit.Framework;
+using Lemon.Toolkit.Modules;
+using Lemon.Toolkit.Services;
+using Lemon.Toolkit.ViewModels;
+using Lemon.Toolkit.Views;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using System;
+using System.Reactive;
+using System.Reactive.Linq;
+using System.Reactive.Subjects;
 using System.Runtime.Versioning;
 
-namespace Lemon.Toolkit.Comparer
+namespace Lemon.Toolkit
 {
     internal class Program
     {
@@ -42,6 +47,14 @@ namespace Lemon.Toolkit.Comparer
             hostBuilder.Services.AddSingleton(consoleService);
             hostBuilder.Services.AddSingleton<TopLevelService>();
 
+            hostBuilder.Services.AddTabModule<HomeModule>();
+            hostBuilder.Services.AddTabModule<FileInspectorModule>();
+
+            hostBuilder.Services.AddTabModulesBuilder();
+
+            Subject<ITabModule> navigationService = new Subject<ITabModule>();
+            hostBuilder.Services.AddSingleton<IObservable<ITabModule>>(navigationService.AsObservable());
+            hostBuilder.Services.AddSingleton<IObserver<ITabModule>>(navigationService.AsObserver());
             #region app default
             RunApp(hostBuilder, args);
             #endregion

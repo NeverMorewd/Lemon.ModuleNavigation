@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Lemon.Toolkit.Comparer.Services
+namespace Lemon.Toolkit.Services
 {
     internal class FolderCompareService
     {

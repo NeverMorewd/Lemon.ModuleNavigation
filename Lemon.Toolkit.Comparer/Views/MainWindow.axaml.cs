@@ -6,7 +6,7 @@ using System.Reactive.Linq;
 using ReactiveUI;
 using Avalonia.Interactivity;
 
-namespace Lemon.Toolkit.Comparer.Views
+namespace Lemon.Toolkit.Views
 {
     public partial class MainWindow : Window
     {

@@ -5,8 +5,9 @@
     <Nullable>enable</Nullable>
     <BuiltInComInteropSupport>true</BuiltInComInteropSupport>
     <ApplicationManifest>app.manifest</ApplicationManifest>
-    <AvaloniaUseCompiledBindingsByDefault>true</AvaloniaUseCompiledBindingsByDefault>
+    <AvaloniaUseCompiledBindingsByDefault>false</AvaloniaUseCompiledBindingsByDefault>
 	<PublishAot>true</PublishAot>
+	<IncludeNativeLibrariesForSelfExtract>true</IncludeNativeLibrariesForSelfExtract>
 	<ApplicationIcon>lemon.ico</ApplicationIcon>
   </PropertyGroup>
 
@@ -36,7 +37,9 @@
     <PackageReference Include="Semi.Avalonia" Version="11.2.0-beta1" />
     <PackageReference Include="System.Text.Json" Version="8.0.4" />
   </ItemGroup>
-
+  <ItemGroup>
+	<RdXmlFile Include="rd.xml" />
+  </ItemGroup>
   <ItemGroup>
     <AvaloniaResource Include="lemon.png" />
   </ItemGroup>

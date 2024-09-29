@@ -4,7 +4,7 @@ using Avalonia.Xaml.Interactivity;
 using System.Collections.Specialized;
 using System.Diagnostics.CodeAnalysis;
 
-namespace Lemon.Toolkit.Comparer.Behaviors
+namespace Lemon.Toolkit.Behaviors
 {
     public class ItemsControlAutoScrollBehavior : Behavior<ItemsControl>
     {

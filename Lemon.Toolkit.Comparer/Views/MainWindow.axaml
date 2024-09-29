@@ -1,20 +1,22 @@
 <Window
-    x:Class="Lemon.Toolkit.Comparer.Views.MainWindow"
+    x:Class="Lemon.Toolkit.Views.MainWindow"
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:behaviors="using:Lemon.Toolkit.Comparer.Behaviors"
+    xmlns:behaviors="using:Lemon.Toolkit.Behaviors"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:v="using:Lemon.Toolkit.Comparer.Views"
-    xmlns:vm="using:Lemon.Toolkit.Comparer.ViewModels"
+    xmlns:v="using:Lemon.Toolkit.Views"
+    xmlns:vm="using:Lemon.Toolkit.ViewModels"
     Name="shell"
-    Title="Lemon.Toolkit.Comparer"
+    Title="Lemon.Toolkit"
+    MinWidth="900"
+    MinHeight="600"
     d:DesignHeight="800"
     d:DesignWidth="1000"
     x:DataType="vm:MainWindowViewModel"
     ExtendClientAreaTitleBarHeightHint="40"
     ExtendClientAreaToDecorationsHint="True"
-    Icon="avares://Lemon.Toolkit.Comparer/lemon.png"
+    Icon="avares://Lemon.Toolkit/lemon.png"
     SizeToContent="WidthAndHeight"
     mc:Ignorable="d">
 
@@ -54,13 +56,13 @@
             Orientation="Horizontal">
             <Image
                 Name="WindowIcon"
-                Source="avares://Lemon.Toolkit.Comparer/lemon.png"
+                Source="avares://Lemon.Toolkit/lemon.png"
                 Stretch="UniformToFill" />
             <TextBlock
                 Margin="2,5,0,0"
                 FontWeight="SemiBold"
                 Foreground="Gray"
-                Text="Lemon.Toolkit.Comparer" />
+                Text="Lemon.Toolkit" />
         </StackPanel>
 
         <TabControl
@@ -69,16 +71,20 @@
             Margin="8"
             Padding="20,0,0,0"
             HorizontalAlignment="Stretch"
+            ItemsSource="{Binding Modules}"
             TabStripPlacement="Left"
             Theme="{DynamicResource NavigationTab}">
-            <TabItem Header="SingleFile">
-                <v:SingleFileView />
-            </TabItem>
-            <TabItem Header="Compare">
-                <v:CompareView />
-            </TabItem>
+            <TabControl.ItemTemplate>
+                <DataTemplate>
+                    <TextBlock Text="{Binding Name}" />
+                </DataTemplate>
+            </TabControl.ItemTemplate>
+            <TabControl.ContentTemplate>
+                <DataTemplate>
+                    <ContentControl Content="{Binding View}" />
+                </DataTemplate>
+            </TabControl.ContentTemplate>
         </TabControl>
-
         <Expander
             Grid.Row="2"
             Margin="0,0,0,10"

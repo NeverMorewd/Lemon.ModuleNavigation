@@ -1,8 +1,9 @@
-﻿using ReactiveUI;
+﻿using Lemon.Toolkit.Framework;
+using ReactiveUI;
 
-namespace Lemon.Toolkit.Comparer.ViewModels
+namespace Lemon.Toolkit.ViewModels
 {
-    public class ViewModelBase : ReactiveObject
+    public class ViewModelBase : ReactiveObject, IViewModel
     {
     }
 }

@@ -4,7 +4,7 @@ using System.Reactive.Linq;
 using System.Reactive.Subjects;
 using System.Text;
 
-namespace Lemon.Toolkit.Comparer.Services
+namespace Lemon.Toolkit.Services
 {
     public class ConsoleService : TextWriter
     {

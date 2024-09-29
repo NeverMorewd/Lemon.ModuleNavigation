@@ -5,15 +5,16 @@ using Lemon.Toolkit.Framework;
 using Lemon.Toolkit.ViewModels;
 using System.Diagnostics.CodeAnalysis;
 
-namespace Lemon.Toolkit.Views;
+namespace Lemon.Toolkit;
 
 [RequiresUnreferencedCode("")]
-public partial class SingleFileView : UserControl, IView
+public partial class HomeView : UserControl, IView
 {
-    public SingleFileView()
+    public HomeView()
     {
         InitializeComponent();
     }
+
     public void SetDataContext(IViewModel viewModel)
     {
         this.DataContext = viewModel;
