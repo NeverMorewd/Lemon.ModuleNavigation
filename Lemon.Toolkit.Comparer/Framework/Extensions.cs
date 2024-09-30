@@ -6,19 +6,18 @@ namespace Lemon.Toolkit.Framework
 {
     public static class Extensions
     {
-        //[return: DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)]
         public static IServiceCollection AddTabModule<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] TModule>(this IServiceCollection serviceDescriptors) where TModule : class, IModule
         {
             serviceDescriptors = serviceDescriptors
                 .AddSingleton<TModule>()
                 .AddKeyedSingleton<IModule, TModule>(nameof(IModule), (sp, key) => sp.GetRequiredService<TModule>())
-                .AddKeyedSingleton<IView>(typeof(TModule).Name, (sp, key) =>
+                .AddKeyedSingleton(typeof(TModule).Name, (sp, key) =>
                 {
                     var module = sp.GetRequiredService<TModule>();
                     var view = ActivatorUtilities.CreateInstance(sp, module.ViewType);
                     return (view as IView)!;
                 })
-                .AddKeyedSingleton<IViewModel>(typeof(TModule).Name, (sp, key) =>
+                .AddKeyedSingleton(typeof(TModule).Name, (sp, key) =>
                 {
                     var module = sp.GetRequiredService<TModule>();
                     var viewModel = ActivatorUtilities.CreateInstance(sp, module.ViewModelType);
