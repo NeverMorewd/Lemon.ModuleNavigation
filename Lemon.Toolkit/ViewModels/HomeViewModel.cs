@@ -17,11 +17,11 @@ namespace Lemon.Toolkit.ViewModels
     public class HomeViewModel:ViewModelBase
     {
         private readonly TopLevelService _topLevelService;
-        private readonly IObserver<IModule> _navigationService;
+        private readonly NavigationService _navigationService;
         private readonly ILogger _logger;
         public HomeViewModel(TopLevelService topLevelService,
             IEnumerable<IModule> modules,
-            IObserver<IModule> navigationService,
+            NavigationService navigationService,
             ILogger<HomeViewModel> logger) 
         {
             _navigationService = navigationService;
@@ -35,7 +35,7 @@ namespace Lemon.Toolkit.ViewModels
                 .Subscribe(c => 
                 {
                     _logger.LogDebug($"navigate to {c.Value!.Name}");
-                    _navigationService.OnNext(c.Value!);
+                    _navigationService.NavigateTo(c.Value!);
                     SelectedItem = null;
                 });
         }

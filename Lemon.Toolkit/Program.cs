@@ -44,8 +44,11 @@ namespace Lemon.Toolkit
             hostBuilder.Logging.ClearProviders();
             hostBuilder.Services.AddLogging(builder =>
             {
-                builder.SetMinimumLevel(LogLevel.Debug);
-                builder.AddProvider(new UILoggerProvider("UILogger", _consoleService));
+                var miniLevel = LogLevel.Debug;
+                builder.SetMinimumLevel(miniLevel);
+                builder.AddProvider(new UILoggerProvider("UILogger", 
+                    _consoleService,
+                    miniLevel));
             });
             
             // services
@@ -61,10 +64,12 @@ namespace Lemon.Toolkit
             hostBuilder.Services.AddTabModule<CompareModule>();
             hostBuilder.Services.AddTabModulesBuilder();
 
-            Subject<IModule> navigationService = new();
-            hostBuilder.Services.AddSingleton(navigationService.AsObservable());
-            hostBuilder.Services.AddSingleton(navigationService.AsObserver());
-
+            // navigation
+            hostBuilder.Services.AddSingleton<NavigationService>();
+            hostBuilder.Services.AddSingleton<INavigationService<IModule>>(sp => sp.GetRequiredService<NavigationService>());
+            //
+            hostBuilder.Services.AddAvaloniauiDesktopApplication<App>(ConfigAvaloniaAppBuilder);
+            hostBuilder.Services.AddMainWindow<MainWindow, MainWindowViewModel>();
             RunApp(hostBuilder, args);
 
         }
@@ -73,8 +78,6 @@ namespace Lemon.Toolkit
         [SupportedOSPlatform("macos")]
         private static void RunApp(HostApplicationBuilder hostBuilder, string[] args)
         {
-            hostBuilder.Services.AddAvaloniauiDesktopApplication<App>(ConfigAvaloniaAppBuilder);
-            hostBuilder.Services.AddMainWindow<MainWindow, MainWindowViewModel>();
             var appHost = hostBuilder.Build();
             appHost.RunAvaloniauiApplication<MainWindow>(args);
         }

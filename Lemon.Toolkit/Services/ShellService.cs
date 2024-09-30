@@ -4,12 +4,12 @@ using System.Reactive.Subjects;
 
 namespace Lemon.Toolkit.Services
 {
-    public class ShellService:IObservable<ShellParamModel>, IObserver<ShellParamModel>
+    public class ShellService : IObservable<ShellParamModel>, IObserver<ShellParamModel>
     {
         private readonly Subject<ShellParamModel> _subject = new();
         public ShellService()
         {
-            
+
         }
 
         public IDisposable Subscribe(IObserver<ShellParamModel> observer)

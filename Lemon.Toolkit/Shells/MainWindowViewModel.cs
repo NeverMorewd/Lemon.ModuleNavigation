@@ -19,17 +19,16 @@ using Notification = Avalonia.Controls.Notifications.Notification;
 
 namespace Lemon.Toolkit.Shells
 {
-    public class MainWindowViewModel : ViewModelBase, IDisposable
+    public class MainWindowViewModel : ViewModelBase,INavigationHandler<IModule>, IDisposable
     {
         private const int MaxOutputCount = 200;
         private readonly CompositeDisposable _disposables;
 
         private readonly TopLevelService _topLevelService;
         private readonly ConsoleService _consoleService;
-        private readonly IObservable<IModule> _navigationService;
         private readonly IObservable<ShellParamModel> _shellService;
         private readonly ILogger _logger;
-
+        private readonly INavigationService<IModule> _navigationService;
 
         private readonly SourceCache<ConsoleTextModel, Guid> _outputsCache = new(x => x.Id);
         private readonly ReadOnlyObservableCollection<ConsoleTextModel> _outputs;
@@ -37,7 +36,7 @@ namespace Lemon.Toolkit.Shells
             ConsoleService consoleService,
             IObservable<ShellParamModel> shellService,
             IEnumerable<IModule> modules,
-            IObservable<IModule> navigationService,
+            INavigationService<IModule> navigationService,
             ILogger<MainWindowViewModel> logger)
         {
             _logger = logger;
@@ -46,18 +45,21 @@ namespace Lemon.Toolkit.Shells
             _navigationService = navigationService;
             _shellService = shellService;
 
-            Modules = new ObservableCollection<IModule>(modules
-                .Where(m =>
-                {
-                    _logger.LogInformation($"Found module:{m.Name}");
-                    return !m.LoadOnDemand;
-                })
-                .Select(m => 
-                {
-                    _logger.LogInformation($"Initialize module:{m.Name}");
-                    m.Initialize(); 
-                    return m; 
-                }));
+            using (_logger.BeginScope("Modules"))
+            {
+                Modules = new ObservableCollection<IModule>(modules
+                    .Where(m =>
+                    {
+                        _logger.LogInformation($"Found module:{m.Name}");
+                        return !m.LoadOnDemand;
+                    })
+                    .Select(m =>
+                    {
+                        _logger.LogInformation($"Initialize module:{m.Name}");
+                        m.Initialize();
+                        return m;
+                    }));
+            }
 
             #region Outputs Cache
             var cacheCleanup = _outputsCache.Connect()
@@ -108,16 +110,6 @@ namespace Lemon.Toolkit.Shells
                 await _topLevelService.EnsureTopLevel().Clipboard!.SetTextAsync(outputString);
                 _topLevelService.Ensure().NotificationManager!.Show(new Notification("成功", "已复制到剪切板", NotificationType.Success));
             });
-            _navigationService.ObserveOn(RxApp.MainThreadScheduler).Subscribe(m =>
-            {
-                if (!Modules.Contains(m))
-                {
-                    Modules.Add(m);
-                }
-                m.Initialize();
-                m.IsActivated = true;
-                CurrentTab = m;
-            });
 
             var valueChangedCleanup = this.WhenAnyValue(x => x.ConsoleIsExpanded)
                 .Subscribe(c=>
@@ -127,12 +119,14 @@ namespace Lemon.Toolkit.Shells
                         OutputCount = 0;
                     }
                 });
+            var navigationCleanup = _navigationService.OnNavigation(this);
 
             _disposables = new(cacheCleanup, 
                 cacheCountCleanup, 
                 consoleOutputCleanup, 
                 valueChangedCleanup, 
-                consoleErrorCleanup);
+                consoleErrorCleanup,
+                navigationCleanup);
 
         }
         public ObservableCollection<IModule> Modules
@@ -178,9 +172,20 @@ namespace Lemon.Toolkit.Shells
             get;
         }
 
-        public void Dispose()
+        public override void Dispose()
         {
             _disposables?.Dispose();
+        }
+
+        public void NavigateTo(IModule target)
+        {
+            if (!Modules.Contains(target))
+            {
+                Modules.Add(target);
+            }
+            target.Initialize();
+            target.IsActivated = true;
+            CurrentTab = target;
         }
     }
 }
