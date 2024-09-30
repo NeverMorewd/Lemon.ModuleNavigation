@@ -1,9 +1,10 @@
 <Window
-    x:Class="Lemon.Toolkit.Views.MainWindow"
+    x:Class="Lemon.Toolkit.Shells.MainWindow"
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:behaviors="using:Lemon.Toolkit.Behaviors"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="using:Lemon.Toolkit.Shells"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:v="using:Lemon.Toolkit.Views"
     xmlns:vm="using:Lemon.Toolkit.ViewModels"
@@ -13,7 +14,7 @@
     MinHeight="600"
     d:DesignHeight="800"
     d:DesignWidth="1000"
-    x:DataType="vm:MainWindowViewModel"
+    x:DataType="local:MainWindowViewModel"
     ExtendClientAreaTitleBarHeightHint="40"
     ExtendClientAreaToDecorationsHint="True"
     Icon="avares://Lemon.Toolkit/lemon.png"
@@ -45,7 +46,7 @@
 
     <Grid
         Margin="4,4,4,4"
-        RowDefinitions="40,*,auto"
+        RowDefinitions="40,*,280"
         ShowGridLines="False">
 
         <StackPanel
@@ -72,6 +73,7 @@
             Padding="20,0,0,0"
             HorizontalAlignment="Stretch"
             ItemsSource="{Binding Modules}"
+            SelectedItem="{Binding CurrentTab}"
             TabStripPlacement="Left"
             Theme="{DynamicResource NavigationTab}">
             <TabControl.ItemTemplate>
@@ -219,10 +221,6 @@
                                     Height="30"
                                     Orientation="Horizontal"
                                     Spacing="6">
-                                    <TextBlock>
-                                        <Run Text="{Binding Time}" />
-                                        <Run Text=":" />
-                                    </TextBlock>
                                     <TextBlock
                                         FontWeight="{Binding TextWeight}"
                                         Foreground="{Binding TextBrush}"

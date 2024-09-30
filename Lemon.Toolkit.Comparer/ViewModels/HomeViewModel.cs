@@ -1,47 +1,51 @@
-﻿using DynamicData.Binding;
-using Lemon.Toolkit.Framework;
+﻿using Lemon.Toolkit.Framework;
+using Lemon.Toolkit.Framework.Abstracts;
 using Lemon.Toolkit.Services;
+using Microsoft.Extensions.Logging;
 using ReactiveUI;
-using System.Reactive;
-using System.Reactive.Linq;
 using ReactiveUI.Fody.Helpers;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
-using System;
+using System.Reactive.Linq;
 
 namespace Lemon.Toolkit.ViewModels
 {
     [RequiresUnreferencedCode("")]
     public class HomeViewModel:ViewModelBase
     {
-        private readonly ConsoleService _consoleService;
         private readonly TopLevelService _topLevelService;
-        private readonly IObserver<ITabModule> _navigationService;
-        public HomeViewModel(ConsoleService consoleService, 
-            TopLevelService topLevelService,
-            IEnumerable<ITabModule> modules,
-            IObserver<ITabModule> navigationService) 
+        private readonly IObserver<IModule> _navigationService;
+        private readonly ILogger _logger;
+        public HomeViewModel(TopLevelService topLevelService,
+            IEnumerable<IModule> modules,
+            IObserver<IModule> navigationService,
+            ILogger<HomeViewModel> logger) 
         {
             _navigationService = navigationService;
-            _consoleService = consoleService;
             _topLevelService = topLevelService;
-            Modules = new ObservableCollection<ITabModule>(modules);
+            _logger = logger;
+            Modules = new ObservableCollection<IModule>(modules);
             this.ObservableForProperty(x => x.SelectedItem)
+                .WhereNotNull()
+                .Where(x=>x.Value is not null)
                 .ObserveOn(RxApp.MainThreadScheduler)
                 .Subscribe(c => 
                 {
-                    _navigationService.OnNext(c.Value);
+                    _logger.LogDebug($"navigate to {c.Value!.Name}");
+                    _navigationService.OnNext(c.Value!);
+                    SelectedItem = null;
                 });
         }
-        public ObservableCollection<ITabModule> Modules
+        public ObservableCollection<IModule> Modules
         {
             get;
             set;
         }
         [Reactive]
-        public ITabModule SelectedItem
+        public IModule? SelectedItem
         {
             get;
             set;

@@ -15,7 +15,6 @@
     <AvaloniaResource Include="Assets\**" />
     <None Remove="lemon.png" />
     <Content Include="lemon.ico" />
-    <Folder Include="Domains\" />
   </ItemGroup>
   <PropertyGroup Condition="$([MSBuild]::IsTargetFrameworkCompatible('$(TargetFramework)', 'net8.0'))">
 	<IsTrimmable>true</IsTrimmable>
@@ -42,5 +41,10 @@
   </ItemGroup>
   <ItemGroup>
     <AvaloniaResource Include="lemon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Update="Views\FileInspectorView.axaml.cs">
+      <DependentUpon>FileInspectorView.axaml</DependentUpon>
+    </Compile>
   </ItemGroup>
 </Project>

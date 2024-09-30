@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Lemon.Toolkit.Framework
+namespace Lemon.Toolkit.Framework.Abstracts
 {
-    public interface IViewModel
+    public interface IViewModel : IDisposable
     {
     }
 }

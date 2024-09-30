@@ -4,16 +4,16 @@ using System;
 
 namespace Lemon.Toolkit.Modules
 {
-    public class HomeModule : TabModule<HomeView, HomeViewModel>
+    public class HomeModule : Module<HomeView, HomeViewModel>
     {
         public HomeModule(IServiceProvider serviceProvider)
             : base(serviceProvider)
         {
 
         }
-        public override bool LoadDefault
+        public override bool LoadOnDemand
         {
-            get => true;
+            get => false;
         }
     }
 }

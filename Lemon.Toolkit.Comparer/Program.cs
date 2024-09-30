@@ -2,10 +2,12 @@
 using Avalonia.ReactiveUI;
 using Lemon.Hosting.AvaloniauiDesktop;
 using Lemon.Toolkit.Framework;
+using Lemon.Toolkit.Framework.Abstracts;
+using Lemon.Toolkit.Log;
+using Lemon.Toolkit.Models;
 using Lemon.Toolkit.Modules;
 using Lemon.Toolkit.Services;
-using Lemon.Toolkit.ViewModels;
-using Lemon.Toolkit.Views;
+using Lemon.Toolkit.Shells;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -20,19 +22,16 @@ namespace Lemon.Toolkit
 {
     internal class Program
     {
-        // Initialization code. Don't use any Avalonia, third-party APIs or any
-        // SynchronizationContext-reliant code before AppMain is called: things aren't initialized
-        // yet and stuff might break.
+        internal readonly static ConsoleService _consoleService = new();
         [STAThread]
         [SupportedOSPlatform("windows")]
         [SupportedOSPlatform("linux")]
         [SupportedOSPlatform("macos")]
         public static void Main(string[] args)
         {
-            var consoleService = new ConsoleService();
-            Console.SetOut(consoleService);
-            Console.SetError(consoleService);
-
+            Console.SetOut(_consoleService);
+            Console.SetError(_consoleService);
+            Console.WriteLine("====𝕃𝕖𝕞𝕠𝕟====");
             var hostBuilder = Host.CreateApplicationBuilder();
 
             // config IConfiguration
@@ -41,23 +40,32 @@ namespace Lemon.Toolkit
                 .AddEnvironmentVariables()
                 .AddInMemoryCollection();
 
-            // config ILogger
+            // logger
             hostBuilder.Logging.ClearProviders();
-            hostBuilder.Services.AddLogging(builder => builder.AddConsole());
-            hostBuilder.Services.AddSingleton(consoleService);
+            hostBuilder.Services.AddLogging(builder =>
+            {
+                builder.SetMinimumLevel(LogLevel.Debug);
+                builder.AddProvider(new UILoggerProvider("UILogger", _consoleService));
+            });
+            
+            // services
+            hostBuilder.Services.AddSingleton(_consoleService);
             hostBuilder.Services.AddSingleton<TopLevelService>();
-
+            hostBuilder.Services.AddSingleton<ShellService>();
+            hostBuilder.Services.AddSingleton<IObservable<ShellParamModel>>(sp=>sp.GetRequiredService<ShellService>());
+            hostBuilder.Services.AddSingleton<IObserver<ShellParamModel>>(sp => sp.GetRequiredService<ShellService>());
+            
+            // modules
             hostBuilder.Services.AddTabModule<HomeModule>();
             hostBuilder.Services.AddTabModule<FileInspectorModule>();
-
+            hostBuilder.Services.AddTabModule<CompareModule>();
             hostBuilder.Services.AddTabModulesBuilder();
 
-            Subject<ITabModule> navigationService = new Subject<ITabModule>();
-            hostBuilder.Services.AddSingleton<IObservable<ITabModule>>(navigationService.AsObservable());
-            hostBuilder.Services.AddSingleton<IObserver<ITabModule>>(navigationService.AsObserver());
-            #region app default
+            Subject<IModule> navigationService = new();
+            hostBuilder.Services.AddSingleton(navigationService.AsObservable());
+            hostBuilder.Services.AddSingleton(navigationService.AsObserver());
+
             RunApp(hostBuilder, args);
-            #endregion
 
         }
         [SupportedOSPlatform("windows")]
@@ -68,10 +76,8 @@ namespace Lemon.Toolkit
             hostBuilder.Services.AddAvaloniauiDesktopApplication<App>(ConfigAvaloniaAppBuilder);
             hostBuilder.Services.AddMainWindow<MainWindow, MainWindowViewModel>();
             var appHost = hostBuilder.Build();
-            // run app
             appHost.RunAvaloniauiApplication<MainWindow>(args);
         }
-        // Avalonia configuration, don't remove; also used by visual designer.
         public static AppBuilder ConfigAvaloniaAppBuilder(AppBuilder appBuilder)
             => appBuilder
                 .UsePlatformDetect()

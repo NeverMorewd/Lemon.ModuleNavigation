@@ -1,18 +1,11 @@
-﻿using Avalonia;
-using Avalonia.Controls;
-using Lemon.Toolkit.Framework;
+﻿using Lemon.Toolkit.Framework;
 using Lemon.Toolkit.ViewModels;
 using Lemon.Toolkit.Views;
-using Microsoft.Extensions.DependencyInjection;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Lemon.Toolkit.Modules
 {
-    public class FileInspectorModule : TabModule<SingleFileView, SingleFileViewModel>
+    public class FileInspectorModule : Module<FileInspectorView, FileInspectorViewModel>
     {
         public FileInspectorModule(IServiceProvider serviceProvider)
             : base(serviceProvider)
@@ -20,9 +13,9 @@ namespace Lemon.Toolkit.Modules
 
         }
 
-        public override bool LoadDefault
+        public override bool LoadOnDemand
         {
-            get => false;
+            get => true;
         }
     }
 }

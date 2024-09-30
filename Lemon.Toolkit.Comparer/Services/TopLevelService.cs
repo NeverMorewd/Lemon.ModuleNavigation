@@ -52,7 +52,7 @@ namespace Lemon.Toolkit.Services
             }
             return _topLevel;
         }
-        public TopLevel Ensure(int maxAttempts = 10, int delayMilliseconds = 10)
+        public TopLevelService Ensure(int maxAttempts = 10, int delayMilliseconds = 10)
         {
             if (_topLevel == null)
             {
@@ -72,7 +72,11 @@ namespace Lemon.Toolkit.Services
                     }
                 }
             }
-            return _topLevel;
+            return this;
+        }
+        public TopLevel EnsureTopLevel(int maxAttempts = 10, int delayMilliseconds = 10)
+        {
+            return Ensure(maxAttempts, delayMilliseconds)._topLevel!;
         }
         public WindowNotificationManager? NotificationManager
         {

@@ -1,6 +1,9 @@
 ﻿using Avalonia.Controls.Notifications;
 using Avalonia.Platform.Storage;
+using Lemon.Toolkit.Framework;
+using Lemon.Toolkit.Models;
 using Lemon.Toolkit.Services;
+using Microsoft.Extensions.Logging;
 using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
 using System;
@@ -17,18 +20,19 @@ using Notification = Avalonia.Controls.Notifications.Notification;
 namespace Lemon.Toolkit.ViewModels
 {
     [RequiresUnreferencedCode("")]
-    public class SingleFileViewModel: ViewModelBase
+    public class FileInspectorViewModel: ViewModelBase
     {
-        private readonly CompositeDisposable _disposables;
-
+        private readonly CompositeDisposable? _disposables;
         private readonly TopLevelService _topLevelService;
-        private readonly ConsoleService _consoleService;
-        private WindowNotificationManager? _notificationManager;
-        public SingleFileViewModel(TopLevelService topLevelService,
-            ConsoleService consoleService) 
+        private readonly IObserver<ShellParamModel> _shellService;
+        private readonly ILogger _logger;
+        public FileInspectorViewModel(TopLevelService topLevelService, 
+            IObserver<ShellParamModel> shellService,
+            ILogger<FileInspectorViewModel> logger) 
         {
+            _logger = logger;
             _topLevelService = topLevelService;
-            _consoleService = consoleService;
+            _shellService = shellService;
             CopyCommand = ReactiveCommand.CreateFromTask<object>(async (obj) =>
             {
                 string? content = null;
@@ -41,14 +45,15 @@ namespace Lemon.Toolkit.ViewModels
                     var texts = objects.Cast<string>();
                     content = string.Join('-', texts);
                 }
-                if (string.IsNullOrEmpty(content))
+                if (string.IsNullOrEmpty(content) || content == "-")
                 {
-                    _topLevelService.NotificationManager!.Show(new Notification("复制失败", "内容为空", NotificationType.Error));
+                    _logger.LogError("Can not copy empty string");
+                    _topLevelService.Ensure().NotificationManager!.Show(new Notification("Error", "Can not copy empty string!", NotificationType.Error));
                 }
                 else
                 {
-                    await _topLevelService.Ensure().Clipboard!.SetTextAsync(content);
-                    _topLevelService.NotificationManager!.Show(new Notification("复制成功", content, NotificationType.Success));
+                    await _topLevelService.EnsureTopLevel().Clipboard!.SetTextAsync(content);
+                    _topLevelService.NotificationManager!.Show(new Notification("Error", content, NotificationType.Success));
                 }
             });
             BrowseFileCommand = ReactiveCommand.CreateFromTask<Unit, string?>(async _ =>
@@ -57,7 +62,7 @@ namespace Lemon.Toolkit.ViewModels
                 {
                     AllowMultiple = false
                 };
-                var files = await _topLevelService.Ensure().StorageProvider.OpenFilePickerAsync(options);
+                var files = await _topLevelService.EnsureTopLevel().StorageProvider.OpenFilePickerAsync(options);
                 if (files != null && files.Any())
                 {
                     return files[0].TryGetLocalPath();
@@ -70,7 +75,7 @@ namespace Lemon.Toolkit.ViewModels
                 .WhereNotNull()
                 .Where(File.Exists)
                 .ObserveOn(RxApp.MainThreadScheduler)
-                .Do(f => { IsProcessing = true; })
+                .Do(f => { _shellService.OnNext(new ShellParamModel { IsProcessing = true }); })
                 .ObserveOn(RxApp.TaskpoolScheduler)
                 .Select(f => (ComputeHash(f, MD5.Create()), ComputeHash(f, SHA256.Create()), ComputeFileSize(f)))
                 .ObserveOn(RxApp.MainThreadScheduler)
@@ -79,7 +84,7 @@ namespace Lemon.Toolkit.ViewModels
                     MD5Text = hashes.Item1;
                     SHA256Text = hashes.Item2;
                     FileSize = $"{hashes.Item3} MB";
-                    IsProcessing = false;
+                    _shellService.OnNext(new ShellParamModel { IsProcessing = false });
                 });
         }
 
@@ -104,24 +109,6 @@ namespace Lemon.Toolkit.ViewModels
         }
         [Reactive]
         public string? SHA256Text
-        {
-            get;
-            set;
-        }
-        [Reactive]
-        public bool IsProcessing
-        {
-            get;
-            set;
-        }
-        [Reactive]
-        public int OutputCount
-        {
-            get;
-            set;
-        }
-        [Reactive]
-        public bool ConsoleIsExpanded
         {
             get;
             set;

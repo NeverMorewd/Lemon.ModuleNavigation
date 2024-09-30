@@ -1,16 +1,25 @@
 ﻿using System;
 
-namespace Lemon.Toolkit.Framework
+namespace Lemon.Toolkit.Framework.Abstracts
 {
-    public interface ITabModule
+    public interface IModule
     {
         public string Name
         {
             get;
         }
-        public bool LoadDefault
+        public bool LoadOnDemand
         {
             get;
+        }
+        public bool IsInitialized
+        {
+            get;
+        }
+        public bool IsActivated
+        {
+            get;
+            set;
         }
         public void Initialize();
 

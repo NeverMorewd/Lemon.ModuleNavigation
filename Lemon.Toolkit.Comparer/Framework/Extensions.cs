@@ -1,19 +1,17 @@
-﻿using Avalonia;
-using Lemon.Toolkit.ViewModels;
+﻿using Lemon.Toolkit.Framework.Abstracts;
 using Microsoft.Extensions.DependencyInjection;
 using System.Diagnostics.CodeAnalysis;
-using System.Reflection;
 
 namespace Lemon.Toolkit.Framework
 {
     public static class Extensions
     {
         //[return: DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)]
-        public static IServiceCollection AddTabModule<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] TModule>(this IServiceCollection serviceDescriptors) where TModule : class, ITabModule
+        public static IServiceCollection AddTabModule<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] TModule>(this IServiceCollection serviceDescriptors) where TModule : class, IModule
         {
             serviceDescriptors = serviceDescriptors
                 .AddSingleton<TModule>()
-                .AddKeyedSingleton<ITabModule, TModule>(nameof(ITabModule), (sp, key) => sp.GetRequiredService<TModule>())
+                .AddKeyedSingleton<IModule, TModule>(nameof(IModule), (sp, key) => sp.GetRequiredService<TModule>())
                 .AddKeyedSingleton<IView>(typeof(TModule).Name, (sp, key) =>
                 {
                     var module = sp.GetRequiredService<TModule>();
@@ -31,7 +29,7 @@ namespace Lemon.Toolkit.Framework
 
         public static IServiceCollection AddTabModulesBuilder(this IServiceCollection serviceDescriptors)
         {
-            serviceDescriptors = serviceDescriptors.AddSingleton(sp => sp.GetKeyedServices<ITabModule>(nameof(ITabModule)));
+            serviceDescriptors = serviceDescriptors.AddSingleton(sp => sp.GetKeyedServices<IModule>(nameof(IModule)));
             return serviceDescriptors;
         }
     }

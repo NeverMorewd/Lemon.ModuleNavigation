@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Lemon.Toolkit.Domains;
+using System;
 using System.IO;
 using System.Reactive.Linq;
 using System.Reactive.Subjects;
@@ -6,25 +7,25 @@ using System.Text;
 
 namespace Lemon.Toolkit.Services
 {
-    public class ConsoleService : TextWriter
+    public class ConsoleService : StringWriter, IConsoleService
     {
         private readonly TextWriter _originalOutput = Console.Out;
-        private readonly StringWriter _stringWriter = new();
-        private readonly Subject<string?> _outputSubject = new();
+        private readonly TextWriter _originalError = Console.Error;
+        private readonly ReplaySubject<string?> _outputSubject = new();
+        private readonly ReplaySubject<string?> _errorSubject = new();
 
         public IObservable<string?> OutputObservable => _outputSubject.AsObservable();
+        public IObservable<string?> ErrorObservable => _errorSubject.AsObservable();
         public override Encoding Encoding => _originalOutput.Encoding;
-        public string GetOutput()
-        {
-            return _stringWriter.ToString();
-        }
 
-        public override void Write(char value)
+        public void Error(string error)
         {
-            _originalOutput.Write(value);
-            _outputSubject.OnNext(value.ToString());
+            _errorSubject.OnNext(error);
         }
-
+        public void Output(string content)
+        {
+            _outputSubject.OnNext(content);
+        }
         public override void Write(string? value)
         {
             _originalOutput.Write(value);
@@ -48,8 +49,9 @@ namespace Lemon.Toolkit.Services
             if (disposing)
             {
                 Console.SetOut(_originalOutput);
-                _stringWriter.Dispose();
+                Console.SetError(_originalError);
                 _outputSubject.Dispose();
+                _errorSubject.Dispose();
             }
             base.Dispose(disposing);
         }
