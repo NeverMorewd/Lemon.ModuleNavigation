@@ -8,13 +8,13 @@
     <AvaloniaUseCompiledBindingsByDefault>false</AvaloniaUseCompiledBindingsByDefault>
 	<PublishAot>true</PublishAot>
 	<IncludeNativeLibrariesForSelfExtract>true</IncludeNativeLibrariesForSelfExtract>
-	<ApplicationIcon>lemon.ico</ApplicationIcon>
+	<ApplicationIcon>Assets\lemon.ico</ApplicationIcon>
   </PropertyGroup>
 
   <ItemGroup>
     <AvaloniaResource Include="Assets\**" />
     <None Remove="lemon.png" />
-    <Content Include="lemon.ico" />
+    <Content Include="Assets\lemon.ico" />
   </ItemGroup>
   <PropertyGroup Condition="$([MSBuild]::IsTargetFrameworkCompatible('$(TargetFramework)', 'net8.0'))">
 	<IsTrimmable>true</IsTrimmable>
@@ -38,9 +38,6 @@
   </ItemGroup>
   <ItemGroup>
 	<RdXmlFile Include="rd.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <AvaloniaResource Include="lemon.png" />
   </ItemGroup>
   <ItemGroup>
     <Compile Update="Views\FileInspectorView.axaml.cs">
