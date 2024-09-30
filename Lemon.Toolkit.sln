@@ -5,15 +5,11 @@ VisualStudioVersion = 17.11.35312.102
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Lemon.Toolkit", "Lemon.Toolkit\Lemon.Toolkit.csproj", "{76607658-FF98-4CCA-909D-EA060F0D64F2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ModuleA", "ModuleA\ModuleA.csproj", "{1971B502-B4BF-4678-8FC2-29C0D9C6AC64}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ModuleA", "ModuleA\ModuleA.csproj", "{1971B502-B4BF-4678-8FC2-29C0D9C6AC64}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ModuleB", "ModuleB\ModuleB.csproj", "{33F74465-83A7-47EB-B286-A03A9B9CB553}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ModuleB", "ModuleB\ModuleB.csproj", "{33F74465-83A7-47EB-B286-A03A9B9CB553}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lemon.Hosting.Modularization", "Lemon.Hosting.App\Lemon.Hosting.Modularization.csproj", "{9E271C3B-0D09-4318-BF49-4BE2952759D8}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lemon.Hosting.Modularization.Wpf", "Lemon.Hosting.Modularization.Wpf\Lemon.Hosting.Modularization.Wpf.csproj", "{7B3D4B4A-4047-4B67-8EB9-31E72FDEC22B}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lemon.Hosting.Modularization.Avaloniaui", "Lemon.Hosting.Modularization.Avaloniaui\Lemon.Hosting.Modularization.Avaloniaui.csproj", "{4B35F47C-8AF3-43A1-BC6B-894B719BFBB8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Lemon.Hosting.Modularization", "Lemon.Hosting.Modularization\Lemon.Hosting.Modularization.csproj", "{9E271C3B-0D09-4318-BF49-4BE2952759D8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -37,14 +33,6 @@ Global
 		{9E271C3B-0D09-4318-BF49-4BE2952759D8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9E271C3B-0D09-4318-BF49-4BE2952759D8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9E271C3B-0D09-4318-BF49-4BE2952759D8}.Release|Any CPU.Build.0 = Release|Any CPU
-		{7B3D4B4A-4047-4B67-8EB9-31E72FDEC22B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{7B3D4B4A-4047-4B67-8EB9-31E72FDEC22B}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{7B3D4B4A-4047-4B67-8EB9-31E72FDEC22B}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{7B3D4B4A-4047-4B67-8EB9-31E72FDEC22B}.Release|Any CPU.Build.0 = Release|Any CPU
-		{4B35F47C-8AF3-43A1-BC6B-894B719BFBB8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{4B35F47C-8AF3-43A1-BC6B-894B719BFBB8}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{4B35F47C-8AF3-43A1-BC6B-894B719BFBB8}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{4B35F47C-8AF3-43A1-BC6B-894B719BFBB8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
