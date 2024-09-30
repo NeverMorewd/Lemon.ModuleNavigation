@@ -33,7 +33,7 @@ namespace Lemon.Toolkit.Log
 
         public bool IsEnabled(LogLevel logLevel)
         {
-            return logLevel > _minimumLevel;
+            return logLevel >= _minimumLevel;
         }
 
         public void Log<TState>(LogLevel logLevel, EventId eventId, TState state, Exception? exception, Func<TState, Exception?, string> formatter)
@@ -52,7 +52,7 @@ namespace Lemon.Toolkit.Log
             {
                 message = $"#{_currentScope}# {message}";
             }
-            logAction($"{DateTime.Now:yyyy-MM-dd HH:mm:ss.fff}-[{_processId}]-[{Environment.CurrentManagedThreadId}]-[{_providerName}]-[{_categoryName}]-[{logLevel}]: {message}");
+            logAction($"{DateTime.Now:yyyy-MM-dd HH:mm:ss.fff}-[{_processId}]-[{Environment.CurrentManagedThreadId}]-[{_categoryName}]-[{logLevel}]: {message}");
             if (exception != null)
             {
                 logAction(exception.ToString());

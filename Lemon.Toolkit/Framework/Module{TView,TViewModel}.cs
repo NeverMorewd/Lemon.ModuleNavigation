@@ -15,12 +15,15 @@ namespace Lemon.Toolkit.Framework
         }
         public virtual void Initialize()
         {
-            if (!IsInitialized)
+            lock (this)
             {
-                View = _serviceProvider.GetRequiredKeyedService<IView>(Name);
-                ViewModel = _serviceProvider.GetRequiredKeyedService<IViewModel>(Name);
-                View.SetDataContext(ViewModel);
-                IsInitialized = true;
+                if (!IsInitialized)
+                {
+                    View = _serviceProvider.GetRequiredKeyedService<IView>(Name);
+                    ViewModel = _serviceProvider.GetRequiredKeyedService<IViewModel>(Name);
+                    View.SetDataContext(ViewModel);
+                    IsInitialized = true;
+                }
             }
         }
         public IView? View

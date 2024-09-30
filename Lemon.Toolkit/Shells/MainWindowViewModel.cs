@@ -108,7 +108,7 @@ namespace Lemon.Toolkit.Shells
                 var texts = _outputs.Select(o => o.Text);
                 var outputString = string.Join(Environment.NewLine, texts);
                 await _topLevelService.EnsureTopLevel().Clipboard!.SetTextAsync(outputString);
-                _topLevelService.Ensure().NotificationManager!.Show(new Notification("成功", "已复制到剪切板", NotificationType.Success));
+                _topLevelService.Ensure().NotificationManager!.Show(new Notification("Success", "Copied!", NotificationType.Success));
             });
 
             var valueChangedCleanup = this.WhenAnyValue(x => x.ConsoleIsExpanded)

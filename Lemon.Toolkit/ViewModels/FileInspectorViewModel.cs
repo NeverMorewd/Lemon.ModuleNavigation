@@ -53,7 +53,7 @@ namespace Lemon.Toolkit.ViewModels
                 else
                 {
                     await _topLevelService.EnsureTopLevel().Clipboard!.SetTextAsync(content);
-                    _topLevelService.NotificationManager!.Show(new Notification("Error", content, NotificationType.Success));
+                    _topLevelService.NotificationManager!.Show(new Notification("Success", "Copied", NotificationType.Success));
                 }
             });
             BrowseFileCommand = ReactiveCommand.CreateFromTask<Unit, string?>(async _ =>
