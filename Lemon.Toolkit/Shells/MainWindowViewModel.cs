@@ -1,10 +1,10 @@
 ﻿using Avalonia.Controls.Notifications;
 using Avalonia.Media;
 using DynamicData;
-using Lemon.Toolkit.Framework;
-using Lemon.Toolkit.Framework.Abstracts;
+using Lemon.Hosting.Modularization.Abstracts;
 using Lemon.Toolkit.Models;
 using Lemon.Toolkit.Services;
+using Lemon.Toolkit.ViewModels;
 using Microsoft.Extensions.Logging;
 using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
@@ -50,12 +50,12 @@ namespace Lemon.Toolkit.Shells
                 Modules = new ObservableCollection<IModule>(modules
                     .Where(m =>
                     {
-                        _logger.LogInformation($"Found module:{m.Name}");
+                        _logger.LogInformation($"Found module:{m.Key}");
                         return !m.LoadOnDemand;
                     })
                     .Select(m =>
                     {
-                        _logger.LogInformation($"Initialize module:{m.Name}");
+                        _logger.LogInformation($"Initialize module:{m.Key}");
                         m.Initialize();
                         return m;
                     }));

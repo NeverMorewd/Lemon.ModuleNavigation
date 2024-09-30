@@ -1,5 +1,5 @@
-﻿using Lemon.Toolkit.Framework;
-using Lemon.Toolkit.Framework.Abstracts;
+﻿using Lemon.Hosting.Modularization;
+using Lemon.Hosting.Modularization.Abstracts;
 using Lemon.Toolkit.Services;
 using Microsoft.Extensions.Logging;
 using ReactiveUI;
@@ -34,8 +34,8 @@ namespace Lemon.Toolkit.ViewModels
                 .ObserveOn(RxApp.MainThreadScheduler)
                 .Subscribe(c =>
                 {
-                    _logger.LogDebug($"navigate to {c!.Name}");
-                    _navigationService.NavigateTo(c!);
+                    _logger.LogDebug($"navigate to {c.Key}");
+                    _navigationService.NavigateTo(c);
                     GoClearSelection = true;
                 });
         }

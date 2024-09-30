@@ -1,17 +1,17 @@
 using Avalonia.Controls;
 using Lemon.Hosting.Modularization.Abstracts;
 
-namespace Lemon.Toolkit.Views;
+namespace ModuleB;
 
-public partial class CompareView : UserControl,IView
+public partial class ViewB : UserControl, IView
 {
-    public CompareView()
+    public ViewB()
     {
         InitializeComponent();
     }
 
     public void SetDataContext(IViewModel viewModel)
     {
-        this.DataContext = viewModel;
+        DataContext = viewModel;
     }
 }

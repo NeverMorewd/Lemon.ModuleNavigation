@@ -13,6 +13,10 @@
 
   <ItemGroup>
     <AvaloniaResource Include="Assets\**" />
+    <AvaloniaXaml Remove="Framework\**" />
+    <Compile Remove="Framework\**" />
+    <EmbeddedResource Remove="Framework\**" />
+    <None Remove="Framework\**" />
     <None Remove="lemon.png" />
     <Content Include="Assets\lemon.ico" />
   </ItemGroup>
@@ -36,12 +40,13 @@
     <PackageReference Include="Semi.Avalonia" Version="11.2.0-beta1" />
     <PackageReference Include="System.Text.Json" Version="8.0.4" />
   </ItemGroup>
+
   <ItemGroup>
-	<RdXmlFile Include="rd.xml" />
+    <ProjectReference Include="..\Lemon.Hosting.App\Lemon.Hosting.Modularization.csproj" />
+    <ProjectReference Include="..\ModuleA\ModuleA.csproj" />
+    <ProjectReference Include="..\ModuleB\ModuleB.csproj" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Update="Views\FileInspectorView.axaml.cs">
-      <DependentUpon>FileInspectorView.axaml</DependentUpon>
-    </Compile>
+	<RdXmlFile Include="rd.xml" />
   </ItemGroup>
 </Project>

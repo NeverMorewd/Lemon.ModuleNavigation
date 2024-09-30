@@ -1,8 +1,8 @@
 ﻿using Avalonia;
 using Avalonia.ReactiveUI;
 using Lemon.Hosting.AvaloniauiDesktop;
-using Lemon.Toolkit.Framework;
-using Lemon.Toolkit.Framework.Abstracts;
+using Lemon.Hosting.Modularization;
+using Lemon.Hosting.Modularization.Abstracts;
 using Lemon.Toolkit.Log;
 using Lemon.Toolkit.Models;
 using Lemon.Toolkit.Modules;
@@ -12,10 +12,9 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using ModuleA;
+using ModuleB;
 using System;
-using System.Reactive;
-using System.Reactive.Linq;
-using System.Reactive.Subjects;
 using System.Runtime.Versioning;
 
 namespace Lemon.Toolkit
@@ -62,6 +61,8 @@ namespace Lemon.Toolkit
             hostBuilder.Services.AddTabModule<HomeModule>();
             hostBuilder.Services.AddTabModule<FileInspectorModule>();
             hostBuilder.Services.AddTabModule<CompareModule>();
+            hostBuilder.Services.AddTabModule<AModule>();
+            hostBuilder.Services.AddTabModule<BModule>();
             hostBuilder.Services.AddTabModulesBuilder();
 
             // navigation

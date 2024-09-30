@@ -1,8 +1,5 @@
-using Avalonia;
 using Avalonia.Controls;
-using Avalonia.Markup.Xaml;
-using Lemon.Toolkit.Framework.Abstracts;
-using Lemon.Toolkit.ViewModels;
+using Lemon.Hosting.Modularization.Abstracts;
 using System.Diagnostics.CodeAnalysis;
 
 namespace Lemon.Toolkit.Views;
