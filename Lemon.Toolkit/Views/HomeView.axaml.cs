@@ -17,6 +17,6 @@ public partial class HomeView : UserControl, IView
 
     public void SetDataContext(IViewModel viewModel)
     {
-        this.DataContext = viewModel;
+        DataContext = viewModel;
     }
 }

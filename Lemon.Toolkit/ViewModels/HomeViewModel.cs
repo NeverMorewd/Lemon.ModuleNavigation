@@ -27,16 +27,16 @@ namespace Lemon.Toolkit.ViewModels
             _navigationService = navigationService;
             _topLevelService = topLevelService;
             _logger = logger;
-            Modules = new ObservableCollection<IModule>(modules);
-            this.ObservableForProperty(x => x.SelectedItem)
+            Modules = new ObservableCollection<IModule>(modules.Where(m=>m.ViewModelType != typeof(HomeViewModel)));
+            //Modules = new ObservableCollection<IModule>(modules);
+            this.WhenAnyValue(x => x.SelectedItem)
                 .WhereNotNull()
-                .Where(x=>x.Value is not null)
                 .ObserveOn(RxApp.MainThreadScheduler)
-                .Subscribe(c => 
+                .Subscribe(c =>
                 {
-                    _logger.LogDebug($"navigate to {c.Value!.Name}");
-                    _navigationService.NavigateTo(c.Value!);
-                    SelectedItem = null;
+                    _logger.LogDebug($"navigate to {c!.Name}");
+                    _navigationService.NavigateTo(c!);
+                    GoClearSelection = true;
                 });
         }
         public ObservableCollection<IModule> Modules
@@ -44,11 +44,19 @@ namespace Lemon.Toolkit.ViewModels
             get;
             set;
         }
+
         [Reactive]
         public IModule? SelectedItem
         {
             get;
             set;
         }
+
+        [Reactive]
+        public bool GoClearSelection
+        {
+            get;
+            set;
+        } = false;
     }
 }
