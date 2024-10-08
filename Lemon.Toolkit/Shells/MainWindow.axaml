@@ -182,7 +182,7 @@
                         VerticalAlignment="Center"
                         FontSize="15"
                         Foreground="DodgerBlue"
-                        Text="控制台 " />
+                        Text="Console " />
                     <TextBlock
                         VerticalAlignment="Center"
                         FontSize="15"
@@ -242,11 +242,11 @@
                     <Button
                         Classes="Danger"
                         Command="{Binding ClearOutputCommand}"
-                        Content="清空" />
+                        Content="Clear" />
                     <Button
                         Classes="Secondary"
                         Command="{Binding CopyOutputCommand}"
-                        Content="复制" />
+                        Content="Copy" />
                 </StackPanel>
             </Grid>
         </Expander>
