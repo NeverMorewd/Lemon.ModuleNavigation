@@ -26,7 +26,7 @@ namespace Lemon.Extensions.SlimModule
             return serviceDescriptors;
         }
 
-        public static IServiceCollection AddTabModulesBuilder(this IServiceCollection serviceDescriptors)
+        public static IServiceCollection AddModulesBuilder(this IServiceCollection serviceDescriptors)
         {
             serviceDescriptors = serviceDescriptors.AddSingleton(sp => sp.GetKeyedServices<IModule>(nameof(IModule)));
             return serviceDescriptors;

@@ -58,12 +58,12 @@ namespace Lemon.Toolkit
             hostBuilder.Services.AddSingleton<IObserver<ShellParamModel>>(sp => sp.GetRequiredService<ShellService>());
             
             // modules
-            hostBuilder.Services.AddTabModule<HomeModule>();
-            hostBuilder.Services.AddTabModule<FileInspectorModule>();
-            hostBuilder.Services.AddTabModule<CompareModule>();
-            hostBuilder.Services.AddTabModule<AModule>();
-            hostBuilder.Services.AddTabModule<BModule>();
-            hostBuilder.Services.AddTabModulesBuilder();
+            hostBuilder.Services.AddModule<HomeModule>();
+            hostBuilder.Services.AddModule<FileInspectorModule>();
+            hostBuilder.Services.AddModule<CompareModule>();
+            hostBuilder.Services.AddModule<AModule>();
+            hostBuilder.Services.AddModule<BModule>();
+            hostBuilder.Services.AddModulesBuilder();
 
             // navigation
             hostBuilder.Services.AddSingleton<NavigationService>();
