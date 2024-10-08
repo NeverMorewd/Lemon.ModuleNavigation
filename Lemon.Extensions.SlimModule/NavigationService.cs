@@ -1,6 +1,4 @@
 ﻿using Lemon.Extensions.SlimModule.Abstracts;
-using System;
-using System.Collections.Generic;
 
 namespace Lemon.Extensions.SlimModule
 {

@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Lemon.Extensions.SlimModule.Abstracts
+﻿namespace Lemon.Extensions.SlimModule.Abstracts
 {
     public interface INavigationHandler<in T>
     {
