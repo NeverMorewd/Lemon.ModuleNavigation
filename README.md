@@ -2,7 +2,7 @@
 
 Introduction
 ##### Lemon.ToolKit
-An toolkits collection client based on Avaloniaui.
+A toolkits collection client based on Avaloniaui.
 Up to now, It contains:
 - File Inspector (ongoing)
 - File Comparer (ongoing)
