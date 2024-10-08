@@ -1,4 +1,4 @@
-﻿using Lemon.Hosting.Modularization.Abstracts;
+﻿using Lemon.Extensions.SlimModule.Abstracts;
 
 namespace ModuleA.ViewModels
 {

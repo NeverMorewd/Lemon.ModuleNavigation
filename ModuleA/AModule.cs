@@ -1,4 +1,4 @@
-﻿using Lemon.Hosting.Modularization;
+﻿using Lemon.Extensions.SlimModule;
 using ModuleA.ViewModels;
 
 namespace ModuleA

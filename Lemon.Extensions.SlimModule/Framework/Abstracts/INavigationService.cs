@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Lemon.Hosting.Modularization.Abstracts
+namespace Lemon.Extensions.SlimModule.Abstracts
 {
     public interface INavigationService<out T>
     {

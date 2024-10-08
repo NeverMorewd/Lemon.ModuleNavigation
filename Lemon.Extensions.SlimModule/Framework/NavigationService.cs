@@ -1,8 +1,8 @@
-﻿using Lemon.Hosting.Modularization.Abstracts;
+﻿using Lemon.Extensions.SlimModule.Abstracts;
 using System;
 using System.Collections.Generic;
 
-namespace Lemon.Hosting.Modularization
+namespace Lemon.Extensions.SlimModule
 {
     public class NavigationService : INavigationService<IModule>
     {

@@ -42,7 +42,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Lemon.Hosting.Modularization\Lemon.Hosting.Modularization.csproj" />
+    <ProjectReference Include="..\Lemon.Extensions.SlimModule\Lemon.Extensions.SlimModule.csproj" />
     <ProjectReference Include="..\ModuleA\ModuleA.csproj" />
     <ProjectReference Include="..\ModuleB\ModuleB.csproj" />
   </ItemGroup>

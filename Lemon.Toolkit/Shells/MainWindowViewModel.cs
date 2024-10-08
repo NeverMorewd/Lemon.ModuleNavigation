@@ -1,7 +1,7 @@
 ﻿using Avalonia.Controls.Notifications;
 using Avalonia.Media;
 using DynamicData;
-using Lemon.Hosting.Modularization.Abstracts;
+using Lemon.Extensions.SlimModule.Abstracts;
 using Lemon.Toolkit.Models;
 using Lemon.Toolkit.Services;
 using Lemon.Toolkit.ViewModels;

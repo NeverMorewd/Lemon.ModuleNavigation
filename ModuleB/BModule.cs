@@ -1,5 +1,5 @@
-﻿using Lemon.Hosting.Modularization.Abstracts;
-using Lemon.Hosting.Modularization;
+﻿using Lemon.Extensions.SlimModule.Abstracts;
+using Lemon.Extensions.SlimModule;
 using ModuleA.ViewModels;
 
 namespace ModuleB

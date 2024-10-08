@@ -1,4 +1,4 @@
-﻿using Lemon.Hosting.Modularization;
+﻿using Lemon.Extensions.SlimModule;
 using Lemon.Toolkit.ViewModels;
 using System;
 

@@ -1,5 +1,5 @@
-﻿using Lemon.Hosting.Modularization;
-using Lemon.Hosting.Modularization.Abstracts;
+﻿using Lemon.Extensions.SlimModule;
+using Lemon.Extensions.SlimModule.Abstracts;
 using Lemon.Toolkit.Services;
 using Microsoft.Extensions.Logging;
 using ReactiveUI;

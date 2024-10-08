@@ -1,4 +1,4 @@
-﻿using Lemon.Hosting.Modularization.Abstracts;
+﻿using Lemon.Extensions.SlimModule.Abstracts;
 using System;
 using System.Collections.Generic;
 using System.Linq;

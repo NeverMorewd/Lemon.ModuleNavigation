@@ -9,7 +9,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ModuleA", "ModuleA\ModuleA.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ModuleB", "ModuleB\ModuleB.csproj", "{33F74465-83A7-47EB-B286-A03A9B9CB553}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Lemon.Hosting.Modularization", "Lemon.Hosting.Modularization\Lemon.Hosting.Modularization.csproj", "{9E271C3B-0D09-4318-BF49-4BE2952759D8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Lemon.Extensions.SlimModule", "Lemon.Extensions.SlimModule\Lemon.Extensions.SlimModule.csproj", "{9E271C3B-0D09-4318-BF49-4BE2952759D8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

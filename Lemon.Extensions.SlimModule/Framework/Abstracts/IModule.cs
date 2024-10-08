@@ -1,4 +1,4 @@
-﻿namespace Lemon.Hosting.Modularization.Abstracts
+﻿namespace Lemon.Extensions.SlimModule.Abstracts
 {
     public interface IModule
     {
