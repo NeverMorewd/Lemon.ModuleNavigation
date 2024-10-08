@@ -1,7 +1,7 @@
 # Lemon.Toolkit
 
 Introduction
-##### Lemon.ToolKit
+##### Lemon.Toolkit
 A toolkits collection client based on Avaloniaui.
 Up to now, It contains:
 - File Inspector (ongoing)
