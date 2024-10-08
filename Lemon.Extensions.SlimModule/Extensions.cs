@@ -6,7 +6,7 @@ namespace Lemon.Extensions.SlimModule
 {
     public static class Extensions
     {
-        public static IServiceCollection AddTabModule<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] TModule>(this IServiceCollection serviceDescriptors) where TModule : class, IModule
+        public static IServiceCollection AddModule<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] TModule>(this IServiceCollection serviceDescriptors) where TModule : class, IModule
         {
             serviceDescriptors = serviceDescriptors
                 .AddSingleton<TModule>()
