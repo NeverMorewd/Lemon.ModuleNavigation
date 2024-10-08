@@ -7,6 +7,8 @@ An experimental lightweight modular/navigation framework based on MSDI for Avalo
 ##### Lemon.Toolkit
 A toolkits collection client based on **Semi-Avaloniaui**,**Lemon.Hosting.AvaloniauiDesktop** and **Lemon.Extensions.SlimModule**.
 Up to now, It contains:
+- Module navigation based on TabControl
+- GUI console log
 - File Inspector (ongoing)
 - File Comparer (ongoing)
 - ...
