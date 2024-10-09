@@ -1,11 +1,11 @@
 # Lemon.Toolkit
 
 Introduction
-##### Lemon.Extensions.SlimModule:
+##### Lemon.Extensions.ModuleNavigation:
 An experimental lightweight modular/navigation framework based on MSDI for Avaloniaui and Wpf
 
 ##### Lemon.Toolkit
-A toolkits collection client based on **Semi-Avaloniaui**,**Lemon.Hosting.AvaloniauiDesktop** and **Lemon.Extensions.SlimModule**.
+A toolkits collection client based on **Semi-Avaloniaui**,**Lemon.Hosting.AvaloniauiDesktop** and **Lemon.Extensions.ModuleNavigation**.
 Up to now, It contains:
 - Module navigation based on TabControl
 - Custom console log
