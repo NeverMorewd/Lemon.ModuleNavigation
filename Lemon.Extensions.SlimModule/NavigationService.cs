@@ -13,7 +13,7 @@ namespace Lemon.Extensions.SlimModule
         public IDisposable OnNavigation(INavigationHandler<IModule> handler)
         {
             _handlers.Add(handler);
-            return new Unsubscribe(_handlers, handler);
+            return new Cleanup(_handlers, handler);
         }
         public void NavigateTo(IModule module)
         {
@@ -22,11 +22,11 @@ namespace Lemon.Extensions.SlimModule
                 service.NavigateTo(module);
             }
         }
-        private class Unsubscribe : IDisposable
+        private class Cleanup : IDisposable
         {
             private readonly List<INavigationHandler<IModule>> _handlers;
             private readonly INavigationHandler<IModule> _handler;
-            public Unsubscribe(List<INavigationHandler<IModule>> handlers
+            public Cleanup(List<INavigationHandler<IModule>> handlers
             , INavigationHandler<IModule> handler)
             {
                 _handler = handler;

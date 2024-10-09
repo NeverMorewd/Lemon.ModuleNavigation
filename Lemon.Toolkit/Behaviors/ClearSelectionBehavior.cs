@@ -44,7 +44,6 @@ namespace Lemon.Toolkit.Behaviors
 
         protected override void OnDetaching()
         {
-            //_listBox?.UnselectAll();
             base.OnDetaching();
             _disposable?.Dispose();
         }

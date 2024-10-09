@@ -64,10 +64,9 @@ namespace Lemon.Extensions.SlimModule
             get;
             set;
         } = false;
-        public string? Alias
+        public virtual string? Alias
         {
             get;
-            set;
         }
     }
 }
