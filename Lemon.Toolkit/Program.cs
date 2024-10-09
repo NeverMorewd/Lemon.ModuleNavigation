@@ -1,8 +1,8 @@
 ﻿using Avalonia;
 using Avalonia.ReactiveUI;
 using Lemon.Hosting.AvaloniauiDesktop;
-using Lemon.Extensions.SlimModule;
-using Lemon.Extensions.SlimModule.Abstracts;
+using Lemon.Extensions.ModuleNavigation;
+using Lemon.Extensions.ModuleNavigation.Abstracts;
 using Lemon.Toolkit.Log;
 using Lemon.Toolkit.Models;
 using Lemon.Toolkit.Modules;
@@ -60,7 +60,7 @@ namespace Lemon.Toolkit
             // modules
             hostBuilder.Services.AddModule<HomeModule>();
             hostBuilder.Services.AddModule<FileInspectorModule>();
-            hostBuilder.Services.AddModule<CompareModule>();
+            hostBuilder.Services.AddModule<FileComparerModule>();
             hostBuilder.Services.AddModule<AModule>();
             hostBuilder.Services.AddModule<BModule>();
             hostBuilder.Services.AddModulesBuilder();

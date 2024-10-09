@@ -1,4 +1,4 @@
-﻿using Lemon.Extensions.SlimModule.Abstracts;
+﻿using Lemon.Extensions.ModuleNavigation.Abstracts;
 
 namespace ModuleA.ViewModels
 {

@@ -11,7 +11,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Lemon.Extensions.SlimModule\Lemon.Extensions.SlimModule.csproj" />
+    <ProjectReference Include="..\Lemon.Extensions.ModuleNavigation\Lemon.Extensions.ModuleNavigation.csproj" />
   </ItemGroup>
 
 </Project>

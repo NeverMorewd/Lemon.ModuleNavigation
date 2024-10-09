@@ -1,4 +1,4 @@
-﻿namespace Lemon.Extensions.SlimModule.Abstracts
+﻿namespace Lemon.Extensions.ModuleNavigation.Abstracts
 {
     public interface IModule
     {
@@ -9,7 +9,6 @@
         public string? Alias
         {
             get;
-            set;
         }
         public bool LoadOnDemand
         {

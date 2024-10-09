@@ -1,4 +1,4 @@
-﻿using Lemon.Extensions.SlimModule;
+﻿using Lemon.Extensions.ModuleNavigation;
 using Lemon.Toolkit.ViewModels;
 using System;
 

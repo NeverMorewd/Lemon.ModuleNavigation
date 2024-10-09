@@ -1,8 +1,8 @@
-﻿using Lemon.Extensions.SlimModule.Abstracts;
+﻿using Lemon.Extensions.ModuleNavigation.Abstracts;
 using Microsoft.Extensions.DependencyInjection;
 using System.Diagnostics.CodeAnalysis;
 
-namespace Lemon.Extensions.SlimModule
+namespace Lemon.Extensions.ModuleNavigation
 {
     public abstract class Module<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] TView, [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] TViewModel> : IModule where TViewModel : IViewModel where TView : IView
     {

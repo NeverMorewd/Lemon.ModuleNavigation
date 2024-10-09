@@ -1,6 +1,6 @@
-﻿using Lemon.Extensions.SlimModule.Abstracts;
+﻿using Lemon.Extensions.ModuleNavigation.Abstracts;
 
-namespace Lemon.Extensions.SlimModule
+namespace Lemon.Extensions.ModuleNavigation
 {
     public class NavigationService : INavigationService<IModule>
     {
