@@ -1,13 +1,11 @@
 using Avalonia.Controls;
 using Lemon.ModuleNavigation.Abstracts;
-using System.Diagnostics.CodeAnalysis;
 
-namespace Lemon.Toolkit;
+namespace Lemon.ModuleNavigation.Sample;
 
-[RequiresUnreferencedCode("")]
-public partial class HomeView : UserControl, IView
+public partial class ViewB : UserControl, IView
 {
-    public HomeView()
+    public ViewB()
     {
         InitializeComponent();
     }

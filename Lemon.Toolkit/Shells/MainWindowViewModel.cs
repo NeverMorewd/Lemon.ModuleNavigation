@@ -1,7 +1,7 @@
 ﻿using Avalonia.Controls.Notifications;
 using Avalonia.Media;
 using DynamicData;
-using Lemon.Extensions.ModuleNavigation.Abstracts;
+using Lemon.ModuleNavigation.Abstracts;
 using Lemon.Toolkit.Models;
 using Lemon.Toolkit.Services;
 using Lemon.Toolkit.ViewModels;
@@ -179,9 +179,16 @@ namespace Lemon.Toolkit.Shells
 
         public void NavigateTo(IModule target)
         {
-            if (!Modules.Contains(target))
+            if (target.AllowMultiple)
             {
                 Modules.Add(target);
+            }
+            else
+            {
+                if (!Modules.Contains(target))
+                {
+                    Modules.Add(target);
+                }
             }
             target.Initialize();
             target.IsActivated = true;

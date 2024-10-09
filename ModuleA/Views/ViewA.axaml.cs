@@ -1,7 +1,7 @@
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
-using Lemon.Extensions.ModuleNavigation.Abstracts;
+using Lemon.ModuleNavigation.Abstracts;
 
 namespace ModuleA;
 

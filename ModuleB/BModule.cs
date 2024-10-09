@@ -1,5 +1,5 @@
-﻿using Lemon.Extensions.ModuleNavigation.Abstracts;
-using Lemon.Extensions.ModuleNavigation;
+﻿using Lemon.ModuleNavigation.Abstracts;
+using Lemon.ModuleNavigation;
 using ModuleA.ViewModels;
 
 namespace ModuleB

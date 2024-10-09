@@ -1,8 +1,8 @@
-﻿using Lemon.Extensions.ModuleNavigation.Abstracts;
+﻿using Lemon.ModuleNavigation.Abstracts;
 using Microsoft.Extensions.DependencyInjection;
 using System.Diagnostics.CodeAnalysis;
 
-namespace Lemon.Extensions.ModuleNavigation
+namespace Lemon.ModuleNavigation
 {
     public static class Extensions
     {

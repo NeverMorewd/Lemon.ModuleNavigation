@@ -1,5 +1,5 @@
 using Avalonia.Controls;
-using Lemon.Extensions.ModuleNavigation.Abstracts;
+using Lemon.ModuleNavigation.Abstracts;
 
 namespace Lemon.Toolkit.Views;
 

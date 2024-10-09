@@ -42,7 +42,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Lemon.Extensions.ModuleNavigation\Lemon.Extensions.ModuleNavigation.csproj" />
+    <ProjectReference Include="..\Lemon.ModuleNavigation\Lemon.ModuleNavigation.csproj" />
     <ProjectReference Include="..\ModuleA\ModuleA.csproj" />
     <ProjectReference Include="..\ModuleB\ModuleB.csproj" />
   </ItemGroup>

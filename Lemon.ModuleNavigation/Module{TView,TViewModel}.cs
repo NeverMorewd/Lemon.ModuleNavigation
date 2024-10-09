@@ -1,8 +1,8 @@
-﻿using Lemon.Extensions.ModuleNavigation.Abstracts;
+﻿using Lemon.ModuleNavigation.Abstracts;
 using Microsoft.Extensions.DependencyInjection;
 using System.Diagnostics.CodeAnalysis;
 
-namespace Lemon.Extensions.ModuleNavigation
+namespace Lemon.ModuleNavigation
 {
     public abstract class Module<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] TView, [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] TViewModel> : IModule where TViewModel : IViewModel where TView : IView
     {
@@ -16,13 +16,11 @@ namespace Lemon.Extensions.ModuleNavigation
         {
             lock (this)
             {
-                if (!IsInitialized)
-                {
-                    View = _serviceProvider.GetRequiredKeyedService<IView>(Key);
-                    ViewModel = _serviceProvider.GetRequiredKeyedService<IViewModel>(Key);
-                    View.SetDataContext(ViewModel);
-                    IsInitialized = true;
-                }
+                if (IsInitialized) return;
+                View = _serviceProvider.GetRequiredKeyedService<IView>(Key);
+                ViewModel = _serviceProvider.GetRequiredKeyedService<IViewModel>(Key);
+                View.SetDataContext(ViewModel);
+                IsInitialized = true;
             }
         }
         public IView? View
@@ -64,9 +62,10 @@ namespace Lemon.Extensions.ModuleNavigation
             get;
             set;
         } = false;
-        public virtual string? Alias
+        public virtual bool AllowMultiple
         {
-            get;
-        }
+            get => false;
+        } 
+        public virtual string? Alias => Key;
     }
 }

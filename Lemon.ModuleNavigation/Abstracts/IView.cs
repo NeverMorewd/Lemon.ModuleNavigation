@@ -1,4 +1,4 @@
-﻿namespace Lemon.Extensions.ModuleNavigation.Abstracts
+﻿namespace Lemon.ModuleNavigation.Abstracts
 {
     public interface IView
     {

@@ -1,4 +1,4 @@
-﻿namespace Lemon.Extensions.ModuleNavigation.Abstracts
+﻿namespace Lemon.ModuleNavigation.Abstracts
 {
     public interface IModule
     {
@@ -15,6 +15,13 @@
             get;
         }
         public bool IsInitialized
+        {
+            get;
+        }
+        /// <summary>
+        /// does not support!
+        /// </summary>
+        public bool AllowMultiple
         {
             get;
         }
