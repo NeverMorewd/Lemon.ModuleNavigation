@@ -14,8 +14,9 @@ public abstract class AvaModule<[DynamicallyAccessedMembers(DynamicallyAccessedM
     {
     }
 
-    public IDataTemplate ViewTemplate => new FuncDataTemplate<TViewModel>((_, __) =>
-    {
-        return View as Control;
-    });
+    public IDataTemplate ViewTemplate 
+        => new FuncDataTemplate<TViewModel>((_, __) =>
+        {
+            return View as Control;
+        });
 }
