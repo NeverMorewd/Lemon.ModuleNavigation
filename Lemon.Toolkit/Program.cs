@@ -12,8 +12,6 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using ModuleA;
-using ModuleB;
 using System;
 using System.Runtime.Versioning;
 
@@ -61,8 +59,6 @@ namespace Lemon.Toolkit
             hostBuilder.Services.AddModule<HomeModule>();
             hostBuilder.Services.AddModule<FileInspectorModule>();
             hostBuilder.Services.AddModule<FileComparerModule>();
-            hostBuilder.Services.AddModule<AModule>();
-            hostBuilder.Services.AddModule<BModule>();
             hostBuilder.Services.AddModulesBuilder();
 
             // navigation

@@ -28,6 +28,9 @@
                 </DataTemplate>
             </ListBox.ItemTemplate>
         </ListBox>
+		<!--
+           NContainer&TabContainer can not display ViewTemplate(FuncDataTemplate) at the same time..
+        -->
 		<navi:NContainer Grid.Column="1" NavigationContext="{Binding NavigationContext}" />
 		<navi:TabContainer Grid.Column="2" NavigationContext="{Binding NavigationContext}">
 			<navi:TabContainer.ItemTemplate>

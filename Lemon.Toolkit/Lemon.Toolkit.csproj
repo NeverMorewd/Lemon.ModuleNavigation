@@ -38,13 +38,11 @@
     <PackageReference Include="Microsoft.Extensions.Hosting" Version="8.0.0" />
     <PackageReference Include="ReactiveUI.Fody" Version="19.5.41" />
     <PackageReference Include="Semi.Avalonia" Version="11.2.0-beta1" />
-    <PackageReference Include="System.Text.Json" Version="8.0.4" />
+    <PackageReference Include="System.Text.Json" Version="8.0.5" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Lemon.ModuleNavigation\Lemon.ModuleNavigation.csproj" />
-    <ProjectReference Include="..\ModuleA\ModuleA.csproj" />
-    <ProjectReference Include="..\ModuleB\ModuleB.csproj" />
   </ItemGroup>
   <ItemGroup>
 	<RdXmlFile Include="rd.xml" />
