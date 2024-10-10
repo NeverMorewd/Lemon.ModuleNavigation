@@ -59,6 +59,7 @@ namespace Lemon.Toolkit
             hostBuilder.Services.AddModule<HomeModule>();
             hostBuilder.Services.AddModule<FileInspectorModule>();
             hostBuilder.Services.AddModule<FileComparerModule>();
+            hostBuilder.Services.AddModule<TestModule>();
             hostBuilder.Services.AddModulesBuilder();
 
             // navigation

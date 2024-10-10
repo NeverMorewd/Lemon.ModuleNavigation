@@ -11,13 +11,13 @@ namespace Lemon.ModuleNavigation
             serviceDescriptors = serviceDescriptors
                 .AddSingleton<TModule>()
                 .AddKeyedSingleton<IModule, TModule>(nameof(IModule), (sp, key) => sp.GetRequiredService<TModule>())
-                .AddKeyedSingleton(typeof(TModule).Name, (sp, key) =>
+                .AddKeyedTransient(typeof(TModule).Name, (sp, key) =>
                 {
                     var module = sp.GetRequiredService<TModule>();
                     var view = ActivatorUtilities.CreateInstance(sp, module.ViewType);
                     return (view as IView)!;
                 })
-                .AddKeyedSingleton(typeof(TModule).Name, (sp, key) =>
+                .AddKeyedTransient(typeof(TModule).Name, (sp, key) =>
                 {
                     var module = sp.GetRequiredService<TModule>();
                     var viewModel = ActivatorUtilities.CreateInstance(sp, module.ViewModelType);

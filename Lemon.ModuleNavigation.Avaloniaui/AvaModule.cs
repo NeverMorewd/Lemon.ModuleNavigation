@@ -2,6 +2,7 @@ using System.Diagnostics.CodeAnalysis;
 using Avalonia.Controls;
 using Avalonia.Controls.Templates;
 using Lemon.ModuleNavigation.Abstracts;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace Lemon.ModuleNavigation.Avaloniaui;
 
@@ -12,11 +13,15 @@ public abstract class AvaModule<[DynamicallyAccessedMembers(DynamicallyAccessedM
 {
     public AvaModule(IServiceProvider serviceProvider) : base(serviceProvider)
     {
+
     }
 
     public IDataTemplate ViewTemplate 
-        => new FuncDataTemplate<TViewModel>((_, __) =>
+        => new FuncDataTemplate<TViewModel>((vm, np) =>
         {
-            return View as Control;
+            var view = _serviceProvider.GetRequiredKeyedService<IView>(Key);
+            var viewModel = _serviceProvider.GetRequiredKeyedService<IViewModel>(Key);
+            view.SetDataContext(viewModel);
+            return view as Control;
         });
 }
