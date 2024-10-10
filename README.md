@@ -2,7 +2,10 @@
 
 Introduction
 ##### Lemon.Extensions.ModuleNavigation:
-An experimental lightweight modular/navigation framework based on MSDI for Avaloniaui and Wpf
+A lightweight modular/navigation framework based on MSDI for Avaloniaui and Wpf
+
+##### Lemon.Extensions.ModuleNavigation.Avaloniaui:
+On top of **Lemon.Extensions.ModuleNavigation**,NavigationContainers for Avaloniaui were provided! 
 
 ##### Lemon.Toolkit
 A toolkits collection client based on **Semi-Avaloniaui**,**Lemon.Hosting.AvaloniauiDesktop** and **Lemon.Extensions.ModuleNavigation**.
