@@ -21,7 +21,15 @@ namespace Lemon.ModuleNavigation.Avaloniaui.Containers
 
             _disposable = this.GetObservable(NavigationContextProperty)
                               .Subscribe(this);
+
+            AddHandler(UnloadedEvent, UnloadedEventHandler, handledEventsToo:true);
         }
+
+        private void UnloadedEventHandler(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
+        {
+            
+        }
+
         protected override Type StyleKeyOverride => typeof(TabControl);
 
         public static readonly StyledProperty<NavigationContext> NavigationContextProperty =
@@ -53,6 +61,7 @@ namespace Lemon.ModuleNavigation.Avaloniaui.Containers
         protected override void OnDetachedFromLogicalTree(LogicalTreeAttachmentEventArgs e)
         {
             _disposable?.Dispose();
+            RemoveHandler(UnloadedEvent, UnloadedEventHandler);
             base.OnDetachedFromLogicalTree(e);
         }
     }

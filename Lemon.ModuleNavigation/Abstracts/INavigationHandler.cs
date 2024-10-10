@@ -2,6 +2,6 @@
 {
     public interface INavigationHandler<in T>
     {
-        void NavigateTo(T target);
+        void OnNavigateTo(T target);
     }
 }

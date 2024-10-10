@@ -83,6 +83,7 @@
 			</TabControl.ItemTemplate>
 			<TabControl.ContentTemplate>
 				<DataTemplate>
+					<!-- <ContentControl ContentTemplate="{Binding ViewTemplate}" /> -->
 					<ContentControl Content="{Binding View}" />
 				</DataTemplate>
 			</TabControl.ContentTemplate>

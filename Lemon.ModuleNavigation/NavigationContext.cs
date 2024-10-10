@@ -1,4 +1,5 @@
 ﻿using Lemon.ModuleNavigation.Abstracts;
+using Microsoft.Extensions.DependencyInjection;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
@@ -9,9 +10,12 @@ namespace Lemon.ModuleNavigation
     {
         private readonly INavigationService<IModule> _navigationService;
         private readonly IDisposable _navigationCleanup;
+        private readonly IServiceProvider _serviceProvider;
         public NavigationContext(INavigationService<IModule> navigationService,
-            IEnumerable<IModule> modules) 
+            IEnumerable<IModule> modules,
+            IServiceProvider serviceProvider) 
         {
+            _serviceProvider = serviceProvider;
             _navigationService = navigationService;
             Modules = modules;
             ActiveModules = new ObservableCollection<IModule>(Modules
@@ -56,15 +60,11 @@ namespace Lemon.ModuleNavigation
 
         public event PropertyChangedEventHandler? PropertyChanged;
 
-        public void Dispose()
-        {
-            _navigationCleanup.Dispose();
-        }
-
-        public void NavigateTo(IModule target)
+        public void OnNavigateTo(IModule target)
         {
             if (target.AllowMultiple)
             {
+                target = _serviceProvider.GetKeyedService<IModule>(target.Key)!;
                 ActiveModules.Add(target);
             }
             else
@@ -84,6 +84,10 @@ namespace Lemon.ModuleNavigation
         protected void OnPropertyChanged([CallerMemberName] string? propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+        public void Dispose()
+        {
+            _navigationCleanup.Dispose();
         }
     }
 }

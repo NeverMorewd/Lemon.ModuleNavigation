@@ -9,8 +9,9 @@ namespace Lemon.ModuleNavigation
         public static IServiceCollection AddModule<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] TModule>(this IServiceCollection serviceDescriptors) where TModule : class, IModule
         {
             serviceDescriptors = serviceDescriptors
-                .AddSingleton<TModule>()
-                .AddKeyedSingleton<IModule, TModule>(nameof(IModule), (sp, key) => sp.GetRequiredService<TModule>())
+                .AddTransient<TModule>()
+                .AddKeyedTransient<IModule>(typeof(TModule).Name, (sp, key) => sp.GetRequiredService<TModule>())
+                .AddKeyedTransient<IModule, TModule>(nameof(IModule), (sp, key) => sp.GetRequiredService<TModule>())
                 .AddKeyedTransient(typeof(TModule).Name, (sp, key) =>
                 {
                     var module = sp.GetRequiredService<TModule>();

@@ -16,7 +16,7 @@
             SelectionMode="Single">
             <ListBox.ItemTemplate>
                 <DataTemplate>
-                    <TextBlock Text="{Binding Key}" />
+                    <TextBlock Text="{Binding Alias}" />
                 </DataTemplate>
             </ListBox.ItemTemplate>
             <Interaction.Behaviors>

@@ -10,5 +10,12 @@ namespace Lemon.ModuleNavigation.Sample.ModuleCs
         }
 
         public override bool LoadOnDemand => true;
+        public override bool AllowMultiple => true;
+        public override string? Alias => $"{base.Alias}:{nameof(AllowMultiple)}";
+        public override void Initialize()
+        {
+            base.Initialize();
+            Console.WriteLine($"Initialize:{nameof(ModuleC)}");
+        }
     }
 }

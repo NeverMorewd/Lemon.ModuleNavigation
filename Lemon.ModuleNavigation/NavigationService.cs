@@ -17,9 +17,9 @@ namespace Lemon.ModuleNavigation
         }
         public void NavigateTo(IModule module)
         {
-            foreach (var service in _handlers)
+            foreach (var handler in _handlers)
             {
-                service.NavigateTo(module);
+                handler.OnNavigateTo(module);
             }
         }
         private class Cleanup(List<INavigationHandler<IModule>> handlers, INavigationHandler<IModule> handler)
