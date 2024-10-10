@@ -4,6 +4,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:behaviors="using:Lemon.Toolkit.Behaviors"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	xmlns:lm="https://github.com/NeverMorewd/Lemon.ModuleNavigation"
     xmlns:local="using:Lemon.Toolkit.Shells"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:v="using:Lemon.Toolkit.Views"
@@ -66,27 +67,26 @@
                 Text="Lemon.Toolkit" />
         </StackPanel>
 
-        <TabControl
+		<lm:NTabContainer
             Name="tab"
             Grid.Row="1"
             Margin="8"
             Padding="20,0,0,0"
             HorizontalAlignment="Stretch"
-            ItemsSource="{Binding Modules}"
-            SelectedItem="{Binding CurrentTab}"
+            NavigationContext="{Binding NavigationContext}"
             TabStripPlacement="Left"
             Theme="{DynamicResource NavigationTab}">
-            <TabControl.ItemTemplate>
-                <DataTemplate>
-                    <TextBlock Text="{Binding Key}" />
-                </DataTemplate>
-            </TabControl.ItemTemplate>
-            <TabControl.ContentTemplate>
-                <DataTemplate>
-                    <ContentControl Content="{Binding View}" />
-                </DataTemplate>
-            </TabControl.ContentTemplate>
-        </TabControl>
+			<TabControl.ItemTemplate>
+				<DataTemplate>
+					<TextBlock Text="{Binding Alias}" />
+				</DataTemplate>
+			</TabControl.ItemTemplate>
+			<TabControl.ContentTemplate>
+				<DataTemplate>
+					<ContentControl Content="{Binding View}" />
+				</DataTemplate>
+			</TabControl.ContentTemplate>
+		</lm:NTabContainer>
         <Expander
             Grid.Row="2"
             Margin="0,0,0,10"

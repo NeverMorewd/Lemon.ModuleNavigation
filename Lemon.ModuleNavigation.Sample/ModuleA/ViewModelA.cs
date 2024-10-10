@@ -1,14 +1,10 @@
 ﻿using Lemon.ModuleNavigation.Abstracts;
 using Lemon.ModuleNavigation.Sample.ViewModels;
 
-namespace Lemon.ModuleNavigation.Sample.ModuleA
+namespace Lemon.ModuleNavigation.Sample.ModuleAs
 {
     public class ViewModelA : ViewModelBase, IViewModel
     {
-        public string Greeting => "Welcome to ViewModelA!";
-        public void Dispose()
-        {
-            
-        }
+        public override string Greeting => $"{base.Greeting}:Load immediately";
     }
 }

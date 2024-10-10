@@ -1,6 +1,7 @@
 ﻿using Avalonia.Controls.Notifications;
 using Avalonia.Media;
 using DynamicData;
+using Lemon.ModuleNavigation;
 using Lemon.ModuleNavigation.Abstracts;
 using Lemon.Toolkit.Models;
 using Lemon.Toolkit.Services;
@@ -19,47 +20,28 @@ using Notification = Avalonia.Controls.Notifications.Notification;
 
 namespace Lemon.Toolkit.Shells
 {
-    public class MainWindowViewModel : ViewModelBase,INavigationHandler<IModule>, IDisposable
+    public class MainWindowViewModel : ViewModelBase,INavigationContextProvider, IDisposable
     {
         private const int MaxOutputCount = 200;
         private readonly CompositeDisposable _disposables;
-
         private readonly TopLevelService _topLevelService;
         private readonly ConsoleService _consoleService;
         private readonly IObservable<ShellParamModel> _shellService;
         private readonly ILogger _logger;
-        private readonly INavigationService<IModule> _navigationService;
-
         private readonly SourceCache<ConsoleTextModel, Guid> _outputsCache = new(x => x.Id);
         private readonly ReadOnlyObservableCollection<ConsoleTextModel> _outputs;
         public MainWindowViewModel(TopLevelService topLevelService,
             ConsoleService consoleService,
             IObservable<ShellParamModel> shellService,
             IEnumerable<IModule> modules,
-            INavigationService<IModule> navigationService,
+            NavigationContext navigationContext,
             ILogger<MainWindowViewModel> logger)
         {
             _logger = logger;
             _topLevelService = topLevelService;
             _consoleService = consoleService;
-            _navigationService = navigationService;
             _shellService = shellService;
-
-            using (_logger.BeginScope("Modules"))
-            {
-                Modules = new ObservableCollection<IModule>(modules
-                    .Where(m =>
-                    {
-                        _logger.LogInformation($"Found module:{m.Key}");
-                        return !m.LoadOnDemand;
-                    })
-                    .Select(m =>
-                    {
-                        _logger.LogInformation($"Initialize module:{m.Key}");
-                        m.Initialize();
-                        return m;
-                    }));
-            }
+            NavigationContext = navigationContext;
 
             #region Outputs Cache
             var cacheCleanup = _outputsCache.Connect()
@@ -119,20 +101,13 @@ namespace Lemon.Toolkit.Shells
                         OutputCount = 0;
                     }
                 });
-            var navigationCleanup = _navigationService.OnNavigation(this);
 
             _disposables = new(cacheCleanup, 
                 cacheCountCleanup, 
                 consoleOutputCleanup, 
                 valueChangedCleanup, 
-                consoleErrorCleanup,
-                navigationCleanup);
+                consoleErrorCleanup);
 
-        }
-        public ObservableCollection<IModule> Modules
-        {
-            get;
-            set;
         }
         [Reactive]
         public bool IsProcessing
@@ -172,27 +147,14 @@ namespace Lemon.Toolkit.Shells
             get;
         }
 
+        public NavigationContext NavigationContext
+        {
+            get;
+        }
+
         public override void Dispose()
         {
             _disposables?.Dispose();
-        }
-
-        public void NavigateTo(IModule target)
-        {
-            if (target.AllowMultiple)
-            {
-                Modules.Add(target);
-            }
-            else
-            {
-                if (!Modules.Contains(target))
-                {
-                    Modules.Add(target);
-                }
-            }
-            target.Initialize();
-            target.IsActivated = true;
-            CurrentTab = target;
         }
     }
 }

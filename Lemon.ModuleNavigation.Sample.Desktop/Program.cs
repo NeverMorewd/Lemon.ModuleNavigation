@@ -1,14 +1,15 @@
-﻿using System;
-using System.Runtime.Versioning;
-using Avalonia;
+﻿using Avalonia;
 using Avalonia.ReactiveUI;
 using Lemon.Hosting.AvaloniauiDesktop;
-using Lemon.ModuleNavigation.Abstracts;
 using Lemon.ModuleNavigation.Avaloniaui;
+using Lemon.ModuleNavigation.Sample.ModuleAs;
+using Lemon.ModuleNavigation.Sample.ModuleBs;
+using Lemon.ModuleNavigation.Sample.ModuleCs;
 using Lemon.ModuleNavigation.Sample.ViewModels;
 using Lemon.ModuleNavigation.Sample.Views;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using System;
+using System.Runtime.Versioning;
 
 namespace Lemon.ModuleNavigation.Sample.Desktop;
 
@@ -28,8 +29,9 @@ class Program
         // navigation
         hostBuilder.Services.AddNavigationContext();
 
-        hostBuilder.Services.AddModule<ModuleA.ModuleA>();
-        hostBuilder.Services.AddModule<ModuleB.ModuleB>();
+        hostBuilder.Services.AddModule<ModuleA>();
+        hostBuilder.Services.AddModule<ModuleB>();
+        hostBuilder.Services.AddModule<ModuleC>();
         //
         hostBuilder.Services.AddAvaloniauiDesktopApplication<App>(BuildAvaloniaApp);
         hostBuilder.Services.AddMainWindow<MainWindow, MainViewModel>();

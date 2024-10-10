@@ -28,7 +28,6 @@ namespace Lemon.Toolkit.ViewModels
             _topLevelService = topLevelService;
             _logger = logger;
             Modules = new ObservableCollection<IModule>(modules.Where(m=>m.ViewModelType != typeof(HomeViewModel)));
-            //Modules = new ObservableCollection<IModule>(modules);
             this.WhenAnyValue(x => x.SelectedItem)
                 .WhereNotNull()
                 .ObserveOn(RxApp.MainThreadScheduler)

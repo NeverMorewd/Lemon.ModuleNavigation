@@ -1,7 +1,7 @@
 ﻿using System;
 using Lemon.ModuleNavigation.Avaloniaui;
 
-namespace Lemon.ModuleNavigation.Sample.ModuleB
+namespace Lemon.ModuleNavigation.Sample.ModuleBs
 {
     public class ModuleB : AvaModule<ViewB, ViewModelB>
     {

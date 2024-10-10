@@ -1,6 +1,4 @@
 ﻿using Lemon.ModuleNavigation.Abstracts;
-using Lemon.ModuleNavigation.Avaloniaui.Abstracts;
-using Lemon.ModuleNavigation.Avaloniaui.ViewModels;
 using ReactiveUI;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;

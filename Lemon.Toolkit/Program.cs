@@ -63,8 +63,7 @@ namespace Lemon.Toolkit
             hostBuilder.Services.AddModulesBuilder();
 
             // navigation
-            hostBuilder.Services.AddSingleton<NavigationService>();
-            hostBuilder.Services.AddSingleton<INavigationService<IModule>>(sp => sp.GetRequiredService<NavigationService>());
+            hostBuilder.Services.AddNavigationContext();
             //
             hostBuilder.Services.AddAvaloniauiDesktopApplication<App>(ConfigAvaloniaAppBuilder);
             hostBuilder.Services.AddMainWindow<MainWindow, MainWindowViewModel>();

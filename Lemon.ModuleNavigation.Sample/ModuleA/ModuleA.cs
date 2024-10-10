@@ -1,7 +1,7 @@
 ﻿using System;
 using Lemon.ModuleNavigation.Avaloniaui;
 
-namespace Lemon.ModuleNavigation.Sample.ModuleA
+namespace Lemon.ModuleNavigation.Sample.ModuleAs
 {
     public class ModuleA : AvaModule<ViewA, ViewModelA>
     {
@@ -9,6 +9,6 @@ namespace Lemon.ModuleNavigation.Sample.ModuleA
         {
         }
 
-        public override bool LoadOnDemand => true;
+        public override bool LoadOnDemand => false;
     }
 }

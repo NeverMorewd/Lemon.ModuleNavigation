@@ -4,17 +4,13 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:navi="using:Lemon.ModuleNavigation.Avaloniaui.NavigationContainers"
+    xmlns:lm="https://github.com/NeverMorewd/Lemon.ModuleNavigation"
     xmlns:vm="clr-namespace:Lemon.ModuleNavigation.Sample.ViewModels"
     d:DesignHeight="450"
     d:DesignWidth="800"
     x:DataType="vm:MainViewModel"
     mc:Ignorable="d">
     <Design.DataContext>
-        <!--
-            This only sets the DataContext for the previewer in an IDE,
-            to set the actual DataContext for runtime, set the DataContext property in code (look at App.axaml.cs)
-        -->
         <vm:MainViewModel />
     </Design.DataContext>
     <Grid ColumnDefinitions="auto,*,*">
@@ -28,22 +24,24 @@
                 </DataTemplate>
             </ListBox.ItemTemplate>
         </ListBox>
-		<!--
-           NContainer&TabContainer can not display ViewTemplate(FuncDataTemplate) at the same time..
+        <!--
+            NContainer&TabContainer can not display View at the same time.
+			Use ViewTemplate instead.
         -->
-		<navi:NContainer Grid.Column="1" NavigationContext="{Binding NavigationContext}" />
-		<navi:TabContainer Grid.Column="2" NavigationContext="{Binding NavigationContext}">
-			<navi:TabContainer.ItemTemplate>
+		<lm:NContainer Grid.Column="1" NavigationContext="{Binding NavigationContext}" />
+		<lm:NTabContainer Grid.Column="2" NavigationContext="{Binding NavigationContext}">
+			<lm:NTabContainer.ItemTemplate>
 				<DataTemplate>
 					<TextBlock Text="{Binding Alias}" />
 				</DataTemplate>
-			</navi:TabContainer.ItemTemplate>
-			<navi:TabContainer.ContentTemplate>
+			</lm:NTabContainer.ItemTemplate>
+			<lm:NTabContainer.ContentTemplate>
 				<DataTemplate>
 					<ContentControl ContentTemplate="{Binding ViewTemplate}" />
+					<!-- <ContentControl Content="{Binding View}" /> -->
 				</DataTemplate>
-			</navi:TabContainer.ContentTemplate>
-		</navi:TabContainer>
+			</lm:NTabContainer.ContentTemplate>
+		</lm:NTabContainer>
 
-	</Grid>
+    </Grid>
 </UserControl>

@@ -4,7 +4,7 @@ using System.Diagnostics.CodeAnalysis;
 
 namespace Lemon.ModuleNavigation
 {
-    public static class Extensions
+    public static class ServiceCollectionExtensions
     {
         public static IServiceCollection AddModule<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] TModule>(this IServiceCollection serviceDescriptors) where TModule : class, IModule
         {
@@ -30,6 +30,15 @@ namespace Lemon.ModuleNavigation
         {
             serviceDescriptors = serviceDescriptors.AddSingleton(sp => sp.GetKeyedServices<IModule>(nameof(IModule)));
             return serviceDescriptors;
+        }
+
+        public static IServiceCollection AddNavigationContext(this IServiceCollection serviceDescriptors)
+        {
+            return serviceDescriptors
+                .AddModulesBuilder()
+                .AddSingleton<NavigationService>()
+                .AddSingleton<INavigationService<IModule>>(sp => sp.GetRequiredService<NavigationService>())
+                .AddSingleton<NavigationContext>();
         }
     }
 }

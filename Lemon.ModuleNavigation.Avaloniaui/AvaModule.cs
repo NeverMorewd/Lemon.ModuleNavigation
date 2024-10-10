@@ -16,7 +16,7 @@ public abstract class AvaModule<[DynamicallyAccessedMembers(DynamicallyAccessedM
 
     }
 
-    public IDataTemplate ViewTemplate 
+    public IDataTemplate ViewTemplate
         => new FuncDataTemplate<TViewModel>((vm, np) =>
         {
             var view = _serviceProvider.GetRequiredKeyedService<IView>(Key);

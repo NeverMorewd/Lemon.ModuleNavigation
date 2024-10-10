@@ -2,15 +2,14 @@
 using Avalonia.Controls;
 using Avalonia.Data;
 using Avalonia.LogicalTree;
-using Lemon.ModuleNavigation.Avaloniaui.ViewModels;
 
-namespace Lemon.ModuleNavigation.Avaloniaui.NavigationContainers
+namespace Lemon.ModuleNavigation.Avaloniaui.Containers
 {
-    public class TabContainer : TabControl, IObserver<NavigationContext>
+    public class NTabContainer : TabControl, IObserver<NavigationContext>
     {
         private readonly IDisposable? _disposable;
 
-        public TabContainer() 
+        public NTabContainer() 
         {
             Bind(SelectedItemProperty,
                 new Binding(nameof(NavigationContext) + "." + nameof(NavigationContext.CurrentModule))
@@ -26,7 +25,7 @@ namespace Lemon.ModuleNavigation.Avaloniaui.NavigationContainers
         protected override Type StyleKeyOverride => typeof(TabControl);
 
         public static readonly StyledProperty<NavigationContext> NavigationContextProperty =
-           AvaloniaProperty.Register<TabContainer, NavigationContext>(nameof(NavigationContext));
+           AvaloniaProperty.Register<NTabContainer, NavigationContext>(nameof(NavigationContext));
         public NavigationContext NavigationContext
         {
             get => GetValue(NavigationContextProperty);

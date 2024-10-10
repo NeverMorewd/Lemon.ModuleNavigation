@@ -1,6 +1,4 @@
-﻿using Lemon.ModuleNavigation.Avaloniaui.ViewModels;
-
-namespace Lemon.ModuleNavigation.Avaloniaui.Abstracts
+﻿namespace Lemon.ModuleNavigation.Abstracts
 {
     public interface INavigationContextProvider
     {

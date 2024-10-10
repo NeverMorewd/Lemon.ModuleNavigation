@@ -3,7 +3,7 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 
-namespace Lemon.ModuleNavigation.Avaloniaui.ViewModels
+namespace Lemon.ModuleNavigation
 {
     public class NavigationContext : INavigationHandler<IModule>, IDisposable, INotifyPropertyChanged
     {

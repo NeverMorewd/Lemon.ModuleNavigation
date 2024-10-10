@@ -1,11 +1,11 @@
 using Avalonia.Controls;
 using Lemon.ModuleNavigation.Abstracts;
 
-namespace Lemon.ModuleNavigation.Sample.ModuleBs;
+namespace Lemon.ModuleNavigation.Sample.ModuleCs;
 
-public partial class ViewB : UserControl, IView
+public partial class ViewC : UserControl, IView
 {
-    public ViewB()
+    public ViewC()
     {
         InitializeComponent();
     }
