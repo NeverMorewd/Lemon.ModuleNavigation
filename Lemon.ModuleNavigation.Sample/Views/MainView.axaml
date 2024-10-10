@@ -28,19 +28,19 @@
                 </DataTemplate>
             </ListBox.ItemTemplate>
         </ListBox>
-        <!--  If put TabContainer in front of NContainer, the NContainer will not be displayed!.  -->
-        <navi:NContainer Grid.Column="1" NavigationContext="{Binding NavigationContext}" />
-        <navi:TabContainer Grid.Column="2" NavigationContext="{Binding NavigationContext}">
-            <navi:TabContainer.ItemTemplate>
-                <DataTemplate>
-                    <TextBlock Text="{Binding Alias}" />
-                </DataTemplate>
-            </navi:TabContainer.ItemTemplate>
-            <navi:TabContainer.ContentTemplate>
-                <DataTemplate>
-                    <ContentControl ContentTemplate="{Binding ViewTemplate}" />
-                </DataTemplate>
-            </navi:TabContainer.ContentTemplate>
-        </navi:TabContainer>
-    </Grid>
+		<navi:NContainer Grid.Column="1" NavigationContext="{Binding NavigationContext}" />
+		<navi:TabContainer Grid.Column="2" NavigationContext="{Binding NavigationContext}">
+			<navi:TabContainer.ItemTemplate>
+				<DataTemplate>
+					<TextBlock Text="{Binding Alias}" />
+				</DataTemplate>
+			</navi:TabContainer.ItemTemplate>
+			<navi:TabContainer.ContentTemplate>
+				<DataTemplate>
+					<ContentControl ContentTemplate="{Binding ViewTemplate}" />
+				</DataTemplate>
+			</navi:TabContainer.ContentTemplate>
+		</navi:TabContainer>
+
+	</Grid>
 </UserControl>
