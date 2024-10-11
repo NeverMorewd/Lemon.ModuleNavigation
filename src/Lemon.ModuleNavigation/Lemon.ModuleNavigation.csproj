@@ -5,6 +5,8 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
 	<LangVersion>latest</LangVersion>
+	<GeneratePackageOnBuild>False</GeneratePackageOnBuild>
+	<Title>Lemon.ModuleNavigation</Title>
   </PropertyGroup>
 
   <ItemGroup>

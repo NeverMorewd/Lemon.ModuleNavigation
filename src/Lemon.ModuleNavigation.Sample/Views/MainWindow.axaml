@@ -6,7 +6,7 @@
         xmlns:views="clr-namespace:Lemon.ModuleNavigation.Sample.Views"
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
         x:Class="Lemon.ModuleNavigation.Sample.Views.MainWindow"
-        Icon="/Assets/lemon-50.png"
+        Icon="/Assets/lemon-28.png"
         Title="Lemon.ModuleNavigation.Sample">
         <views:MainView />
 </Window>
