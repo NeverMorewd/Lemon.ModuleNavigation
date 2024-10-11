@@ -28,9 +28,9 @@
             NContainer&TabContainer can not display View at the same time.
             Use ViewTemplate instead.
         -->
-		<lm:NContainer Grid.Column="1" NavigationContext="{Binding NavigationContext}" />
-		
-		<lm:NTabContainer Grid.Column="2" NavigationContext="{Binding NavigationContext}">
+        <lm:NContainer Grid.Column="1" NavigationContext="{Binding NavigationContext}" />
+
+        <lm:NTabContainer Grid.Column="2" NavigationContext="{Binding NavigationContext}">
             <lm:NTabContainer.ItemTemplate>
                 <DataTemplate>
                     <StackPanel Orientation="Horizontal" Spacing="2">
@@ -41,7 +41,7 @@
                             Padding="-1,0,0,0"
                             HorizontalContentAlignment="Center"
                             VerticalContentAlignment="Center"
-                            lm:NTabContainerBehavior.CanClose="True"
+                            lm:NTabContainerBehaviors.CanUnload="True"
                             Content="X"
                             FontSize="11" />
                     </StackPanel>
@@ -50,10 +50,10 @@
             <lm:NTabContainer.ContentTemplate>
                 <DataTemplate>
                     <!-- <ContentControl ContentTemplate="{Binding ViewTemplate}" /> -->
-					<ContentControl Content="{Binding View}" />
+                    <ContentControl Content="{Binding View}" />
                 </DataTemplate>
             </lm:NTabContainer.ContentTemplate>
         </lm:NTabContainer>
 
-	</Grid>
+    </Grid>
 </UserControl>

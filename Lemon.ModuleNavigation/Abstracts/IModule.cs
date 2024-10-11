@@ -18,6 +18,10 @@
         {
             get;
         }
+        public bool CanUnload
+        {
+            get;
+        }
         /// <summary>
         /// does not support!
         /// </summary>

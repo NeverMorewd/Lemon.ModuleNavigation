@@ -1,5 +1,4 @@
-﻿using Lemon.ModuleNavigation;
-using Lemon.ModuleNavigation.Avaloniaui;
+﻿using Lemon.ModuleNavigation.Avaloniaui;
 using Lemon.Toolkit.ViewModels;
 using System;
 
@@ -12,9 +11,7 @@ namespace Lemon.Toolkit.Modules
         {
 
         }
-        public override bool LoadOnDemand
-        {
-            get => false;
-        }
+        public override bool LoadOnDemand => false;
+        public override bool CanUnload => false;
     }
 }

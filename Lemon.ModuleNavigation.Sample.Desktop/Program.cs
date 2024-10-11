@@ -26,13 +26,13 @@ class Program
     {
         var hostBuilder = Host.CreateApplicationBuilder();
 
-        // navigation
+        // module navigation
         hostBuilder.Services.AddNavigationContext();
-
+        // modules
         hostBuilder.Services.AddModule<ModuleA>();
         hostBuilder.Services.AddModule<ModuleB>();
         hostBuilder.Services.AddModule<ModuleC>();
-        //
+
         hostBuilder.Services.AddAvaloniauiDesktopApplication<App>(BuildAvaloniaApp);
         hostBuilder.Services.AddMainWindow<MainWindow, MainViewModel>();
         var appHost = hostBuilder.Build();
