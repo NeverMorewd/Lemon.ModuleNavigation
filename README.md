@@ -8,7 +8,7 @@
 
 ### Lemon.ModuleNavigation
 A lightweight module navigation framework built on top of the Microsoft Dependency Injection (MSDI) for AvaloniaUI, WPF and .net-xaml-platforms else.
-Support nativeAot
+Support native aot!
 ### Lemon.ModuleNavigation.AvaloniaUI
 Extending **Lemon.ModuleNavigation**, this package provides NavigationContainers specifically designed for AvaloniaUI.
 
@@ -17,6 +17,46 @@ This is a sample desktop application for **Lemon.ModuleNavigation** and **Lemon.
 
 ![sample-show](https://github.com/user-attachments/assets/58690f91-6939-47d7-84d3-113d04c722a7)
 
+#### AOT config:
+Update .csproj
+```xml
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    ...
+    <PublishAot>true</PublishAot>
+    <IncludeNativeLibrariesForSelfExtract>true</IncludeNativeLibrariesForSelfExtract>
+    ...
+  </PropertyGroup>
+
+  <PropertyGroup Condition="$([MSBuild]::IsTargetFrameworkCompatible('$(TargetFramework)', 'net8.0'))">
+	<IsTrimmable>true</IsTrimmable>
+	<PublishTrimmed>true</PublishTrimmed>
+  </PropertyGroup>
+
+  <ItemGroup>
+	<RdXmlFile Include="rd.xml" />
+  </ItemGroup>
+</Project>
+
+```
+
+Add rd.xml
+```xml
+<Directives>
+	<!-- 
+        This file is part of RdXmlLibrary project.
+        Visit https://github.com/kant2002/rdxmllibrary for latest version.
+        If you have modifications specific to this Nuget package,
+        please contribute back. 
+    -->
+	<Application>
+		<!--all assemblies in which Modules are located-->
+		<Assembly Name="Lemon.ModuleNavigation.Sample" Dynamic="Required All"/>
+		<Assembly Name="Lemon.ModuleNavigation.Avaloniaui" Dynamic="Required All"/>
+		<Assembly Name="Lemon.ModuleNavigation" Dynamic="Required All"/>
+	</Application>
+</Directives>
+```
 
 ### Lemon.Toolkit
 This is a practical application of **Lemon.ModuleNavigation**. It is a collection of toolkits for clients based on **Semi-AvaloniaUI**, **Lemon.Hosting.AvaloniaUIDesktop**, and **Lemon.ModuleNavigation**. As of now, it includes:
