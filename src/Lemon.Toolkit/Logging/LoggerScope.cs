@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Lemon.Toolkit.Log
+namespace Lemon.Toolkit.Logging
 {
     public class LoggerScope : IDisposable
     {

@@ -2,7 +2,7 @@
 using Microsoft.Extensions.Logging;
 using System;
 
-namespace Lemon.Toolkit.Log
+namespace Lemon.Toolkit.Logging
 {
     public class UILogger : ILogger
     {

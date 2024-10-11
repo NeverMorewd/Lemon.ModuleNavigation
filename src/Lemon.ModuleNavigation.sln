@@ -3,8 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.11.35312.102
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Lemon.Toolkit", "Lemon.Toolkit\Lemon.Toolkit.csproj", "{76607658-FF98-4CCA-909D-EA060F0D64F2}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Lemon.ModuleNavigation", "Lemon.ModuleNavigation\Lemon.ModuleNavigation.csproj", "{9E271C3B-0D09-4318-BF49-4BE2952759D8}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{6E1EE4BE-93AB-4A7D-B080-E054855DDEA6}"
@@ -24,10 +22,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{76607658-FF98-4CCA-909D-EA060F0D64F2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{76607658-FF98-4CCA-909D-EA060F0D64F2}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{76607658-FF98-4CCA-909D-EA060F0D64F2}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{76607658-FF98-4CCA-909D-EA060F0D64F2}.Release|Any CPU.Build.0 = Release|Any CPU
 		{9E271C3B-0D09-4318-BF49-4BE2952759D8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{9E271C3B-0D09-4318-BF49-4BE2952759D8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9E271C3B-0D09-4318-BF49-4BE2952759D8}.Release|Any CPU.ActiveCfg = Release|Any CPU

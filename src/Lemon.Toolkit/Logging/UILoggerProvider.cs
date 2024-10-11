@@ -1,8 +1,7 @@
 ﻿using Lemon.Toolkit.Domains;
 using Microsoft.Extensions.Logging;
-using System.IO;
 
-namespace Lemon.Toolkit.Log
+namespace Lemon.Toolkit.Logging
 {
     public class UILoggerProvider : ILoggerProvider
     {

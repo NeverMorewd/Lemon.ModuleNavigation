@@ -3,7 +3,7 @@ using Avalonia.ReactiveUI;
 using Lemon.Hosting.AvaloniauiDesktop;
 using Lemon.ModuleNavigation;
 using Lemon.ModuleNavigation.Abstracts;
-using Lemon.Toolkit.Log;
+using Lemon.Toolkit.Logging;
 using Lemon.Toolkit.Models;
 using Lemon.Toolkit.Modules;
 using Lemon.Toolkit.Services;
