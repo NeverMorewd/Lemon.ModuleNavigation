@@ -18,7 +18,7 @@
     x:DataType="local:MainWindowViewModel"
     ExtendClientAreaTitleBarHeightHint="40"
     ExtendClientAreaToDecorationsHint="True"
-    Icon="avares://Lemon.Toolkit/Assets/lemon.png"
+    Icon="avares://Lemon.Toolkit/Assets/lemon-50.png"
     SizeToContent="WidthAndHeight"
     mc:Ignorable="d">
 
@@ -58,7 +58,7 @@
             Orientation="Horizontal">
             <Image
                 Name="WindowIcon"
-                Source="avares://Lemon.Toolkit/Assets/lemon.png"
+                Source="avares://Lemon.Toolkit/Assets/lemon-50.png"
                 Stretch="UniformToFill" />
             <TextBlock
                 Margin="2,5,0,0"

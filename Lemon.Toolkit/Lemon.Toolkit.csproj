@@ -17,6 +17,8 @@
     <Compile Remove="Framework\**" />
     <EmbeddedResource Remove="Framework\**" />
     <None Remove="Framework\**" />
+    <None Remove="Assets\lemon-100.png" />
+    <None Remove="Assets\lemon-50.png" />
     <None Remove="lemon.png" />
     <Content Include="Assets\lemon.ico" />
   </ItemGroup>
