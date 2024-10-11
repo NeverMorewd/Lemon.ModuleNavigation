@@ -5,10 +5,6 @@ VisualStudioVersion = 17.11.35312.102
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Lemon.Toolkit", "Lemon.Toolkit\Lemon.Toolkit.csproj", "{19D0BDAD-3D71-4294-B4DC-D1262F7C1771}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Lemon.ModuleNavigation", "Lemon.ModuleNavigation\Lemon.ModuleNavigation.csproj", "{DA136089-31C7-4BF2-ADFD-14A23EFF6679}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Lemon.ModuleNavigation.Avaloniaui", "Lemon.ModuleNavigation.Avaloniaui\Lemon.ModuleNavigation.Avaloniaui.csproj", "{E4B2E742-837C-4AE4-A181-9A9BADFC0A89}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -19,14 +15,6 @@ Global
 		{19D0BDAD-3D71-4294-B4DC-D1262F7C1771}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{19D0BDAD-3D71-4294-B4DC-D1262F7C1771}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{19D0BDAD-3D71-4294-B4DC-D1262F7C1771}.Release|Any CPU.Build.0 = Release|Any CPU
-		{DA136089-31C7-4BF2-ADFD-14A23EFF6679}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{DA136089-31C7-4BF2-ADFD-14A23EFF6679}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{DA136089-31C7-4BF2-ADFD-14A23EFF6679}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{DA136089-31C7-4BF2-ADFD-14A23EFF6679}.Release|Any CPU.Build.0 = Release|Any CPU
-		{E4B2E742-837C-4AE4-A181-9A9BADFC0A89}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{E4B2E742-837C-4AE4-A181-9A9BADFC0A89}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{E4B2E742-837C-4AE4-A181-9A9BADFC0A89}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{E4B2E742-837C-4AE4-A181-9A9BADFC0A89}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
