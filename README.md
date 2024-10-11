@@ -18,7 +18,29 @@ This is a sample desktop application for **Lemon.ModuleNavigation** and **Lemon.
 ![sample-show](https://github.com/user-attachments/assets/58690f91-6939-47d7-84d3-113d04c722a7)
 
 #### AOT config:
+Update .csproj
+```xml
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    ...
+    <PublishAot>true</PublishAot>
+    <IncludeNativeLibrariesForSelfExtract>true</IncludeNativeLibrariesForSelfExtract>
+    ...
+  </PropertyGroup>
 
+  <PropertyGroup Condition="$([MSBuild]::IsTargetFrameworkCompatible('$(TargetFramework)', 'net8.0'))">
+	<IsTrimmable>true</IsTrimmable>
+	<PublishTrimmed>true</PublishTrimmed>
+  </PropertyGroup>
+
+  <ItemGroup>
+	<RdXmlFile Include="rd.xml" />
+  </ItemGroup>
+</Project>
+
+```
+
+Add rd.xml
 ```xml
 <Directives>
 	<!-- 
