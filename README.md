@@ -20,11 +20,15 @@ This is a sample desktop application for **Lemon.ModuleNavigation** and **Lemon.
 
 ### Lemon.Toolkit
 This is a practical application of **Lemon.ModuleNavigation**. It is a collection of toolkits for clients based on **Semi-AvaloniaUI**, **Lemon.Hosting.AvaloniaUIDesktop**, and **Lemon.ModuleNavigation**. As of now, it includes:
-- Module navigation based on TabControl
+- Module navigation based on NTabContainer
+- Custom HomeModule
 - Custom console log
 - File Inspector (ongoing)
 - File Comparer (ongoing)
 - ...
+
+![image](https://github.com/user-attachments/assets/6298d8cb-a8a0-493b-a3ac-c9b23b9487a7)
+
 
 
 
