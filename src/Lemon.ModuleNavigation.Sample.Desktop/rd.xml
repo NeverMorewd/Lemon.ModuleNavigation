@@ -8,5 +8,7 @@
 	<Application>
 		<!--all assemblies in which Modules are located-->
 		<Assembly Name="Lemon.ModuleNavigation.Sample" Dynamic="Required All"/>
+		<Assembly Name="Lemon.ModuleNavigation.Avaloniaui" Dynamic="Required All"/>
+		<Assembly Name="Lemon.ModuleNavigation" Dynamic="Required All"/>
 	</Application>
 </Directives>

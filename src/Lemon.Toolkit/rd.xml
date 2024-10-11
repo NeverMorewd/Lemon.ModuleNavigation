@@ -7,5 +7,7 @@
     -->
 	<Application>
 		<Assembly Name="Lemon.Toolkit" Dynamic="Required All"/>
+		<Assembly Name="Lemon.ModuleNavigation.Avaloniaui" Dynamic="Required All"/>
+		<Assembly Name="Lemon.ModuleNavigation" Dynamic="Required All"/>
 	</Application>
 </Directives>
