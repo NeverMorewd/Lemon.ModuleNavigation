@@ -1,0 +1,28 @@
+name: .NET
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [windows-2022, ubuntu-22.04, macos-12]
+    steps:
+    - uses: actions/checkout@v3
+    - name: Setup .NET 8
+      uses: actions/setup-dotnet@v3
+      with:
+        dotnet-version: 8.0.x
+    - name: Install dependencies
+      run: dotnet restore
+      working-directory: src/Lemon.ModuleNavigation.Sample.Desktop
+    - name: Build
+      run: dotnet build --configuration Release --no-restore
+      working-directory: src/Lemon.ModuleNavigation.Sample.Desktop
