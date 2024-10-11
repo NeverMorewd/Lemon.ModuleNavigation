@@ -78,13 +78,16 @@
             Theme="{DynamicResource NavigationTab}">
             <lm:NTabContainer.ItemTemplate>
                 <DataTemplate>
-                    <Grid Height="30" ColumnDefinitions="*,30" Width="200">
+                    <Grid
+                        Width="200"
+                        Height="30"
+                        ColumnDefinitions="*,30">
                         <TextBlock VerticalAlignment="Center" Text="{Binding Alias}" />
                         <Button
-							Grid.Column="1"
+                            Grid.Column="1"
                             Width="30"
                             Height="30"
-							Padding="-2"
+                            Padding="-2"
                             HorizontalContentAlignment="Center"
                             VerticalContentAlignment="Center"
                             lm:NTabContainerBehaviors.CanUnload="{Binding CanUnload}"
