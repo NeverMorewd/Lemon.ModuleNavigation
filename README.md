@@ -1,6 +1,6 @@
 # Lemon.ModuleNavigation
 
-![Logo](https://example.com/logo.png) 
+![Logo](https://github.com/NeverMorewd/Lemon.ModuleNavigation/blob/master/Lemon.ModuleNavigation.Sample/Assets/lemon.png) 
 
 [![NuGet Badge](https://img.shields.io/badge/NuGet-v1.0.0-blue.svg)](https://www.nuget.org/packages/Lemon.ModuleNavigation/) 
 
