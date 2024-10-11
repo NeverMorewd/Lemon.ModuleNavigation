@@ -1,7 +1,6 @@
 ﻿using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Data;
-using Avalonia.LogicalTree;
 
 namespace Lemon.ModuleNavigation.Avaloniaui.Containers
 {
@@ -21,15 +20,7 @@ namespace Lemon.ModuleNavigation.Avaloniaui.Containers
 
             _disposable = this.GetObservable(NavigationContextProperty)
                               .Subscribe(this);
-
-            AddHandler(UnloadedEvent, UnloadedEventHandler, handledEventsToo:true);
         }
-
-        private void UnloadedEventHandler(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
-        {
-            
-        }
-
         protected override Type StyleKeyOverride => typeof(TabControl);
 
         public static readonly StyledProperty<NavigationContext> NavigationContextProperty =
@@ -57,12 +48,10 @@ namespace Lemon.ModuleNavigation.Avaloniaui.Containers
                 SelectedItem = value.CurrentModule;
             }
         }
-
-        protected override void OnDetachedFromLogicalTree(LogicalTreeAttachmentEventArgs e)
+        protected override void OnUnloaded(Avalonia.Interactivity.RoutedEventArgs e)
         {
+            base.OnUnloaded(e);
             _disposable?.Dispose();
-            RemoveHandler(UnloadedEvent, UnloadedEventHandler);
-            base.OnDetachedFromLogicalTree(e);
         }
     }
 }

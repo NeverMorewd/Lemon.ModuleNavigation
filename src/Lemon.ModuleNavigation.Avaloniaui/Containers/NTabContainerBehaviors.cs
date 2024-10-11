@@ -3,8 +3,6 @@ using Avalonia.Controls;
 using Avalonia.Interactivity;
 using Avalonia.VisualTree;
 using Lemon.ModuleNavigation.Abstracts;
-using System.Collections.Concurrent;
-using System.Linq;
 
 namespace Lemon.ModuleNavigation.Avaloniaui.Containers
 {
