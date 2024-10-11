@@ -8,7 +8,7 @@
 
 ### Lemon.ModuleNavigation
 A lightweight module navigation framework built on top of the Microsoft Dependency Injection (MSDI) for AvaloniaUI and WPF.
-
+Support nativeAot
 ### Lemon.ModuleNavigation.AvaloniaUI
 Extending **Lemon.ModuleNavigation**, this package provides NavigationContainers specifically designed for AvaloniaUI.
 
