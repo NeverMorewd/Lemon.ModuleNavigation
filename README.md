@@ -223,7 +223,7 @@ class Program
     }
 }
 ```
-#### App.axaml.cs
+#### App.axaml.cs without generic host
 
 ```csharp
 using Avalonia;
