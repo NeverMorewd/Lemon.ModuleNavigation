@@ -49,12 +49,14 @@ namespace Lemon.ModuleNavigation.Sample.ModuleAs
 
         /// <summary>
         /// Specifies whether this module needs to be loaded on demand
+        /// 指定该模块是否按需加载
         /// Default value is True
         /// </summary>
         public override bool LoadOnDemand => false;
 
         /// <summary>
         /// Alias of module for displaying usually
+        /// 模块的别名，一般用于显示
         /// Default value is class name of Module
         /// </summary>
         public override string? Alias => base.Alias;
@@ -62,12 +64,14 @@ namespace Lemon.ModuleNavigation.Sample.ModuleAs
         /// <summary>
         /// Specifies whether this module allow multiple instances
         /// If true,every navigation to this module will generate a new instance.
+        /// 指定该模块是否支持多实例，如果设置为true，那每次导航到该模块都会创建新的实例。
         /// Default value is false.
         /// </summary>
         public override bool AllowMultiple => base.AllowMultiple;
 
         /// <summary>
         /// Specifies whether this module can be unloaded.
+        /// 指定该模块是否支持卸载
         /// Default value is false.
         /// </summary>
         public override bool CanUnload => base.CanUnload;
