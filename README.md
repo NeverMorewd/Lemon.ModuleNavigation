@@ -19,7 +19,7 @@
 A lightweight module navigation framework built on top of the Microsoft Dependency Injection (MSDI) for AvaloniaUI, WPF and .net-xaml-platforms else.
 Support native aot (Avaloniaui)
 ### Lemon.ModuleNavigation.AvaloniaUI
-Extending **Lemon.ModuleNavigation**, this package provides handy NavigationContainers specifically designed for AvaloniaUI.
+Extending `Lemon.ModuleNavigation`, this package provides handy NavigationContainers specifically designed for AvaloniaUI.
 
 ### Key Advantages:
 - **Lightweight**: Minimal performance overhead.
@@ -318,7 +318,7 @@ Add rd.xml
 ```
 
 ### Lemon.Toolkit
-This is a practical application of **Lemon.ModuleNavigation**. It is a collection of toolkits for clients based on **Semi-AvaloniaUI**, **Lemon.Hosting.AvaloniaUIDesktop**, and **Lemon.ModuleNavigation**. As of now, it includes:
+This is a practical application of `Lemon.ModuleNavigation`. It is a collection of toolkits for clients based on `Semi-Avaloniaui`, `Lemon.Hosting.AvaloniaUIDesktop`, and `Lemon.ModuleNavigation`. As of now, it includes:
 - Module navigation based on NTabContainer
 - Custom HomeModule
 - Custom console log
