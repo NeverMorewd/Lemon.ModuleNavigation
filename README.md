@@ -4,6 +4,15 @@
 
 [![NuGet Badge](https://img.shields.io/badge/NuGet-v1.0.0-blue.svg)](https://www.nuget.org/packages/Lemon.ModuleNavigation/) 
 
+## Language
+
+- [English](#english)
+- [中文](#中文)
+
+---
+
+### English
+
 ## Introduction
 
 ### Lemon.ModuleNavigation
@@ -295,12 +304,6 @@ Update .csproj
 Add rd.xml
 ```xml
 <Directives>
-	<!-- 
-        This file is part of RdXmlLibrary project.
-        Visit https://github.com/kant2002/rdxmllibrary for latest version.
-        If you have modifications specific to this Nuget package,
-        please contribute back. 
-    -->
 	<Application>
 		<!--all assemblies in which Modules are located-->
 		<Assembly Name="Lemon.ModuleNavigation.Sample" Dynamic="Required All"/>
@@ -320,6 +323,14 @@ This is a practical application of **Lemon.ModuleNavigation**. It is a collectio
 - ...
 
 ![image](https://github.com/user-attachments/assets/6298d8cb-a8a0-493b-a3ac-c9b23b9487a7)
+
+---
+
+### 中文
+
+---
+
+
 
 
 
