@@ -17,7 +17,7 @@ Extending **Lemon.ModuleNavigation**, this package provides handy NavigationCont
 - **Few dependencies**: Only relies on `Microsoft.Extensions.DependencyInjection.Abstractions`.
 - **Framework Agnostic**: Does not enforce any specific MVVM framework, allowing developers to use the MVVM framework of their choice.
 - **Highly Extensible**: Easily customizable to suit specific needs.
-- **Simple and Easy to Use**.
+- **Simple to Use**.
 
 ---
 ![sample-show](https://github.com/user-attachments/assets/58690f91-6939-47d7-84d3-113d04c722a7)
