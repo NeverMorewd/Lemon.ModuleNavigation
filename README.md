@@ -328,6 +328,21 @@ This is a practical application of **Lemon.ModuleNavigation**. It is a collectio
 
 ### 中文
 
+## 简介
+
+### Lemon.ModuleNavigation
+**Lemon.ModuleNavigation** 是一个基于微软依赖注入（MSDI）的轻量级模块导航框架，专为 AvaloniaUI、WPF 和其他 .NET XAML 平台设计。它支持 **Native AOT**，为 AvaloniaUI 提供高效的导航，性能开销极低。
+
+### Lemon.ModuleNavigation.AvaloniaUI
+**Lemon.ModuleNavigation** 的扩展包，专为 AvaloniaUI 提供特定的 **NavigationContainers**，使得模块导航更加无缝且灵活。
+
+### 主要优势：
+- **轻量级**：最小的性能开销。
+- **依赖少**：只依赖 `Microsoft.Extensions.DependencyInjection.Abstractions`。
+- **框架无关**：不强制使用任何特定的 MVVM 框架，允许开发者选择自己喜欢的 MVVM 框架。
+- **高度可扩展**：可以轻松定制以满足特定需求。
+- **简单易用**。
+
 ---
 
 
