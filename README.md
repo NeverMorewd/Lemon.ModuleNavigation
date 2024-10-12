@@ -189,8 +189,8 @@ public class MainViewModel : ViewModelBase, INavigationContextProvider
 }
 
 ```
-#### Program.cs or App.axaml.cs
-##### Program.cs with Lemon.Hosting.AvaloniauiDesktop
+### With generic host. Using `Lemon.Hosting.AvaloniaUIDesktop`
+#### Program.cs in `Lemon.ModuleNavigation.Sample.DesktopHosting`
 ```csharp
 class Program
 {
@@ -223,34 +223,13 @@ class Program
     }
 }
 ```
-#### App.axaml.cs without generic host
 
+### Without generic host
+#### AppWithDI.xaml.cs in `Lemon.ModuleNavigation.Sample`
 ```csharp
-using Avalonia;
-using Avalonia.Controls.ApplicationLifetimes;
-using Avalonia.Markup.Xaml;
-using Lemon.ModuleNavigation.Sample.ModuleAs;
-using Lemon.ModuleNavigation.Sample.ViewModels;
-using Lemon.ModuleNavigation.Sample.Views;
-using Microsoft.Extensions.DependencyInjection;
-using System;
-
-namespace Lemon.ModuleNavigation.Sample;
-
-public partial class App : Application
+public partial class AppWithDI : Application
 {
-    private readonly IServiceCollection _services;
-    private readonly IServiceProvider _serviceProvider;
-    public App()
-    {
-        _services = new ServiceCollection();
-        _services.AddNavigationContext()
-                 .AddModule<ModuleA>()
-                 .AddSingleton<MainView>()
-                 .AddSingleton<MainWindow>()
-                 .AddSingleton<MainViewModel>();
-        _serviceProvider = _services.BuildServiceProvider();
-    }
+    private IServiceProvider? _serviceProvider;
     public override void Initialize()
     {
         AvaloniaXamlLoader.Load(this);
@@ -258,22 +237,31 @@ public partial class App : Application
 
     public override void OnFrameworkInitializationCompleted()
     {
+        var services = new ServiceCollection();
+        services.AddNavigationContext()
+                .AddModule<ModuleA>()
+                .AddSingleton<MainWindow>()
+                .AddSingleton<MainView>()
+                .AddSingleton<MainViewModel>();
+
+        _serviceProvider = services.BuildServiceProvider();
+
+        var viewModel = _serviceProvider.GetRequiredService<MainViewModel>();
+
+        switch (ApplicationLifetime)
+        {
+            case IClassicDesktopStyleApplicationLifetime desktop:
+                var window = _serviceProvider.GetRequiredService<MainWindow>();
+                window.DataContext = viewModel;
+                desktop.MainWindow = window;
+                break;
+            case ISingleViewApplicationLifetime singleView:
+                var view = _serviceProvider.GetRequiredService<MainView>();
+                view.DataContext = viewModel;
+                singleView.MainView = view;
+                break;
+        }
         base.OnFrameworkInitializationCompleted();
-        if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime 
-            desktopLifetime)
-        {
-            var window = _serviceProvider.GetRequiredService<MainWindow>();
-            var viewModel = _serviceProvider.GetRequiredService<MainViewModel>();
-            window.DataContext = viewModel;
-            desktopLifetime.MainWindow = window;
-        }
-        else if (ApplicationLifetime is ISingleViewApplicationLifetime
-            singleViewLifetime)
-        {
-            var view = _serviceProvider.GetRequiredService<MainView>();
-            var viewModel = _serviceProvider.GetRequiredService<MainViewModel>();
-            view.DataContext = viewModel;
-        }
     }
 }
 
