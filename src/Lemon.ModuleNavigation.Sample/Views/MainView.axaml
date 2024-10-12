@@ -41,7 +41,7 @@
                             Padding="-1,0,0,0"
                             HorizontalContentAlignment="Center"
                             VerticalContentAlignment="Center"
-                            lm:NTabContainerBehaviors.CanUnload="True"
+                            lm:NTabContainerBehaviors.CanUnload="{Binding CanUnload}"
                             Content="X"
                             FontSize="11" />
                     </StackPanel>

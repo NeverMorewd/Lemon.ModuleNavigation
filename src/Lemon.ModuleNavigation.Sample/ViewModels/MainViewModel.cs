@@ -16,6 +16,9 @@ public class MainViewModel : ViewModelBase, INavigationContextProvider
         NavigationContext = navigationContext;
         Modules = new ObservableCollection<IModule>(modules);
     }
+    /// <summary>
+    /// For binding
+    /// </summary>
     public ObservableCollection<IModule> Modules
     {
         get;
