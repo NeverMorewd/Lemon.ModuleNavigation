@@ -268,7 +268,11 @@ public partial class AppWithDI : Application
 ```
 
 ### Lemon.Extensions.ModuleNavigation.Sample.Desktop
-This is a sample desktop application for `Lemon.ModuleNavigation` and `Lemon.ModuleNavigation.AvaloniaUI` using AvaloniaUI. It introduces `Lemon.Hosting.AvaloniaUIDesktop` to support the .NET Generic Host, although this is not a strict requirement. The only dependency for `Lemon.ModuleNavigation` is `Microsoft.Extensions.DependencyInjection.Abstractions`.
+A sample desktop application for `Lemon.ModuleNavigation` and `Lemon.ModuleNavigation.AvaloniaUI`.
+
+### Lemon.Extensions.ModuleNavigation.Sample.DesktopHosting
+A sample desktop application for `Lemon.ModuleNavigation` and `Lemon.ModuleNavigation.AvaloniaUI` using AvaloniaUI. 
+It introduces `Lemon.Hosting.AvaloniaUIDesktop` to support .NET Generic Host.
 
 #### AOT config:
 Update .csproj
