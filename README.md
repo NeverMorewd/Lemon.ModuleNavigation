@@ -12,13 +12,14 @@ Support native aot (Avaloniaui)
 ### Lemon.ModuleNavigation.AvaloniaUI
 Extending **Lemon.ModuleNavigation**, this package provides handy NavigationContainers specifically designed for AvaloniaUI.
 
-Advantages:
-- Lightweight
-- Few dependencies, only Microsoft.Extensions.DependencyInjection.Abstractions
-- Does not rely on any specific MVVM framework, allowing developers to choose any MVVM framework.
-- Highly extensible
-- Easy to use
-- 
+### Key Advantages:
+- **Lightweight**: Minimal performance overhead.
+- **Few dependencies**: Only relies on `Microsoft.Extensions.DependencyInjection.Abstractions`.
+- **Framework Agnostic**: Does not enforce any specific MVVM framework, allowing developers to use the MVVM framework of their choice.
+- **Highly Extensible**: Easily customizable to suit specific needs.
+- **Simple and Easy to Use**.
+
+---
 ![sample-show](https://github.com/user-attachments/assets/58690f91-6939-47d7-84d3-113d04c722a7)
 
 Usage:
