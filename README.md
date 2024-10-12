@@ -23,6 +23,7 @@ Extending `Lemon.ModuleNavigation`, this package provides handy NavigationContai
 
 ### Key Advantages:
 - **Lightweight**: Minimal performance overhead.
+- **Commonly module options are provided**:LoadonDemand; Unload; Multi-Instance.
 - **Few dependencies**: Only relies on `Microsoft.Extensions.DependencyInjection.Abstractions`.
 - **Framework Agnostic**: Does not enforce any specific MVVM framework, allowing developers to use the MVVM framework of their choice.
 - **Highly Extensible**: Easily customizable to suit specific needs.
@@ -31,7 +32,7 @@ Extending `Lemon.ModuleNavigation`, this package provides handy NavigationContai
 ---
 ![sample-show](https://github.com/user-attachments/assets/58690f91-6939-47d7-84d3-113d04c722a7)
 
-Usage:
+### Usage:
 #### Create module with View and ViewModel
 ##### Module.cs
 ```csharp
