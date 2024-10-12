@@ -34,7 +34,7 @@ Extending `Lemon.ModuleNavigation`, this package provides handy NavigationContai
 Usage:
 #### Create module with View and ViewModel
 ##### Module.cs
-```c#
+```csharp
 using System;
 using Lemon.ModuleNavigation.Avaloniaui;
 
@@ -88,7 +88,7 @@ namespace Lemon.ModuleNavigation.Sample.ModuleAs
 
 ```
 ##### View.cs
-```c#
+```csharp
 using Avalonia.Controls;
 using Lemon.ModuleNavigation.Abstracts;
 
@@ -108,7 +108,7 @@ public partial class ViewA : UserControl, IView
 }
 ```
 ##### ViewModel.cs
-```
+```csharp
 using Lemon.ModuleNavigation.Abstracts;
 using Lemon.ModuleNavigation.Sample.ViewModels;
 using System;
@@ -153,7 +153,7 @@ NTabContainer is an implementation with TabControl for displaying View of Module
 </NTabContainer>
 ```
 #### MainViewModel.cs
-```c#
+```csharp
 public class MainViewModel : ViewModelBase, INavigationContextProvider
 {
     public readonly NavigationService _navigationService;
@@ -191,7 +191,7 @@ public class MainViewModel : ViewModelBase, INavigationContextProvider
 ```
 #### Program.cs or App.axaml.cs
 ##### Program.cs with Lemon.Hosting.AvaloniauiDesktop
-```c#
+```csharp
 class Program
 {
     [STAThread]
@@ -225,7 +225,7 @@ class Program
 ```
 #### App.axaml.cs
 
-```c#
+```csharp
 using Avalonia;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Markup.Xaml;
@@ -280,7 +280,7 @@ public partial class App : Application
 ```
 
 ### Lemon.Extensions.ModuleNavigation.Sample.Desktop
-This is a sample desktop application for **Lemon.ModuleNavigation** and **Lemon.ModuleNavigation.AvaloniaUI** using AvaloniaUI. It introduces **Lemon.Hosting.AvaloniaUIDesktop** to support the .NET Generic Host, although this is not a strict requirement. The only dependency for **Lemon.ModuleNavigation** is **Microsoft.Extensions.DependencyInjection.Abstractions**.
+This is a sample desktop application for `Lemon.ModuleNavigation` and `Lemon.ModuleNavigation.AvaloniaUI` using AvaloniaUI. It introduces `Lemon.Hosting.AvaloniaUIDesktop` to support the .NET Generic Host, although this is not a strict requirement. The only dependency for `Lemon.ModuleNavigation` is `Microsoft.Extensions.DependencyInjection.Abstractions`.
 
 #### AOT config:
 Update .csproj
