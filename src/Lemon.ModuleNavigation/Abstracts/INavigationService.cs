@@ -1,7 +1,7 @@
 ﻿namespace Lemon.ModuleNavigation.Abstracts
 {
-    public interface INavigationService<out T>
+    public interface INavigationService
     {
-        IDisposable OnNavigation(INavigationHandler<T> navigation);
+        IDisposable OnNavigation(INavigationHandler handler);
     }
 }
