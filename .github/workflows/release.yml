@@ -19,7 +19,7 @@ jobs:
         dotnet-version: 8.0.x
     - name: Get Tag
       id: tag
-      uses: NeverMorewd/action-get-tag@v1
+      uses: dawidd6/action-get-tag@v1
       with:
         # Optionally strip `V` prefix
         strip_v: true
