@@ -3,7 +3,7 @@ name: .NET
 on: 
   push:
     tags:
-    - v*  # Change to 'v*' if using lowercase 'v'
+    - v*  # Use 'v*' for lowercase 'v'
 
 jobs:
   build:
@@ -11,12 +11,13 @@ jobs:
     strategy:
       matrix:
         os: [windows-2022, ubuntu-22.04, macos-12]
+        dotnet-version: [6.0.x, 8.0.x]  # Support both .NET 6 and .NET 8
     steps:
     - uses: actions/checkout@v3
-    - name: Setup .NET 8
+    - name: Setup .NET
       uses: actions/setup-dotnet@v3
       with:
-        dotnet-version: 8.0.x
+        dotnet-version: ${{ matrix.dotnet-version }}  # Use the version from the matrix
     - name: Get Tag
       id: tag
       uses: dawidd6/action-get-tag@v1
