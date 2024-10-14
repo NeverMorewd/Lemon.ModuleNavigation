@@ -1,0 +1,35 @@
+name: .NET
+
+on: 
+  push:
+    tags:
+    - v*
+
+jobs:
+  build:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [windows-2022, ubuntu-22.04, macos-12]
+    steps:
+    - uses: actions/checkout@v3
+    - name: Setup .NET 8
+      uses: actions/setup-dotnet@v3
+      with:
+        dotnet-version: 8.0.x
+    - name: Get Tag
+      id: tag
+      uses: dawidd6/action-get-tag@v1
+      with:
+        # Optionally strip `v` prefix
+        strip_v: true
+    - name: Build with dotnet
+      run: dotnet build --configuration Release src/Lemon.ModuleNavigation.Sample.Desktop
+    - name: Pack-Lemon.ModuleNavigation
+      run: dotnet pack src/Lemon.ModuleNavigation -c Release --include-symbols --include-source  -p:PackageVersion=${{steps.tag.outputs.tag}} -o Lemon.ModuleNavigation.artifacts/
+    - name: Publish Symbols to NuGet-Lemon.ModuleNavigation
+      run: dotnet nuget push Lemon.ModuleNavigation.artifacts/*.symbols.nupkg --api-key ${{secrets.NUGET_API_KEY}} --source https://api.nuget.org/v3/index.json
+    - name: Pack-Lemon.ModuleNavigation.Avaloniaui
+      run: dotnet pack src/Lemon.ModuleNavigation.Avaloniaui -c Release --include-symbols --include-source  -p:PackageVersion=${{steps.tag.outputs.tag}} -o Lemon.ModuleNavigation.Avaloniaui/
+    - name: Publish Symbols to NuGet2-Lemon.ModuleNavigation.Avaloniaui
+      run: dotnet nuget push Lemon.ModuleNavigation.Avaloniaui/*.symbols.nupkg --api-key ${{secrets.NUGET_API_KEY}} --source https://api.nuget.org/v3/index.json
