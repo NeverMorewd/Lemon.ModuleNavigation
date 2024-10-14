@@ -15,6 +15,15 @@ namespace Lemon.ModuleNavigation.Sample;
 public partial class AppWithDI : Application
 {
     private IServiceProvider? _serviceProvider;
+
+    public IServiceProvider? AppServiceProvider
+    {
+        get
+        {
+            return _serviceProvider;
+        }
+    }
+
     public override void Initialize()
     {
         AvaloniaXamlLoader.Load(this);
