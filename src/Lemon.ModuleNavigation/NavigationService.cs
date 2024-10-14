@@ -1,16 +1,22 @@
 ﻿using Lemon.ModuleNavigation.Abstracts;
+using System;
 
 namespace Lemon.ModuleNavigation
 {
     public class NavigationService : INavigationService<IModule>
     {
-        private readonly List<INavigationHandler<IModule>> _handlers = [];
+        private readonly List<INavigationHandler> _handlers = [];
         public NavigationService()
         {
             
         }
 
-        public IDisposable OnNavigation(INavigationHandler<IModule> handler)
+        public IDisposable OnNavigation(INavigationHandler<IModule> moduleHandler)
+        {
+            _handlers.Add(moduleHandler);
+            return new Cleanup(_handlers, moduleHandler);
+        }
+        public IDisposable OnNavigation(INavigationHandler handler)
         {
             _handlers.Add(handler);
             return new Cleanup(_handlers, handler);
@@ -19,10 +25,21 @@ namespace Lemon.ModuleNavigation
         {
             foreach (var handler in _handlers)
             {
-                handler.OnNavigateTo(module);
+                if (handler is INavigationHandler<IModule> moduleHandler)
+                {
+                    moduleHandler.OnNavigateTo(module);
+                }
             }
         }
-        private class Cleanup(List<INavigationHandler<IModule>> handlers, INavigationHandler<IModule> handler)
+        public void NavigateTo(string moduleKey)
+        {
+            foreach (var handler in _handlers)
+            {
+                handler.OnNavigateTo(moduleKey);
+            }
+        }
+
+        private class Cleanup(List<INavigationHandler> handlers, INavigationHandler handler)
             : IDisposable
         {
             public void Dispose()

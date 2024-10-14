@@ -1,37 +1,41 @@
 ﻿using Lemon.ModuleNavigation.Abstracts;
 using Microsoft.Extensions.DependencyInjection;
+using System.Collections.Concurrent;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 
 namespace Lemon.ModuleNavigation
 {
-    public class NavigationContext : INavigationHandler<IModule>, IDisposable, INotifyPropertyChanged
+    public class NavigationContext : INavigationHandler, INavigationHandler<IModule>, IDisposable, INotifyPropertyChanged
     {
         private readonly INavigationService<IModule> _navigationService;
         private readonly IDisposable _navigationCleanup;
         private readonly IServiceProvider _serviceProvider;
+        private readonly ConcurrentDictionary<string, IModule> _modulesCache;
         public NavigationContext(INavigationService<IModule> navigationService,
             IEnumerable<IModule> modules,
             IServiceProvider serviceProvider) 
         {
             _serviceProvider = serviceProvider;
             _navigationService = navigationService;
-            Modules = modules;
-            ActiveModules = new ObservableCollection<IModule>(Modules
+            _modulesCache = new ConcurrentDictionary<string, IModule>(modules.ToDictionary(m=>m.Key,m=>m));
+            Modules = _modulesCache.Select(m=>m.Value);
+            ActiveModules = new ObservableCollection<IModule>(_modulesCache
                     .Where(m =>
                     {
                         Console.WriteLine($"Find a module:{m.Key}");
-                        return !m.LoadOnDemand;
+                        return !m.Value.LoadOnDemand;
                     })
                     .Select(m =>
                     {
                         Console.WriteLine($"Initialize module:{m.Key}");
-                        m.Initialize();
-                        return m;
+                        m.Value.Initialize();
+                        return m.Value;
                     }));
             _navigationCleanup = _navigationService.OnNavigation(this);
         }
+
         public ObservableCollection<IModule> ActiveModules
         {
             get;
@@ -60,25 +64,40 @@ namespace Lemon.ModuleNavigation
 
         public event PropertyChangedEventHandler? PropertyChanged;
 
-        public void OnNavigateTo(IModule target)
+        public void OnNavigateTo(IModule module)
         {
-            if (target.AllowMultiple)
+            OnNavigateToCore(module);
+        }
+        public void OnNavigateTo(string moduleKey)
+        {
+            if(_modulesCache.TryGetValue(moduleKey, out var module))
             {
-                target = _serviceProvider.GetKeyedService<IModule>(target.Key)!;
-                ActiveModules.Add(target);
+                OnNavigateToCore(module);
             }
             else
             {
-                if (!ActiveModules.Contains(target))
+                throw new InvalidOperationException($"Invalid module key:{moduleKey}");
+            }
+        }
+        private void OnNavigateToCore(IModule module)
+        {
+            if (module.AllowMultiple)
+            {
+                module = _serviceProvider.GetKeyedService<IModule>(module.Key)!;
+                ActiveModules.Add(module);
+            }
+            else
+            {
+                if (!ActiveModules.Contains(module))
                 {
-                    ActiveModules.Add(target);
+                    ActiveModules.Add(module);
                 }
             }
 
             ///TODO:Consider an async implementation
-            target.Initialize();
-            target.IsActivated = true;
-            CurrentModule = target;
+            module.Initialize();
+            module.IsActivated = true;
+            CurrentModule = module;
         }
 
         protected void OnPropertyChanged([CallerMemberName] string? propertyName = null)
