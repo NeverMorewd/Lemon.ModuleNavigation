@@ -3,7 +3,7 @@ name: .NET
 on: 
   push:
     tags:
-    - v*
+    - V*
 
 jobs:
   build:
@@ -21,7 +21,7 @@ jobs:
       id: tag
       uses: NeverMorewd/action-get-tag@v1
       with:
-        # Optionally strip `v` prefix
+        # Optionally strip `V` prefix
         strip_v: true
     - name: Build with dotnet
       run: dotnet build --configuration Release src/Lemon.ModuleNavigation.Sample.Desktop
