@@ -1,6 +1,7 @@
 # Lemon.ModuleNavigation
-
-![Logo](https://github.com/NeverMorewd/Lemon.ModuleNavigation/blob/master/src/Lemon.ModuleNavigation.Sample/Assets/lemon-100.png) 
+<p align="center">
+    <img src="https://github.com/NeverMorewd/Lemon.ModuleNavigation/blob/master/src/Lemon.ModuleNavigation.Sample/Assets/lemon-100.png" />
+</p>
 
 [![NuGet Badge](https://img.shields.io/badge/NuGet-v1.0.0-blue.svg)](https://www.nuget.org/packages/Lemon.ModuleNavigation/) 
 
@@ -23,6 +24,7 @@ Extending `Lemon.ModuleNavigation`, this package provides handy NavigationContai
 
 ### Key Advantages:
 - **Lightweight**: Minimal performance overhead.
+- **Commonly module options are provided**:LoadonDemand; Unload; Multi-Instance.
 - **Few dependencies**: Only relies on `Microsoft.Extensions.DependencyInjection.Abstractions`.
 - **Framework Agnostic**: Does not enforce any specific MVVM framework, allowing developers to use the MVVM framework of their choice.
 - **Highly Extensible**: Easily customizable to suit specific needs.
@@ -31,7 +33,7 @@ Extending `Lemon.ModuleNavigation`, this package provides handy NavigationContai
 ---
 ![sample-show](https://github.com/user-attachments/assets/58690f91-6939-47d7-84d3-113d04c722a7)
 
-Usage:
+### Usage:
 #### Create module with View and ViewModel
 ##### Module.cs
 ```csharp
@@ -189,8 +191,8 @@ public class MainViewModel : ViewModelBase, INavigationContextProvider
 }
 
 ```
-#### Program.cs or App.axaml.cs
-##### Program.cs with Lemon.Hosting.AvaloniauiDesktop
+### With generic host. Using `Lemon.Hosting.AvaloniaUIDesktop`
+#### Program.cs in `Lemon.ModuleNavigation.Sample.DesktopHosting`
 ```csharp
 class Program
 {
@@ -223,34 +225,13 @@ class Program
     }
 }
 ```
-#### App.axaml.cs without generic host
 
+### Without generic host
+#### AppWithDI.xaml.cs in `Lemon.ModuleNavigation.Sample`
 ```csharp
-using Avalonia;
-using Avalonia.Controls.ApplicationLifetimes;
-using Avalonia.Markup.Xaml;
-using Lemon.ModuleNavigation.Sample.ModuleAs;
-using Lemon.ModuleNavigation.Sample.ViewModels;
-using Lemon.ModuleNavigation.Sample.Views;
-using Microsoft.Extensions.DependencyInjection;
-using System;
-
-namespace Lemon.ModuleNavigation.Sample;
-
-public partial class App : Application
+public partial class AppWithDI : Application
 {
-    private readonly IServiceCollection _services;
-    private readonly IServiceProvider _serviceProvider;
-    public App()
-    {
-        _services = new ServiceCollection();
-        _services.AddNavigationContext()
-                 .AddModule<ModuleA>()
-                 .AddSingleton<MainView>()
-                 .AddSingleton<MainWindow>()
-                 .AddSingleton<MainViewModel>();
-        _serviceProvider = _services.BuildServiceProvider();
-    }
+    private IServiceProvider? _serviceProvider;
     public override void Initialize()
     {
         AvaloniaXamlLoader.Load(this);
@@ -258,29 +239,42 @@ public partial class App : Application
 
     public override void OnFrameworkInitializationCompleted()
     {
+        var services = new ServiceCollection();
+        services.AddNavigationContext()
+                .AddModule<ModuleA>()
+                .AddSingleton<MainWindow>()
+                .AddSingleton<MainView>()
+                .AddSingleton<MainViewModel>();
+
+        _serviceProvider = services.BuildServiceProvider();
+
+        var viewModel = _serviceProvider.GetRequiredService<MainViewModel>();
+
+        switch (ApplicationLifetime)
+        {
+            case IClassicDesktopStyleApplicationLifetime desktop:
+                var window = _serviceProvider.GetRequiredService<MainWindow>();
+                window.DataContext = viewModel;
+                desktop.MainWindow = window;
+                break;
+            case ISingleViewApplicationLifetime singleView:
+                var view = _serviceProvider.GetRequiredService<MainView>();
+                view.DataContext = viewModel;
+                singleView.MainView = view;
+                break;
+        }
         base.OnFrameworkInitializationCompleted();
-        if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime 
-            desktopLifetime)
-        {
-            var window = _serviceProvider.GetRequiredService<MainWindow>();
-            var viewModel = _serviceProvider.GetRequiredService<MainViewModel>();
-            window.DataContext = viewModel;
-            desktopLifetime.MainWindow = window;
-        }
-        else if (ApplicationLifetime is ISingleViewApplicationLifetime
-            singleViewLifetime)
-        {
-            var view = _serviceProvider.GetRequiredService<MainView>();
-            var viewModel = _serviceProvider.GetRequiredService<MainViewModel>();
-            view.DataContext = viewModel;
-        }
     }
 }
 
 ```
 
 ### Lemon.Extensions.ModuleNavigation.Sample.Desktop
-This is a sample desktop application for `Lemon.ModuleNavigation` and `Lemon.ModuleNavigation.AvaloniaUI` using AvaloniaUI. It introduces `Lemon.Hosting.AvaloniaUIDesktop` to support the .NET Generic Host, although this is not a strict requirement. The only dependency for `Lemon.ModuleNavigation` is `Microsoft.Extensions.DependencyInjection.Abstractions`.
+A sample desktop application for `Lemon.ModuleNavigation` and `Lemon.ModuleNavigation.AvaloniaUI`.
+
+### Lemon.Extensions.ModuleNavigation.Sample.DesktopHosting
+A sample desktop application for `Lemon.ModuleNavigation` and `Lemon.ModuleNavigation.AvaloniaUI` using AvaloniaUI. 
+It introduces `Lemon.Hosting.AvaloniaUIDesktop` to support .NET Generic Host.
 
 #### AOT config:
 Update .csproj
