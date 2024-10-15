@@ -3,7 +3,7 @@
     <img src="https://github.com/NeverMorewd/Lemon.ModuleNavigation/blob/master/src/Lemon.ModuleNavigation.Sample/Assets/lemon-100.png" />
 </p>
 
-[![NuGet Badge](https://img.shields.io/badge/NuGet-v1.0.0-blue.svg)](https://www.nuget.org/packages/Lemon.ModuleNavigation/) 
+[![NuGet](https://img.shields.io/nuget/v/Lemon.ModuleNavigation.svg?style=flat-square&label=NuGet)](https://www.nuget.org/packages/Lemon.ModuleNavigation/)
 
 ## Language
 
