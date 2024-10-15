@@ -1,6 +1,8 @@
 ﻿using Avalonia;
 using Avalonia.Controls;
+using Avalonia.Controls.Templates;
 using Avalonia.Data;
+using Lemon.ModuleNavigation.Abstracts;
 
 namespace Lemon.ModuleNavigation.Avaloniaui.Containers
 {
@@ -17,6 +19,11 @@ namespace Lemon.ModuleNavigation.Avaloniaui.Containers
                 });
             Bind(ItemsSourceProperty,
                 new Binding(nameof(NavigationContext) + "." + nameof(NavigationContext.ActiveModules)));
+
+            ContentTemplate = new FuncDataTemplate<IModule>((m, np) =>
+            {
+                return NavigationContext.CreateNewView(m) as Control;
+            });
 
             _disposable = this.GetObservable(NavigationContextProperty)
                               .Subscribe(this);

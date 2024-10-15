@@ -44,12 +44,6 @@
                     </StackPanel>
                 </DataTemplate>
             </lm:NTabContainer.ItemTemplate>
-            <lm:NTabContainer.ContentTemplate>
-                <DataTemplate>
-                    <!-- <ContentControl ContentTemplate="{Binding ViewTemplate}" /> -->
-                    <ContentControl Content="{Binding View}" />
-                </DataTemplate>
-            </lm:NTabContainer.ContentTemplate>
         </lm:NTabContainer>
         <ScrollViewer Grid.Column="3">
             <lm:NItemsContainer NavigationContext="{Binding NavigationContext}" />
