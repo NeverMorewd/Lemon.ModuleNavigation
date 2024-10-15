@@ -7,7 +7,7 @@ using System.Runtime.CompilerServices;
 
 namespace Lemon.ModuleNavigation
 {
-    public class NavigationContext : INavigationHandler, INavigationHandler<IModule>, IDisposable, INotifyPropertyChanged
+    public class NavigationContext : INavigationHandler<IModule>, IDisposable, INotifyPropertyChanged
     {
         private readonly INavigationService<IModule> _navigationService;
         private readonly IDisposable _navigationCleanup;
