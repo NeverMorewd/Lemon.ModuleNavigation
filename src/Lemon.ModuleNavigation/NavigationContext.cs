@@ -121,7 +121,7 @@ namespace Lemon.ModuleNavigation
         }
         public void Dispose()
         {
-            _navigationCleanup.Dispose();
+            _navigationCleanup?.Dispose();
         }
     }
 }
