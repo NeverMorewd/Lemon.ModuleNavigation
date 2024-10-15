@@ -8,6 +8,7 @@
 		mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
         x:Class="Lemon.ModuleNavigation.Sample.Views.MainWindow"
         Icon="/Assets/lemon-28.png"
+		WindowState="Maximized"
 		Design.DataContext="{x:Static designDatas:DesignData.MainWindowViewModel}"
         Title="Lemon.ModuleNavigation.Sample">
         <views:MainView />

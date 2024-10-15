@@ -6,10 +6,22 @@
     xmlns:lm="https://github.com/NeverMorewd/Lemon.ModuleNavigation"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:vm="clr-namespace:Lemon.ModuleNavigation.Sample.ViewModels"
-    d:DesignHeight="450"
+    d:DesignHeight="550"
     d:DesignWidth="800"
     x:DataType="vm:MainViewModel"
     mc:Ignorable="d">
+    <UserControl.Styles>
+        <Style Selector="StackPanel.ForContainerShow">
+            <Setter Property="Spacing" Value="5" />
+            <Setter Property="Orientation" Value="Vertical" />
+        </Style>
+        <Style Selector="Border.HSeparator">
+            <Setter Property="Background" Value="Gray" />
+            <Setter Property="BorderThickness" Value="0" />
+            <Setter Property="Height" Value="2" />
+            <Setter Property="Margin" Value="5,0,5,0" />
+        </Style>
+    </UserControl.Styles>
     <Grid ColumnDefinitions="auto,*,*,*" ShowGridLines="True">
         <ListBox
             Grid.Column="0"
@@ -21,32 +33,40 @@
                 </DataTemplate>
             </ListBox.ItemTemplate>
         </ListBox>
-        <!--
-            NContainer&TabContainer can not display View at the same time.
-            Use ViewTemplate instead.
-        -->
-        <lm:NContainer Grid.Column="1" NavigationContext="{Binding NavigationContext}" />
 
-        <lm:NTabContainer Grid.Column="2" NavigationContext="{Binding NavigationContext}">
-            <lm:NTabContainer.ItemTemplate>
-                <DataTemplate>
-                    <StackPanel Orientation="Horizontal" Spacing="2">
-                        <TextBlock Text="{Binding Alias}" />
-                        <Button
-                            Width="20"
-                            Height="20"
-                            Padding="-1,0,0,0"
-                            HorizontalContentAlignment="Center"
-                            VerticalContentAlignment="Center"
-                            lm:NTabContainerBehaviors.CanUnload="{Binding CanUnload}"
-                            Content="X"
-                            FontSize="11" />
-                    </StackPanel>
-                </DataTemplate>
-            </lm:NTabContainer.ItemTemplate>
-        </lm:NTabContainer>
-        <ScrollViewer Grid.Column="3">
-            <lm:NItemsContainer NavigationContext="{Binding NavigationContext}" />
-        </ScrollViewer>
+        <StackPanel Grid.Column="1" Classes="ForContainerShow">
+            <Label Content="NContainer" />
+            <Border Classes="HSeparator" />
+            <lm:NContainer NavigationContext="{Binding NavigationContext}" />
+        </StackPanel>
+        <StackPanel Grid.Column="2" Classes="ForContainerShow">
+            <Label Content="NTabContainer" />
+            <Border Classes="HSeparator" />
+            <lm:NTabContainer NavigationContext="{Binding NavigationContext}">
+                <lm:NTabContainer.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel Orientation="Horizontal" Spacing="2">
+                            <TextBlock Text="{Binding Alias}" />
+                            <Button
+                                Width="20"
+                                Height="20"
+                                Padding="-1,0,0,0"
+                                HorizontalContentAlignment="Center"
+                                VerticalContentAlignment="Center"
+                                lm:NTabContainerBehaviors.CanUnload="{Binding CanUnload}"
+                                Content="X"
+                                FontSize="11" />
+                        </StackPanel>
+                    </DataTemplate>
+                </lm:NTabContainer.ItemTemplate>
+            </lm:NTabContainer>
+        </StackPanel>
+        <StackPanel Grid.Column="3" Classes="ForContainerShow">
+            <Label Content="NItemsContainer" />
+            <Border Classes="HSeparator" />
+            <ScrollViewer Height="600">
+                <lm:NItemsContainer NavigationContext="{Binding NavigationContext}" />
+            </ScrollViewer>
+        </StackPanel>
     </Grid>
 </UserControl>
