@@ -79,6 +79,21 @@ namespace Lemon.ModuleNavigation
                 throw new InvalidOperationException($"Invalid module key:{moduleKey}");
             }
         }
+        public IView CreateNewView(IModule module)
+        {
+            if (module != null)
+            {
+                var view = _serviceProvider.GetRequiredKeyedService<IView>(module.Key);
+                var viewmodel = _serviceProvider.GetRequiredKeyedService<IViewModel>(module.Key);
+                view.SetDataContext(viewmodel);
+                return view;
+            }
+            throw new ArgumentNullException(nameof(module));
+        }
+        public IViewModel CreateNewViewModel(IModule module)
+        {
+            return _serviceProvider.GetRequiredKeyedService<IViewModel>(module.Key);
+        }
         private void OnNavigateToCore(IModule module)
         {
             if (module.AllowMultiple)

@@ -1,5 +1,4 @@
 ﻿using Lemon.ModuleNavigation.Abstracts;
-using System;
 
 namespace Lemon.ModuleNavigation
 {

@@ -10,7 +10,7 @@
     d:DesignWidth="800"
     x:DataType="vm:MainViewModel"
     mc:Ignorable="d">
-    <Grid ColumnDefinitions="auto,*,*">
+    <Grid ColumnDefinitions="auto,*,*,*" ShowGridLines="True">
         <ListBox
             Grid.Column="0"
             ItemsSource="{Binding Modules}"
@@ -51,6 +51,8 @@
                 </DataTemplate>
             </lm:NTabContainer.ContentTemplate>
         </lm:NTabContainer>
-
+        <ScrollViewer Grid.Column="3">
+            <lm:NItemsContainer NavigationContext="{Binding NavigationContext}" />
+        </ScrollViewer>
     </Grid>
 </UserControl>
