@@ -1,6 +1,8 @@
 ﻿using Avalonia;
 using Avalonia.Controls;
+using Avalonia.Controls.Templates;
 using Avalonia.Data;
+using Lemon.ModuleNavigation.Abstracts;
 
 namespace Lemon.ModuleNavigation.Avaloniaui.Containers
 {
@@ -8,12 +10,14 @@ namespace Lemon.ModuleNavigation.Avaloniaui.Containers
     {
         public NContainer()
         {
-            Bind(ContentTemplateProperty,
+            Bind(ContentProperty,
                 new Binding(nameof(NavigationContext) 
                 + "." 
-                + nameof(NavigationContext.CurrentModule) 
-                + "." 
-                + "ViewTemplate"));
+                + nameof(NavigationContext.CurrentModule)));
+            ContentTemplate = new FuncDataTemplate<IModule>((m, np) =>
+            {
+                return NavigationContext.CreateNewView(m) as Control;
+            });
         }
         public static readonly StyledProperty<NavigationContext> NavigationContextProperty =
             AvaloniaProperty.Register<NContainer, NavigationContext>(nameof(NavigationContext));
