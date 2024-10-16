@@ -8,25 +8,27 @@ using System.Diagnostics;
 
 namespace Lemon.ModuleNavigation.Sample.ModuleCs
 {
-    public class ModuleC : AvaModule<ViewC, ViewModelC>, ISelfHostModule
+    public class ModuleC : AvaModule<ViewC, ViewModelC>, IModuleScope
     {
         private readonly IServiceProvider _subServiceProvider;
         public ModuleC(IServiceProvider serviceProvider) : base(serviceProvider)
         {
-            SelfServiceCollection = new ServiceCollection();
-            SelfServiceCollection.AddModule<SubModule01>();
-            SelfServiceCollection.AddModule<SubModule02>();
-            SelfServiceCollection.AddNavigationContext();
+            ScopeServiceCollection = new ServiceCollection();
+            ScopeServiceCollection.AddModule<SubModule01>();
+            ScopeServiceCollection.AddModule<SubModule02>();
+            ScopeServiceCollection.AddNavigationContext();
 
-            _subServiceProvider = SelfServiceCollection.BuildServiceProvider();
+            _subServiceProvider = ScopeServiceCollection.BuildServiceProvider();
         }
-        public IServiceCollection SelfServiceCollection
+        public IServiceCollection ScopeServiceCollection
         {
             get;
         }
         public override bool LoadOnDemand => true;
         public override bool AllowMultiple => true;
         public override string? Alias => $"{base.Alias}:{nameof(AllowMultiple)}";
+        public IServiceProvider ScopeServiceProvider => _subServiceProvider;
+
         public override void Initialize()
         {
             base.Initialize();

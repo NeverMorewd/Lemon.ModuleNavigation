@@ -1,5 +1,4 @@
 ﻿using Lemon.ModuleNavigation.Abstracts;
-using Lemon.ModuleNavigation.AdvancedDI;
 using Lemon.ModuleNavigation.Sample.ViewModels;
 using Microsoft.Extensions.DependencyInjection;
 using ReactiveUI;
@@ -12,7 +11,8 @@ namespace Lemon.ModuleNavigation.Sample.ModuleCs
     {
         private readonly INavigationService<IModule> _navigationService;
         private readonly IServiceProvider _selfServiceProvider;
-        public ViewModelC(INavigationService<IModule> navigationService, IAdvancedServiceProvider advancedServiceProvider) 
+        public ViewModelC(INavigationService<IModule> navigationService, 
+            IModuleServiceProvider advancedServiceProvider) 
         {
             _navigationService = navigationService;
             _selfServiceProvider = advancedServiceProvider;

@@ -1,5 +1,4 @@
 ﻿using Lemon.ModuleNavigation.Abstracts;
-using Lemon.ModuleNavigation.AdvancedDI;
 using Microsoft.Extensions.DependencyInjection;
 using System.Diagnostics.CodeAnalysis;
 
@@ -22,37 +21,37 @@ namespace Lemon.ModuleNavigation
                 .AddKeyedTransient(typeof(TModule).Name, (sp, key) =>
                 {
                     var module = sp.GetRequiredService<TModule>();
-                    var asp = sp.GetKeyedService<IAdvancedServiceProvider>(typeof(TModule).Name);
-                    if (asp == null)
+                    var selfSp = sp.GetKeyedService<IModuleServiceProvider>(typeof(TModule).Name);
+                    if (selfSp == null)
                     {
                         var viewModel = ActivatorUtilities.CreateInstance(sp, module.ViewModelType);
                         return (viewModel as IViewModel)!;
                     }
                     else
                     {
-                        var viewModel = ActivatorUtilities.CreateInstance(sp, module.ViewModelType, asp);
+                        var viewModel = ActivatorUtilities.CreateInstance(sp, module.ViewModelType, selfSp);
                         return (viewModel as IViewModel)!;
                     }
                 })
                 .AddKeyedTransient(typeof(TModule).Name, (sp, key) =>
                  {
                      var module = sp.GetRequiredService<TModule>();
-                     if (module is ISelfHostModule selfHostModule)
+                     if (module is IModuleScope selfSp)
                      {
-                         return new AdvancedServiceProvider(selfHostModule.SelfServiceCollection) as IAdvancedServiceProvider;
+                         return new ModuleServiceProvider(selfSp.ScopeServiceProvider) as IModuleServiceProvider;
                      }
                      return default!;
                  });
             return serviceDescriptors;
         }
 
-        public static IServiceCollection AddModulesBuilder(this IServiceCollection serviceDescriptors)
+        private static IServiceCollection AddModulesBuilder(this IServiceCollection serviceDescriptors)
         {
             serviceDescriptors = serviceDescriptors.AddSingleton(sp => sp.GetKeyedServices<IModule>(nameof(IModule)));
             return serviceDescriptors;
         }
 
-        public static IServiceCollection AddNavigationContext(this IServiceCollection serviceDescriptors)
+        public static IServiceCollection AddNavigationSupport(this IServiceCollection serviceDescriptors)
         {
             return serviceDescriptors
                 .AddModulesBuilder()

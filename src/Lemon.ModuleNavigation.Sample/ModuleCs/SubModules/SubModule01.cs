@@ -9,6 +9,7 @@ namespace Lemon.ModuleNavigation.Sample.ModuleCs.SubModules
     {
         public SubModule01(IServiceProvider serviceProvider) : base(serviceProvider)
         {
+
         }
 
         public override bool LoadOnDemand => false;

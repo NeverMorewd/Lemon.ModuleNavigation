@@ -1,5 +1,4 @@
-﻿using Lemon.ModuleNavigation.AdvancedDI;
-using Lemon.ModuleNavigation.Avaloniaui;
+﻿using Lemon.ModuleNavigation.Avaloniaui;
 using Lemon.ModuleNavigation.Sample.ModuleCs.ViewModels;
 using Lemon.ModuleNavigation.Sample.ModuleCs.Views;
 using System;
