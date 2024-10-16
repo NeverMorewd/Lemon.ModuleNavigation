@@ -7,6 +7,7 @@ using Lemon.ModuleNavigation.Sample.ModuleCs;
 using Lemon.ModuleNavigation.Sample.ViewModels;
 using Lemon.ModuleNavigation.Sample.Views;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Runtime.Versioning;
 
@@ -24,6 +25,9 @@ class Program
 
         // module navigation
         hostBuilder.Services.AddNavigationSupport();
+        hostBuilder.Logging.ClearProviders();
+        hostBuilder.Logging.AddConsole();
+        hostBuilder.Logging.SetMinimumLevel(LogLevel.Debug);
         // modules
         hostBuilder.Services.AddModule<ModuleA>();
         hostBuilder.Services.AddModule<ModuleB>();

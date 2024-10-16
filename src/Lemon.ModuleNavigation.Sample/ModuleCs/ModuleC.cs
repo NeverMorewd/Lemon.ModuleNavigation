@@ -2,18 +2,23 @@
 using Lemon.ModuleNavigation.Avaloniaui;
 using Lemon.ModuleNavigation.Sample.ModuleCs.SubModules;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using ILogger = Microsoft.Extensions.Logging.ILogger;
 
 namespace Lemon.ModuleNavigation.Sample.ModuleCs
 {
     public class ModuleC : AvaModule<ViewC, ViewModelC>, IModuleScope
     {
         private readonly IServiceProvider _subServiceProvider;
-        public ModuleC(IServiceProvider serviceProvider) : base(serviceProvider)
+        private readonly ILogger _logger;
+        public ModuleC(IServiceProvider serviceProvider, ILogger<ModuleC> logger) : base(serviceProvider)
         {
+            _logger = logger;
             ScopeServiceCollection = new ServiceCollection();
+            ScopeServiceCollection.AddSingleton<IAppServiceProvider>(_ => new AppServiceProvider(serviceProvider));
             ScopeServiceCollection.AddModule<SubModule01>();
             ScopeServiceCollection.AddModule<SubModule02>();
             ScopeServiceCollection.AddNavigationSupport();

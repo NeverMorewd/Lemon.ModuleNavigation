@@ -1,5 +1,6 @@
 ﻿using Lemon.ModuleNavigation.Abstracts;
 using Lemon.ModuleNavigation.Sample.ViewModels;
+using Microsoft.Extensions.Logging;
 using System;
 
 namespace Lemon.ModuleNavigation.Sample.ModuleCs.ViewModels
@@ -8,7 +9,7 @@ namespace Lemon.ModuleNavigation.Sample.ModuleCs.ViewModels
     {
         public SubViewModel02(IServiceProvider serviceProvider)
         {
-
+            
         }
     }
 }
