@@ -6,7 +6,7 @@ using System.Reactive;
 
 namespace Lemon.ModuleNavigation.Sample.ModuleBs
 {
-    public class ViewModelB : ViewModelBase, IViewModel
+    public class ViewModelB : SampleViewModelBase, IViewModel
     {
         private readonly NavigationService _navigationService;
         public ViewModelB(NavigationService navigationService)

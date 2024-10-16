@@ -23,7 +23,7 @@ class Program
         var hostBuilder = Host.CreateApplicationBuilder();
 
         // module navigation
-        hostBuilder.Services.AddNavigationContext();
+        hostBuilder.Services.AddNavigationSupport();
         // modules
         hostBuilder.Services.AddModule<ModuleA>();
         hostBuilder.Services.AddModule<ModuleB>();

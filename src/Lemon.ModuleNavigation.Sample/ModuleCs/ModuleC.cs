@@ -16,7 +16,7 @@ namespace Lemon.ModuleNavigation.Sample.ModuleCs
             ScopeServiceCollection = new ServiceCollection();
             ScopeServiceCollection.AddModule<SubModule01>();
             ScopeServiceCollection.AddModule<SubModule02>();
-            ScopeServiceCollection.AddNavigationContext();
+            ScopeServiceCollection.AddNavigationSupport();
 
             _subServiceProvider = ScopeServiceCollection.BuildServiceProvider();
         }

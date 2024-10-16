@@ -5,7 +5,7 @@ using System.Collections.ObjectModel;
 
 namespace Lemon.ModuleNavigation.Sample.ViewModels;
 
-public class MainViewModel : ViewModelBase, INavigationContextProvider
+public class MainViewModel : SampleViewModelBase, INavigationContextProvider
 {
     public readonly NavigationService _navigationService;
     public MainViewModel(NavigationContext navigationContext,

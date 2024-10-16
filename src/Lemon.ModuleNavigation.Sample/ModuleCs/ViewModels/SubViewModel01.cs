@@ -4,7 +4,7 @@ using System;
 
 namespace Lemon.ModuleNavigation.Sample.ModuleCs.ViewModels
 {
-    public class SubViewModel01 : ViewModelBase, IViewModel
+    public class SubViewModel01 : SampleViewModelBase, IViewModel
     {
         public SubViewModel01(IServiceProvider serviceProvider)
         {

@@ -31,7 +31,7 @@ public partial class AppWithDI : Application
     public override void OnFrameworkInitializationCompleted()
     {
         var services = new ServiceCollection();
-        services.AddNavigationContext()
+        services.AddNavigationSupport()
                 .AddModule<ModuleA>()
                 .AddModule<ModuleB>()
                 .AddModule<ModuleC>()

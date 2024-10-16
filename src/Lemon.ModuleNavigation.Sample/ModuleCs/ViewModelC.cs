@@ -7,7 +7,7 @@ using System.Reactive;
 
 namespace Lemon.ModuleNavigation.Sample.ModuleCs
 {
-    public class ViewModelC : ViewModelBase, IViewModel, INavigationContextProvider
+    public class ViewModelC : SampleViewModelBase, IViewModel, INavigationContextProvider
     {
         private readonly INavigationService<IModule> _navigationService;
         private readonly IServiceProvider _selfServiceProvider;
