@@ -33,4 +33,10 @@
     <ProjectReference Include="..\Lemon.ModuleNavigation.Avaloniaui\Lemon.ModuleNavigation.Avaloniaui.csproj" />
     <ProjectReference Include="..\Lemon.ModuleNavigation\Lemon.ModuleNavigation.csproj" />
   </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="ModuleCs\Views\SubView01.axaml.cs">
+      <DependentUpon>SubView01.axaml</DependentUpon>
+    </Compile>
+  </ItemGroup>
 </Project>

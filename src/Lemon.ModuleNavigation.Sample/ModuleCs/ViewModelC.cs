@@ -8,8 +8,8 @@ namespace Lemon.ModuleNavigation.Sample.ModuleCs
 {
     public class ViewModelC : ViewModelBase, IViewModel
     {
-        private readonly NavigationService _navigationService;
-        public ViewModelC(NavigationService navigationService) 
+        private readonly INavigationService<IModule> _navigationService;
+        public ViewModelC(INavigationService<IModule> navigationService) 
         {
             _navigationService = navigationService;
             NavigateCommand = ReactiveCommand.Create<string>(target => 
