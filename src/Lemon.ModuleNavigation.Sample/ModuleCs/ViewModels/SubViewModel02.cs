@@ -5,5 +5,9 @@ namespace Lemon.ModuleNavigation.Sample.ModuleCs.ViewModels
 {
     public class SubViewModel02 : ViewModelBase, IViewModel
     {
+        public SubViewModel02() 
+        {
+            
+        }
     }
 }

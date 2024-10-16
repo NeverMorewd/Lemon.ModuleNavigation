@@ -1,4 +1,5 @@
-﻿using Lemon.ModuleNavigation.Avaloniaui;
+﻿using Lemon.ModuleNavigation.AdvancedDI;
+using Lemon.ModuleNavigation.Avaloniaui;
 using Lemon.ModuleNavigation.Sample.ModuleCs.ViewModels;
 using Lemon.ModuleNavigation.Sample.ModuleCs.Views;
 using System;
@@ -9,6 +10,7 @@ namespace Lemon.ModuleNavigation.Sample.ModuleCs.SubModules
     {
         public SubModule02(IServiceProvider serviceProvider) : base(serviceProvider)
         {
+
         }
 
         public override bool LoadOnDemand => false;
