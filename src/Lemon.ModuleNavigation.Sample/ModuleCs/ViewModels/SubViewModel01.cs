@@ -1,6 +1,5 @@
 ﻿using Lemon.ModuleNavigation.Abstracts;
 using Lemon.ModuleNavigation.Sample.ViewModels;
-using Microsoft.Extensions.DependencyInjection;
 using System;
 
 namespace Lemon.ModuleNavigation.Sample.ModuleCs.ViewModels
@@ -9,7 +8,8 @@ namespace Lemon.ModuleNavigation.Sample.ModuleCs.ViewModels
     {
         public SubViewModel01(IServiceProvider serviceProvider)
         {
-            var navigationContext = serviceProvider.GetRequiredService<NavigationContext>();
+            // this code will raise stackoverflow
+            //var navigationContext = serviceProvider.GetRequiredService<NavigationContext>();
         }
     }
 }

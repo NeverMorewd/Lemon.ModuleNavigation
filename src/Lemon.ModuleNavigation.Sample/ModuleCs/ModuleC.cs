@@ -8,20 +8,19 @@ using System.Diagnostics;
 
 namespace Lemon.ModuleNavigation.Sample.ModuleCs
 {
-    public class ModuleC : AvaModule<ViewC, ViewModelC>
+    public class ModuleC : AvaModule<ViewC, ViewModelC>, ISelfHostModule
     {
         private readonly IServiceProvider _subServiceProvider;
         public ModuleC(IServiceProvider serviceProvider) : base(serviceProvider)
         {
-            ModuleServices = new ServiceCollection();
-            ModuleServices.AddModule<SubModule01>();
-            ModuleServices.AddModule<SubModule02>();
-            ModuleServices.AddNavigationContext();
-            //_advancedSp = ModuleServices.BuildAdvancedServiceProvider();
+            SelfServiceCollection = new ServiceCollection();
+            SelfServiceCollection.AddModule<SubModule01>();
+            SelfServiceCollection.AddModule<SubModule02>();
+            SelfServiceCollection.AddNavigationContext();
 
-            _subServiceProvider = ModuleServices.BuildServiceProvider();
+            _subServiceProvider = SelfServiceCollection.BuildServiceProvider();
         }
-        public IServiceCollection ModuleServices
+        public IServiceCollection SelfServiceCollection
         {
             get;
         }

@@ -1,4 +1,5 @@
 ﻿using Lemon.ModuleNavigation.Abstracts;
+using Lemon.ModuleNavigation.AdvancedDI;
 using Microsoft.Extensions.DependencyInjection;
 using System.Diagnostics.CodeAnalysis;
 
@@ -21,9 +22,27 @@ namespace Lemon.ModuleNavigation
                 .AddKeyedTransient(typeof(TModule).Name, (sp, key) =>
                 {
                     var module = sp.GetRequiredService<TModule>();
-                    var viewModel = ActivatorUtilities.CreateInstance(sp, module.ViewModelType);
-                    return (viewModel as IViewModel)!;
-                });
+                    var asp = sp.GetKeyedService<IAdvancedServiceProvider>(typeof(TModule).Name);
+                    if (asp == null)
+                    {
+                        var viewModel = ActivatorUtilities.CreateInstance(sp, module.ViewModelType);
+                        return (viewModel as IViewModel)!;
+                    }
+                    else
+                    {
+                        var viewModel = ActivatorUtilities.CreateInstance(sp, module.ViewModelType, asp);
+                        return (viewModel as IViewModel)!;
+                    }
+                })
+                .AddKeyedTransient(typeof(TModule).Name, (sp, key) =>
+                 {
+                     var module = sp.GetRequiredService<TModule>();
+                     if (module is ISelfHostModule selfHostModule)
+                     {
+                         return new AdvancedServiceProvider(selfHostModule.SelfServiceCollection) as IAdvancedServiceProvider;
+                     }
+                     return default!;
+                 });
             return serviceDescriptors;
         }
 
