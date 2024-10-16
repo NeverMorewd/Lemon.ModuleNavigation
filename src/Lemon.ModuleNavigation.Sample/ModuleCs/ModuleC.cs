@@ -10,7 +10,7 @@ namespace Lemon.ModuleNavigation.Sample.ModuleCs
 {
     public class ModuleC : AvaModule<ViewC, ViewModelC>
     {
-        private readonly IServiceProvider _advancedSp;
+        private readonly IServiceProvider _subServiceProvider;
         public ModuleC(IServiceProvider serviceProvider) : base(serviceProvider)
         {
             ModuleServices = new ServiceCollection();
@@ -19,7 +19,7 @@ namespace Lemon.ModuleNavigation.Sample.ModuleCs
             ModuleServices.AddNavigationContext();
             //_advancedSp = ModuleServices.BuildAdvancedServiceProvider();
 
-            _advancedSp = ModuleServices.BuildServiceProvider();
+            _subServiceProvider = ModuleServices.BuildServiceProvider();
         }
         public IServiceCollection ModuleServices
         {
@@ -32,11 +32,10 @@ namespace Lemon.ModuleNavigation.Sample.ModuleCs
         {
             base.Initialize();
             Console.WriteLine($"Initialize:{nameof(ModuleC)}");
-            var subModules = _advancedSp.GetRequiredService<IEnumerable<IModule>>();
+            var subModules = _subServiceProvider.GetRequiredService<IEnumerable<IModule>>();
             foreach (var subModule in subModules) 
             {
                 Debug.WriteLine(subModule.Key);
-                subModule.Initialize();
             }
         }
     }
