@@ -2,10 +2,10 @@
 
 namespace Lemon.ModuleNavigation
 {
-    public class AppServiceProvider : IAppServiceProvider
+    public class ServiceProviderDecorator : IServiceProviderDecorator
     {
         private readonly IServiceProvider _serviceProvider;
-        public AppServiceProvider(IServiceProvider serviceProvider)
+        public ServiceProviderDecorator(IServiceProvider serviceProvider)
         {
             _serviceProvider = serviceProvider;
         }

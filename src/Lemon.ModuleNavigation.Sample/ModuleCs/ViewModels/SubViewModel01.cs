@@ -9,7 +9,7 @@ namespace Lemon.ModuleNavigation.Sample.ModuleCs.ViewModels
     public class SubViewModel01 : SampleViewModelBase, IViewModel
     {
         private readonly ILogger _logger;
-        public SubViewModel01(IServiceProvider serviceProvider, IAppServiceProvider appServiceProvider)
+        public SubViewModel01(IServiceProvider serviceProvider, IServiceProviderDecorator appServiceProvider)
         {
             _logger = appServiceProvider.GetRequiredService<ILogger<SubViewModel01>>();
             _logger.LogDebug("SubViewModel01");

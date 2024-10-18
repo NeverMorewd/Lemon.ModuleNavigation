@@ -66,7 +66,7 @@ namespace Lemon.ModuleNavigation
         public static IServiceCollection AddAppServiceProvider(this IServiceCollection serviceDescriptors,
             IServiceProvider serviceProvider)
         {
-            return serviceDescriptors.AddSingleton<IAppServiceProvider>(_ => new AppServiceProvider(serviceProvider));
+            return serviceDescriptors.AddSingleton<IServiceProviderDecorator>(_ => new ServiceProviderDecorator(serviceProvider));
         }
     }
 }
