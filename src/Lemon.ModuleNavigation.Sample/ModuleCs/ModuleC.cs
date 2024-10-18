@@ -24,6 +24,7 @@ namespace Lemon.ModuleNavigation.Sample.ModuleCs
             ScopeServiceCollection.AddNavigationSupport();
 
             _subServiceProvider = ScopeServiceCollection.BuildServiceProvider();
+            ScopeServiceProvider = _subServiceProvider;
         }
         public IServiceCollection ScopeServiceCollection
         {
@@ -32,7 +33,12 @@ namespace Lemon.ModuleNavigation.Sample.ModuleCs
         public override bool LoadOnDemand => true;
         public override bool AllowMultiple => true;
         public override string? Alias => $"{base.Alias}:{nameof(AllowMultiple)}";
-        public IServiceProvider ScopeServiceProvider => _subServiceProvider;
+
+        public IServiceProvider ScopeServiceProvider
+        {
+            get;
+            set;
+        }
 
         public override void Initialize()
         {
