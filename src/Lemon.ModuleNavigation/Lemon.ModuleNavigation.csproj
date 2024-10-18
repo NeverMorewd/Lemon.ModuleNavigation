@@ -2,7 +2,7 @@
 	<Import Project="../Package.props" />
 
 	<PropertyGroup>
-    <TargetFrameworks>net8.0;.net6.0</TargetFrameworks>
+    <TargetFrameworks>net8.0;net6.0</TargetFrameworks>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
 	<LangVersion>latest</LangVersion>
@@ -11,6 +11,10 @@
 	<PackageIcon>lemon-100.png</PackageIcon>
 	<Description>A lightweight module navigation framework built on top of the Microsoft Dependency Injection (MSDI) for AvaloniaUI,WPF and Xaml-platform else. Support nativeAot</Description>
   </PropertyGroup>
+
+	<ItemGroup>
+	  <Compile Remove="ScopeModule.cs" />
+	</ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="8.0.0" />

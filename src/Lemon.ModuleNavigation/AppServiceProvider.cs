@@ -17,8 +17,7 @@ namespace Lemon.ModuleNavigation
 
         private object? GetServiceInternal(Type serviceType)
         {
-            var service = _serviceProvider.GetService(serviceType);
-            return service;
+            return _serviceProvider.GetService(serviceType);
         }
     }
 }

@@ -10,13 +10,13 @@ namespace Lemon.ModuleNavigation.Sample.ModuleCs
     public class ViewModelC : SampleViewModelBase, IViewModel, INavigationContextProvider
     {
         private readonly INavigationService<IModule> _navigationService;
-        private readonly IServiceProvider _selfServiceProvider;
+        private readonly IServiceProvider _moduleServiceProvider;
         public ViewModelC(INavigationService<IModule> navigationService, 
-            IModuleServiceProvider advancedServiceProvider) 
+            IModuleServiceProvider moduleServiceProvider) 
         {
             _navigationService = navigationService;
-            _selfServiceProvider = advancedServiceProvider;
-            NavigationContext = _selfServiceProvider.GetRequiredService<NavigationContext>();
+            _moduleServiceProvider = moduleServiceProvider;
+            NavigationContext = _moduleServiceProvider.GetRequiredService<NavigationContext>();
             NavigateCommand = ReactiveCommand.Create<string>(target => 
             {
                 _navigationService.NavigateTo(target);

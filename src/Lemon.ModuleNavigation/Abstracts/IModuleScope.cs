@@ -5,6 +5,6 @@ namespace Lemon.ModuleNavigation.Abstracts
     public interface IModuleScope
     {
         IServiceCollection ScopeServiceCollection { get; }
-        IServiceProvider? ScopeServiceProvider { get; set; }
+        IServiceProvider ScopeServiceProvider { get; }
     }
 }

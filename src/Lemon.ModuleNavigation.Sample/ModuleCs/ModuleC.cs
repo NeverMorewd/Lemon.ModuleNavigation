@@ -17,8 +17,9 @@ namespace Lemon.ModuleNavigation.Sample.ModuleCs
         public ModuleC(IServiceProvider serviceProvider, ILogger<ModuleC> logger) : base(serviceProvider)
         {
             _logger = logger;
+
             ScopeServiceCollection = new ServiceCollection();
-            ScopeServiceCollection.AddSingleton<IAppServiceProvider>(_ => new AppServiceProvider(serviceProvider));
+            ScopeServiceCollection.AddAppServiceProvider(serviceProvider);
             ScopeServiceCollection.AddModule<SubModule01>();
             ScopeServiceCollection.AddModule<SubModule02>();
             ScopeServiceCollection.AddNavigationSupport();
@@ -30,15 +31,13 @@ namespace Lemon.ModuleNavigation.Sample.ModuleCs
         {
             get;
         }
-        public override bool LoadOnDemand => true;
-        public override bool AllowMultiple => true;
-        public override string? Alias => $"{base.Alias}:{nameof(AllowMultiple)}";
-
         public IServiceProvider ScopeServiceProvider
         {
             get;
-            set;
         }
+        public override bool LoadOnDemand => true;
+        public override bool AllowMultiple => true;
+        public override string? Alias => $"{base.Alias}:{nameof(AllowMultiple)}";
 
         public override void Initialize()
         {

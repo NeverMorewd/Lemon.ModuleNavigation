@@ -1,9 +1,8 @@
 ﻿using Lemon.ModuleNavigation.Abstracts;
 
-namespace Lemon.ModuleNavigation
+namespace Lemon.ModuleNavigation.Internals
 {
-
-    public class ModuleServiceProvider : IModuleServiceProvider
+    internal sealed class ModuleServiceProvider : IModuleServiceProvider
     {
         private readonly IServiceProvider _serviceProvider;
         public ModuleServiceProvider(IServiceProvider serviceProvider)
@@ -18,8 +17,7 @@ namespace Lemon.ModuleNavigation
 
         private object? GetServiceInternal(Type serviceType)
         {
-            var service = _serviceProvider.GetService(serviceType);
-            return service;
+            return _serviceProvider.GetService(serviceType);
         }
     }
 }
