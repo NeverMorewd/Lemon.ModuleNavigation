@@ -22,6 +22,10 @@ namespace Lemon.ModuleNavigation.Avaloniaui.Containers
 
             ContentTemplate = new FuncDataTemplate<IModule>((m, np) =>
             {
+                if (m == null)
+                {
+                    return null;
+                }
                 return NavigationContext.CreateNewView(m) as Control;
             });
 

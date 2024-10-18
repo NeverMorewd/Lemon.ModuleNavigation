@@ -22,10 +22,7 @@
         {
             get;
         }
-        /// <summary>
-        /// does not support!
-        /// </summary>
-        public bool AllowMultiple
+        public bool ForceNew
         {
             get;
         }

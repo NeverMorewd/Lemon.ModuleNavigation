@@ -4,25 +4,23 @@ using ReactiveUI;
 using System;
 using System.Reactive;
 
-namespace Lemon.ModuleNavigation.Sample.ModuleCs
+namespace Lemon.ModuleNavigation.Sample.ModuleBs
 {
-    public class ViewModelC : ViewModelBase, IViewModel
+    public class ViewModelB : SampleViewModelBase, IViewModel
     {
         private readonly NavigationService _navigationService;
-        public ViewModelC(NavigationService navigationService) 
+        public ViewModelB(NavigationService navigationService)
         {
             _navigationService = navigationService;
-            NavigateCommand = ReactiveCommand.Create<string>(target => 
+            NavigateCommand = ReactiveCommand.Create<string>(target =>
             {
                 _navigationService.NavigateTo(target);
             });
         }
-
-        public override string Greeting => $"{base.Greeting}:{Environment.NewLine}{DateTime.Now}";
-
         public ReactiveCommand<string, Unit> NavigateCommand
         {
             get;
         }
+        public override string Greeting => $"{base.Greeting}:{Environment.NewLine}{DateTime.Now}";
     }
 }

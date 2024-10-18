@@ -7,7 +7,7 @@ namespace Lemon.ModuleNavigation.Sample.DesignDatas
     public static class DesignData
     {
         public static MainViewModel MainWindowViewModel { get; } =
-            ((AppWithDI)Application.Current!).AppServiceProvider!.GetRequiredService<MainViewModel>();
+            ((AppWithDi)Application.Current!).AppServiceProvider!.GetRequiredService<MainViewModel>();
     }
 
 }

@@ -4,12 +4,12 @@ using ReactiveUI;
 using System;
 using System.Reactive;
 
-namespace Lemon.ModuleNavigation.Sample.ModuleBs
+namespace Lemon.ModuleNavigation.Sample.ModuleAs
 {
-    public class ViewModelB : ViewModelBase, IViewModel
+    public class ViewModelA : SampleViewModelBase, IViewModel
     {
         private readonly NavigationService _navigationService;
-        public ViewModelB(NavigationService navigationService)
+        public ViewModelA(NavigationService navigationService)
         {
             _navigationService = navigationService;
             NavigateCommand = ReactiveCommand.Create<string>(target =>
@@ -21,6 +21,6 @@ namespace Lemon.ModuleNavigation.Sample.ModuleBs
         {
             get;
         }
-        public override string Greeting => $"{base.Greeting}:{Environment.NewLine}{DateTime.Now}";
+        public override string Greeting => $"{base.Greeting}:Load immediately{Environment.NewLine}{DateTime.Now}";
     }
 }

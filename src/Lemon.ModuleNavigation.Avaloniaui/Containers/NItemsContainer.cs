@@ -21,6 +21,10 @@ namespace Lemon.ModuleNavigation.Avaloniaui.Containers
 
             ItemTemplate = new FuncDataTemplate<IModule>((m, np) =>
             {
+                if (m == null)
+                {
+                    return null;
+                }
                 return NavigationContext.CreateNewView(m) as Control;
             });
             _disposable = this.GetObservable(ActiveItemProperty).Subscribe(this);

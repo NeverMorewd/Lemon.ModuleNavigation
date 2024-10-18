@@ -7,12 +7,13 @@ using Lemon.ModuleNavigation.Sample.ModuleCs;
 using Lemon.ModuleNavigation.Sample.ViewModels;
 using Lemon.ModuleNavigation.Sample.Views;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Runtime.Versioning;
 
-namespace Lemon.ModuleNavigation.Sample.Desktop;
+namespace Lemon.ModuleNavigation.Sample.DesktopHosting;
 
-class Program
+internal static class Program
 {
     [STAThread]
     [SupportedOSPlatform("windows")]
@@ -23,7 +24,10 @@ class Program
         var hostBuilder = Host.CreateApplicationBuilder();
 
         // module navigation
-        hostBuilder.Services.AddNavigationContext();
+        hostBuilder.Services.AddNavigationSupport();
+        hostBuilder.Logging.ClearProviders();
+        hostBuilder.Logging.AddConsole();
+        hostBuilder.Logging.SetMinimumLevel(LogLevel.Debug);
         // modules
         hostBuilder.Services.AddModule<ModuleA>();
         hostBuilder.Services.AddModule<ModuleB>();
@@ -36,7 +40,7 @@ class Program
     }
 
     // Avalonia configuration, don't remove; also used by visual designer.
-    public static AppBuilder BuildAvaloniaApp(AppBuilder appBuilder)
+    private static AppBuilder BuildAvaloniaApp(AppBuilder appBuilder)
     {
         return appBuilder
             .UsePlatformDetect()
