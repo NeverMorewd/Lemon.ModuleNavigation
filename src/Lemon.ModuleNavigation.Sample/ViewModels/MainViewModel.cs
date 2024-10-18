@@ -7,7 +7,7 @@ namespace Lemon.ModuleNavigation.Sample.ViewModels;
 
 public class MainViewModel : SampleViewModelBase, INavigationContextProvider
 {
-    public readonly NavigationService _navigationService;
+    private readonly NavigationService _navigationService;
     public MainViewModel(NavigationContext navigationContext,
         IEnumerable<IModule> modules,
         NavigationService navigationService)

@@ -11,11 +11,11 @@ namespace Lemon.ModuleNavigation
     {
         public ScopeModule(IServiceProvider serviceProvider) : base(serviceProvider)
         {
-
+            ScopeServiceCollection = new ServiceCollection();
         }
         public void MapSerivce<T>() where T : class
         {
-            var service = _serviceProvider.GetService<T>();
+            var service = ServiceProvider.GetService<T>();
             if (service != null)
             {
                 ScopeServiceCollection.AddSingleton<T>(service);
@@ -25,9 +25,10 @@ namespace Lemon.ModuleNavigation
         {
             get;
         }
-        public IServiceProvider ScopeServiceProvider
+        public IServiceProvider? ScopeServiceProvider
         {
             get;
+            set;
         }
     }
 }

@@ -25,8 +25,8 @@ public abstract class AvaModule<[DynamicallyAccessedMembers(DynamicallyAccessedM
         {
             if (_viewForDataTemplate == null)
             {
-                _viewForDataTemplate = _serviceProvider.GetRequiredKeyedService<IView>(Key);
-                var viewModel = _serviceProvider.GetRequiredKeyedService<IViewModel>(Key);
+                _viewForDataTemplate = ServiceProvider.GetRequiredKeyedService<IView>(Key);
+                var viewModel = ServiceProvider.GetRequiredKeyedService<IViewModel>(Key);
                 _viewForDataTemplate.SetDataContext(viewModel);
             }
             return _viewForDataTemplate as Control;

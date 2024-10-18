@@ -11,17 +11,9 @@ using System;
 
 namespace Lemon.ModuleNavigation.Sample;
 
-public partial class AppWithDI : Application
+public partial class AppWithDi : Application
 {
-    private IServiceProvider? _serviceProvider;
-
-    public IServiceProvider? AppServiceProvider
-    {
-        get
-        {
-            return _serviceProvider;
-        }
-    }
+    public IServiceProvider? AppServiceProvider { get; private set; }
 
     public override void Initialize()
     {
@@ -31,6 +23,7 @@ public partial class AppWithDI : Application
     public override void OnFrameworkInitializationCompleted()
     {
         var services = new ServiceCollection();
+        services.AddLogging();
         services.AddNavigationSupport()
                 .AddModule<ModuleA>()
                 .AddModule<ModuleB>()
@@ -38,19 +31,19 @@ public partial class AppWithDI : Application
                 .AddSingleton<MainWindow>()
                 .AddSingleton<MainView>()
                 .AddSingleton<MainViewModel>();
-        _serviceProvider = services.BuildServiceProvider();
+        AppServiceProvider = services.BuildServiceProvider();
 
-        var viewModel = _serviceProvider.GetRequiredService<MainViewModel>();
+        var viewModel = AppServiceProvider.GetRequiredService<MainViewModel>();
 
         switch (ApplicationLifetime)
         {
             case IClassicDesktopStyleApplicationLifetime desktop:
-                var window = _serviceProvider.GetRequiredService<MainWindow>();
+                var window = AppServiceProvider.GetRequiredService<MainWindow>();
                 window.DataContext = viewModel;
                 desktop.MainWindow = window;
                 break;
             case ISingleViewApplicationLifetime singleView:
-                var view = _serviceProvider.GetRequiredService<MainView>();
+                var view = AppServiceProvider.GetRequiredService<MainView>();
                 view.DataContext = viewModel;
                 singleView.MainView = view;
                 break;
