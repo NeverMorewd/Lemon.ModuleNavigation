@@ -96,7 +96,7 @@ namespace Lemon.ModuleNavigation
         }
         private void OnNavigateToCore(IModule module)
         {
-            if (module.AllowMultiple)
+            if (module.ForceNew)
             {
                 module = _serviceProvider.GetKeyedService<IModule>(module.Key)!;
                 ActiveModules.Add(module);

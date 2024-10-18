@@ -27,7 +27,7 @@ namespace Lemon.ModuleNavigation.Sample.ModuleAs
         /// If true,every navigation to this module will generate a new instance.
         /// Default value is false.
         /// </summary>
-        public override bool AllowMultiple => base.AllowMultiple;
+        public override bool ForceNew => base.ForceNew;
 
         /// <summary>
         /// Specifies whether this module can be unloaded.

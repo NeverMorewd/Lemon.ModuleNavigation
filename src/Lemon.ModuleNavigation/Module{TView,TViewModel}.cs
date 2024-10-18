@@ -51,7 +51,7 @@ namespace Lemon.ModuleNavigation
             get;
             set;
         } = false;
-        public virtual bool AllowMultiple => false;
+        public virtual bool ForceNew => false;
         public virtual bool CanUnload => true;
         public virtual string? Alias => Key;
     }
