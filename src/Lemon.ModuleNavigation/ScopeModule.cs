@@ -15,7 +15,7 @@ namespace Lemon.ModuleNavigation
         }
         public void MapSerivce<T>() where T : class
         {
-            var service = _serviceProvider.GetService<T>();
+            var service = ServiceProvider.GetService<T>();
             if (service != null)
             {
                 ScopeServiceCollection.AddSingleton<T>(service);

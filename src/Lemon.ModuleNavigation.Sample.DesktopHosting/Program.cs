@@ -11,9 +11,9 @@ using Microsoft.Extensions.Logging;
 using System;
 using System.Runtime.Versioning;
 
-namespace Lemon.ModuleNavigation.Sample.Desktop;
+namespace Lemon.ModuleNavigation.Sample.DesktopHosting;
 
-class Program
+internal static class Program
 {
     [STAThread]
     [SupportedOSPlatform("windows")]
@@ -40,7 +40,7 @@ class Program
     }
 
     // Avalonia configuration, don't remove; also used by visual designer.
-    public static AppBuilder BuildAvaloniaApp(AppBuilder appBuilder)
+    private static AppBuilder BuildAvaloniaApp(AppBuilder appBuilder)
     {
         return appBuilder
             .UsePlatformDetect()
