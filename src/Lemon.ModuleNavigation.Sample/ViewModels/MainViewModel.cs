@@ -8,7 +8,7 @@ namespace Lemon.ModuleNavigation.Sample.ViewModels;
 public class MainViewModel : SampleViewModelBase, INavigationContextProvider
 {
     private readonly NavigationService _navigationService;
-    public MainViewModel(NavigationContext navigationContext,
+    public MainViewModel(INavigationContext navigationContext,
         IEnumerable<IModule> modules,
         NavigationService navigationService)
     {
@@ -35,7 +35,7 @@ public class MainViewModel : SampleViewModelBase, INavigationContextProvider
             _navigationService.NavigateTo(_selectedModule!);
         }
     }
-    public NavigationContext NavigationContext
+    public INavigationContext NavigationContext
     {
         get;
     }

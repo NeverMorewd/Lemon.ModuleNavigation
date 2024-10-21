@@ -3,6 +3,7 @@ using Lemon.ModuleNavigation.Internals;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Diagnostics.CodeAnalysis;
+using System.Reflection;
 
 namespace Lemon.ModuleNavigation
 {
@@ -60,13 +61,45 @@ namespace Lemon.ModuleNavigation
                 .AddModulesBuilder()
                 .AddSingleton<NavigationService>()
                 .AddSingleton<INavigationService<IModule>>(sp => sp.GetRequiredService<NavigationService>())
-                .AddSingleton<NavigationContext>();
+                .AddSingleton<INavigationContext,NavigationContext>();
         }
 
         public static IServiceCollection AddAppServiceProvider(this IServiceCollection serviceDescriptors,
             IServiceProvider serviceProvider)
         {
             return serviceDescriptors.AddSingleton<IServiceProviderDecorator>(_ => new ServiceProviderDecorator(serviceProvider));
+        }
+
+        public static IServiceCollection RegisterView<TView, TViewModel>(this IServiceCollection serviceDescriptors, 
+            string containerName) 
+            where TView : class, IView 
+            where TViewModel : class, IViewModel
+        {
+            return
+            serviceDescriptors
+                .AddTransient<TViewModel>()
+                .AddKeyedTransient<TView>(containerName, (sp, key) =>
+                {
+                    var viewModel = sp.GetRequiredService<TViewModel>();
+                    var view = ActivatorUtilities.CreateInstance<TView>(sp);
+                    view.SetDataContext(viewModel);
+                    return view;
+                });
+        }
+        public static IServiceCollection RegisterView<TView>(this IServiceCollection serviceDescriptors, 
+            string containerName, 
+            Func<IServiceProvider, IViewModel> viewModelBuilder) 
+            where TView : class, IView
+        {
+            return
+            serviceDescriptors
+                .AddKeyedTransient<TView>(containerName, (sp, key) =>
+                {
+                    var viewModel = viewModelBuilder.Invoke(sp);
+                    var view = ActivatorUtilities.CreateInstance<TView>(sp);
+                    view.SetDataContext(viewModel);
+                    return view;
+                });
         }
     }
 }
