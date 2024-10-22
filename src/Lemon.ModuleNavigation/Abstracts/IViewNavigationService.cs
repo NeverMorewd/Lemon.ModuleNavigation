@@ -3,6 +3,6 @@
     public interface IViewNavigationService
     {
         void NavigateToView(string viewKey);
-        void NavigateToView<TView>();
+        void NavigateToView<TView>() where TView : IView;
     }
 }
