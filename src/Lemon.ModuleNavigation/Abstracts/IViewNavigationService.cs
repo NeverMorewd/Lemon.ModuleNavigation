@@ -2,7 +2,8 @@
 {
     public interface IViewNavigationService
     {
-        void NavigateToView(string viewKey);
-        void NavigateToView<TView>() where TView : IView;
+        IDisposable BindingViewNavigationHandler(IViewNavigationHandler handler);
+        void NavigateToView(string containerKey, string viewKey);
+        void NavigateToView<TView>(string containerKey) where TView : IView;
     }
 }

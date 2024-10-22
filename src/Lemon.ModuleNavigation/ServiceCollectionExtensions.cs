@@ -61,7 +61,7 @@ namespace Lemon.ModuleNavigation
                 .AddModulesBuilder()
                 .AddSingleton<NavigationService>()
                 .AddSingleton<INavigationService<IModule>>(sp => sp.GetRequiredService<NavigationService>())
-                .AddSingleton<INavigationContext,NavigationContext>();
+                .AddSingleton<INavigationContext, NavigationContext>();
         }
 
         public static IServiceCollection AddAppServiceProvider(this IServiceCollection serviceDescriptors,
@@ -70,15 +70,14 @@ namespace Lemon.ModuleNavigation
             return serviceDescriptors.AddSingleton<IServiceProviderDecorator>(_ => new ServiceProviderDecorator(serviceProvider));
         }
 
-        public static IServiceCollection RegisterView<TView, TViewModel>(this IServiceCollection serviceDescriptors, 
-            string containerName) 
+        public static IServiceCollection RegisterView<TView, TViewModel>(this IServiceCollection serviceDescriptors) 
             where TView : class, IView 
             where TViewModel : class, IViewModel
         {
             return
             serviceDescriptors
                 .AddTransient<TViewModel>()
-                .AddKeyedTransient<TView>(containerName, (sp, key) =>
+                .AddKeyedTransient<IView>(typeof(IView).FullName, (sp, key) =>
                 {
                     var viewModel = sp.GetRequiredService<TViewModel>();
                     var view = ActivatorUtilities.CreateInstance<TView>(sp);
@@ -86,14 +85,13 @@ namespace Lemon.ModuleNavigation
                     return view;
                 });
         }
-        public static IServiceCollection RegisterView<TView>(this IServiceCollection serviceDescriptors, 
-            string containerName, 
+        public static IServiceCollection RegisterView<TView>(this IServiceCollection serviceDescriptors,
             Func<IServiceProvider, IViewModel> viewModelBuilder) 
             where TView : class, IView
         {
             return
             serviceDescriptors
-                .AddKeyedTransient<TView>(containerName, (sp, key) =>
+                .AddKeyedTransient<IView>(typeof(IView).FullName, (sp, key) =>
                 {
                     var viewModel = viewModelBuilder.Invoke(sp);
                     var view = ActivatorUtilities.CreateInstance<TView>(sp);
