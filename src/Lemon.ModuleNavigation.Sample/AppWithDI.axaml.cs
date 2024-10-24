@@ -1,6 +1,7 @@
 using Avalonia;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Markup.Xaml;
+using Lemon.ModuleNavigation.Avaloniaui;
 using Lemon.ModuleNavigation.Sample.ModuleAs;
 using Lemon.ModuleNavigation.Sample.ModuleBs;
 using Lemon.ModuleNavigation.Sample.ModuleCs;
@@ -24,13 +25,15 @@ public partial class AppWithDi : Application
     {
         var services = new ServiceCollection();
         services.AddLogging();
-        services.AddNavigationSupport()
+        services.AddAvaNavigationSupport()
                 .AddModule<ModuleA>()
                 .AddModule<ModuleB>()
                 .AddModule<ModuleC>()
                 .AddSingleton<MainWindow>()
                 .AddSingleton<MainView>()
-                .AddSingleton<MainViewModel>();
+                .AddSingleton<MainViewModel>()
+                .RegisterView<ViewAlpha,ViewAlphaViewModel>()
+                .RegisterView<ViewBeta,ViewBetaViewModel>();
         AppServiceProvider = services.BuildServiceProvider();
 
         var viewModel = AppServiceProvider.GetRequiredService<MainViewModel>();
