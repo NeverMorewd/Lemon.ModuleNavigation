@@ -7,13 +7,15 @@ using System.Runtime.CompilerServices;
 
 namespace Lemon.ModuleNavigation
 {
-    public class NavigationContext : INavigationHandler<IModule>, IDisposable, INotifyPropertyChanged
+    public class NavigationContext : INavigationContext, IDisposable, INotifyPropertyChanged
     {
         private readonly INavigationService<IModule> _navigationService;
         private readonly IDisposable _navigationCleanup;
+        private readonly IDisposable _viewNavigationCleanup;
         private readonly IServiceProvider _serviceProvider;
         private readonly ConcurrentDictionary<string, IModule> _modulesCache;
         public NavigationContext(INavigationService<IModule> navigationService,
+            IViewNavigationService viewNavigationService,
             IEnumerable<IModule> modules,
             IServiceProvider serviceProvider) 
         {
@@ -33,7 +35,8 @@ namespace Lemon.ModuleNavigation
                         m.Value.Initialize();
                         return m.Value;
                     }));
-            _navigationCleanup = _navigationService.OnNavigation(this);
+            _navigationCleanup = _navigationService.BindingNavigationHandler(this);
+            _viewNavigationCleanup = viewNavigationService.BindingViewNavigationHandler(this);
         }
 
         public ObservableCollection<IModule> ActiveModules
@@ -46,9 +49,9 @@ namespace Lemon.ModuleNavigation
             get;
             set;
         }
+        public IServiceProvider ServiceProvider => _serviceProvider;
 
         private IModule? _currentModule;
-
         public IModule? CurrentModule
         {
             get => _currentModule;
@@ -61,7 +64,6 @@ namespace Lemon.ModuleNavigation
                 }
             }
         }
-
         public event PropertyChangedEventHandler? PropertyChanged;
 
         public void OnNavigateTo(IModule module)
@@ -94,6 +96,14 @@ namespace Lemon.ModuleNavigation
         {
             return _serviceProvider.GetRequiredKeyedService<IViewModel>(module.Key);
         }
+
+        public virtual void OnNavigateTo(string containerName, 
+            string viewName, 
+            bool requestNew = false)
+        {
+            
+        }
+
         private void OnNavigateToCore(IModule module)
         {
             if (module.ForceNew)
@@ -122,6 +132,7 @@ namespace Lemon.ModuleNavigation
         public void Dispose()
         {
             _navigationCleanup?.Dispose();
+            _viewNavigationCleanup?.Dispose();
         }
     }
 }

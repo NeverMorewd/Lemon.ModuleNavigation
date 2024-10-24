@@ -1,28 +1,71 @@
-﻿using Lemon.ModuleNavigation.Abstracts;
+﻿using Avalonia.Controls;
+using Lemon.ModuleNavigation.Abstracts;
+using Lemon.ModuleNavigation.Avaloniaui;
+using Lemon.ModuleNavigation.Sample.Views;
+using Microsoft.Extensions.DependencyInjection;
 using ReactiveUI;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
+using System.Reactive;
 
 namespace Lemon.ModuleNavigation.Sample.ViewModels;
 
 public class MainViewModel : SampleViewModelBase, INavigationContextProvider
 {
     private readonly NavigationService _navigationService;
-    public MainViewModel(NavigationContext navigationContext,
+    private readonly IServiceProvider _serviceProvider;
+    public MainViewModel(AvaNavigationContext navigationContext,
         IEnumerable<IModule> modules,
+        IServiceProvider serviceProvider,
         NavigationService navigationService)
     {
         _navigationService = navigationService;
+        _serviceProvider = serviceProvider;
         NavigationContext = navigationContext;
         Modules = new ObservableCollection<IModule>(modules);
+        ToViewCommand = ReactiveCommand.Create<string>(content => 
+        {
+            var viewName = content;
+            var requestNew = false;
+            if (content.EndsWith(".RequestNew"))
+            {
+                viewName = content.Replace(".RequestNew",string.Empty);
+                requestNew = true;
+
+            }
+            _navigationService.NavigateToView("NContentContainer", viewName, requestNew);
+            _navigationService.NavigateToView("NTabContainer", viewName, requestNew);
+            _navigationService.NavigateToView("NItemsContainer", viewName, requestNew);
+            _navigationService.NavigateToView("NTransitioningContentControl", viewName, requestNew);
+        });
     }
-    /// <summary>
-    /// For binding
-    /// </summary>
+    public ReactiveCommand<string, Unit> ToViewCommand
+    {
+        get;
+        set;
+    }
     public ObservableCollection<IModule> Modules
     {
         get;
         set;
+    }
+    private UserControl? _selectedView;
+    public UserControl? SelectedView
+    {
+        get => _selectedView;
+        set
+        {
+            this.RaiseAndSetIfChanged(ref _selectedView, value);
+            if (_selectedView != null)
+            {
+                var viewName = _selectedView.GetType().Name;
+                _navigationService.NavigateToView("NContentContainer", viewName);
+                _navigationService.NavigateToView("NTabContainer", viewName);
+                _navigationService.NavigateToView("NItemsContainer", viewName);
+            }
+        }
     }
 
     private IModule? _selectedModule;
@@ -35,7 +78,7 @@ public class MainViewModel : SampleViewModelBase, INavigationContextProvider
             _navigationService.NavigateTo(_selectedModule!);
         }
     }
-    public NavigationContext NavigationContext
+    public INavigationContext NavigationContext
     {
         get;
     }

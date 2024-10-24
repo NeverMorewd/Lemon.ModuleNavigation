@@ -3,6 +3,7 @@ using Lemon.ModuleNavigation.Internals;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Diagnostics.CodeAnalysis;
+using System.Reflection;
 
 namespace Lemon.ModuleNavigation
 {
@@ -60,7 +61,9 @@ namespace Lemon.ModuleNavigation
                 .AddModulesBuilder()
                 .AddSingleton<NavigationService>()
                 .AddSingleton<INavigationService<IModule>>(sp => sp.GetRequiredService<NavigationService>())
-                .AddSingleton<NavigationContext>();
+                .AddSingleton<IViewNavigationService>(sp => sp.GetRequiredService<NavigationService>())
+                .AddSingleton<INavigationContext, NavigationContext>();
+                
         }
 
         public static IServiceCollection AddAppServiceProvider(this IServiceCollection serviceDescriptors,

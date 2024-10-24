@@ -1,4 +1,5 @@
 ﻿using Lemon.ModuleNavigation.Abstracts;
+using Lemon.ModuleNavigation.Avaloniaui;
 using Lemon.ModuleNavigation.Sample.ViewModels;
 using Microsoft.Extensions.DependencyInjection;
 using ReactiveUI;
@@ -16,7 +17,7 @@ namespace Lemon.ModuleNavigation.Sample.ModuleCs
         {
             _navigationService = navigationService;
             _moduleServiceProvider = moduleServiceProvider;
-            NavigationContext = _moduleServiceProvider.GetRequiredService<NavigationContext>();
+            NavigationContext = _moduleServiceProvider.GetRequiredService<AvaNavigationContext>();
             NavigateCommand = ReactiveCommand.Create<string>(target => 
             {
                 _navigationService.NavigateTo(target);
@@ -33,7 +34,7 @@ namespace Lemon.ModuleNavigation.Sample.ModuleCs
         /// <summary>
         /// Sub NavigationContext
         /// </summary>
-        public NavigationContext NavigationContext
+        public INavigationContext NavigationContext
         {
             get;
         }

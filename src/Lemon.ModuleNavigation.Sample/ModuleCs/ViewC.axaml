@@ -18,8 +18,8 @@
             Command="{Binding NavigateCommand}"
             CommandParameter="ModuleB"
             Content="ToModuleB" />
-        <lm:NTabContainer NavigationContext="{Binding NavigationContext}">
-            <lm:NTabContainer.ItemTemplate>
+        <TabControl lm:NavigationExtension.ModuleContainerName="tabcontrol">
+			<TabControl.ItemTemplate>
                 <DataTemplate>
                     <StackPanel Orientation="Horizontal" Spacing="2">
                         <TextBlock Text="{Binding Alias}" />
@@ -29,12 +29,12 @@
                             Padding="-1,0,0,0"
                             HorizontalContentAlignment="Center"
                             VerticalContentAlignment="Center"
-                            lm:NTabContainerBehaviors.CanUnload="{Binding CanUnload}"
+                            lm:NavigationExtension.CanUnload="{Binding CanUnload}"
                             Content="X"
                             FontSize="11" />
                     </StackPanel>
                 </DataTemplate>
-            </lm:NTabContainer.ItemTemplate>
-        </lm:NTabContainer>
+            </TabControl.ItemTemplate>
+        </TabControl>
     </StackPanel>
 </UserControl>

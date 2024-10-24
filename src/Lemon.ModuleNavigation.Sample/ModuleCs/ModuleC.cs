@@ -22,7 +22,7 @@ namespace Lemon.ModuleNavigation.Sample.ModuleCs
             ScopeServiceCollection.AddAppServiceProvider(serviceProvider);
             ScopeServiceCollection.AddModule<SubModule01>();
             ScopeServiceCollection.AddModule<SubModule02>();
-            ScopeServiceCollection.AddNavigationSupport();
+            ScopeServiceCollection.AddAvaNavigationSupport();
 
             _subServiceProvider = ScopeServiceCollection.BuildServiceProvider();
             ScopeServiceProvider = _subServiceProvider;

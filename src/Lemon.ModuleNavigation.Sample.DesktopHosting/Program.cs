@@ -1,6 +1,7 @@
 ﻿using Avalonia;
 using Avalonia.ReactiveUI;
 using Lemon.Hosting.AvaloniauiDesktop;
+using Lemon.ModuleNavigation.Avaloniaui;
 using Lemon.ModuleNavigation.Sample.ModuleAs;
 using Lemon.ModuleNavigation.Sample.ModuleBs;
 using Lemon.ModuleNavigation.Sample.ModuleCs;
@@ -24,7 +25,7 @@ internal static class Program
         var hostBuilder = Host.CreateApplicationBuilder();
 
         // module navigation
-        hostBuilder.Services.AddNavigationSupport();
+        hostBuilder.Services.AddAvaNavigationSupport();
         hostBuilder.Logging.ClearProviders();
         hostBuilder.Logging.AddConsole();
         hostBuilder.Logging.SetMinimumLevel(LogLevel.Debug);
@@ -32,6 +33,9 @@ internal static class Program
         hostBuilder.Services.AddModule<ModuleA>();
         hostBuilder.Services.AddModule<ModuleB>();
         hostBuilder.Services.AddModule<ModuleC>();
+        // views
+        hostBuilder.Services.RegisterView<ViewAlpha, ViewAlphaViewModel>();
+        hostBuilder.Services.RegisterView<ViewBeta, ViewBetaViewModel>();
 
         hostBuilder.Services.AddAvaloniauiDesktopApplication<App>(BuildAvaloniaApp);
         hostBuilder.Services.AddMainWindow<MainWindow, MainViewModel>();

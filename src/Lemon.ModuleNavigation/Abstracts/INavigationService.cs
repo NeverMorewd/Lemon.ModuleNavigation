@@ -2,7 +2,7 @@
 {
     public interface INavigationService
     {
-        IDisposable OnNavigation(INavigationHandler handler);
+        IDisposable BindingNavigationHandler(INavigationHandler handler);
         void NavigateTo(string moduleKey);
     }
 }
