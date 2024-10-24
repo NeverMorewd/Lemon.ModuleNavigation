@@ -31,7 +31,15 @@ Extending `Lemon.ModuleNavigation`, this package provides handy NavigationContai
 - **Simple to Use**.
 
 ---
-![sample-show](https://github.com/user-attachments/assets/58690f91-6939-47d7-84d3-113d04c722a7)
+ModuleNavigation screenshot:
+
+![20241024223837_rec_](https://github.com/user-attachments/assets/50ccc0e0-cf4c-45aa-a596-9ec0d78f2a1f)
+
+ViewNavigation screenshot:
+
+![20241024223936_rec_](https://github.com/user-attachments/assets/f969743d-38b0-4813-87b0-47f1c2239b23)
+
+---
 
 ### Usage:
 #### Create module with View and ViewModel
