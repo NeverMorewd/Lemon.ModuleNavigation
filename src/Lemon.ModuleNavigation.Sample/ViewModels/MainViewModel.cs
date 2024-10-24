@@ -39,6 +39,7 @@ public class MainViewModel : SampleViewModelBase, INavigationContextProvider
             _navigationService.NavigateToView("NContentContainer", viewName, requestNew);
             _navigationService.NavigateToView("NTabContainer", viewName, requestNew);
             _navigationService.NavigateToView("NItemsContainer", viewName, requestNew);
+            _navigationService.NavigateToView("NTransitioningContentControl", viewName, requestNew);
         });
     }
     public ReactiveCommand<string, Unit> ToViewCommand

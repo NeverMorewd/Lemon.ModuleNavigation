@@ -76,7 +76,7 @@
             </Grid>
         </TabItem>
         <TabItem Header="ViewNavigation">
-            <Grid ColumnDefinitions="auto,*,*,*" ShowGridLines="True">
+            <Grid ColumnDefinitions="auto,*,*,*,*" ShowGridLines="True">
                 <StackPanel Orientation="Vertical">
                     <Label Content="Views" />
                     <Button
@@ -97,14 +97,14 @@
                         Content="ViewBeta.RequestNew" />
                 </StackPanel>
                 <StackPanel Grid.Column="1" Classes="ForContainerShow">
-                    <Label Content="NContainer" />
+                    <Label Content="ContentControl" />
                     <Border Classes="HSeparator" />
-                    <ContentControl lm:NavigationExtension.ContainerName="NContentContainer" />
+                    <ContentControl lm:NavigationExtension.ViewContainerName="NContentContainer" />
                 </StackPanel>
                 <StackPanel Grid.Column="2" Classes="ForContainerShow">
-                    <Label Content="NTabContainer" />
+                    <Label Content="TabControl" />
                     <Border Classes="HSeparator" />
-                    <TabControl lm:NavigationExtension.ContainerName="NTabContainer">
+                    <TabControl lm:NavigationExtension.ViewContainerName="NTabContainer">
                         <TabControl.ItemTemplate>
                             <DataTemplate>
                                 <StackPanel Orientation="Horizontal" Spacing="2">
@@ -115,11 +115,16 @@
                     </TabControl>
                 </StackPanel>
                 <StackPanel Grid.Column="3" Classes="ForContainerShow">
-                    <Label Content="NItemsContainer" />
+                    <Label Content="ItemsControl" />
                     <Border Classes="HSeparator" />
                     <ScrollViewer Height="100">
-                        <ItemsControl lm:NavigationExtension.ContainerName="NItemsContainer" />
+                        <ItemsControl lm:NavigationExtension.ViewContainerName="NItemsContainer" />
                     </ScrollViewer>
+                </StackPanel>
+                <StackPanel Grid.Column="4" Classes="ForContainerShow">
+                    <Label Content="TransitioningContentControl" />
+                    <Border Classes="HSeparator" />
+                    <TransitioningContentControl lm:NavigationExtension.ViewContainerName="NTransitioningContentControl" />
                 </StackPanel>
             </Grid>
         </TabItem>

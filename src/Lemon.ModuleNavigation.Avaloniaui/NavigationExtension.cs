@@ -7,18 +7,27 @@ namespace Lemon.ModuleNavigation.Avaloniaui
 {
     public class NavigationExtension
     {
-        private static readonly ConcurrentDictionary<string, Control> _containerNamesCaches = [];
-        #region ContainerNameProperty
-        public static readonly AttachedProperty<string> ContainerNameProperty =
-               AvaloniaProperty.RegisterAttached<NavigationExtension, Control, string>("ContainerName",
+        private static readonly ConcurrentDictionary<string, Control> _viewContainerNamesCaches = [];
+        private static readonly ConcurrentDictionary<string, Control> _moduleContainerNamesCaches = [];
+        #region ViewContainerNameProperty
+        public static readonly AttachedProperty<string> ViewContainerNameProperty =
+               AvaloniaProperty.RegisterAttached<NavigationExtension, Control, string>("ViewContainerName",
                    defaultValue: "",
-                   coerce: CoerceContainerName);
+                   coerce: CoerceViewContainerName);
 
-        private static string CoerceContainerName(AvaloniaObject targetObject, string currentValue)
+        private static string CoerceViewContainerName(AvaloniaObject targetObject, string currentValue)
         {
+            if (targetObject is Control control)
+            {
+                var otherName = GetModuleContainerName(control);
+                if (!string.IsNullOrEmpty(otherName))
+                {
+                    throw new InvalidOperationException();
+                }
+            }
             if (targetObject is ContentControl contentContainer)
             {
-                if (!_containerNamesCaches.TryAdd(currentValue, contentContainer))
+                if (!_viewContainerNamesCaches.TryAdd(currentValue, contentContainer))
                 {
                     throw new InvalidOperationException($"There is already a container named {currentValue}!");
                 }
@@ -34,24 +43,11 @@ namespace Lemon.ModuleNavigation.Avaloniaui
                         }
                     }
                 };
-
-                //contentContainer.Bind(ContentControl.ContentProperty,
-                //new Binding(nameof(NavigationContext)
-                //+ "."
-                //+ nameof(navigationContext.CurrentModule)));
-                //contentContainer.ContentTemplate = new FuncDataTemplate<IModule>((m, np) =>
-                //{
-                //    if (m == null)
-                //    {
-                //        return null;
-                //    }
-                //    return navigationContext.CreateNewView(m) as Control;
-                //});
                 return currentValue;
             }
             else if (targetObject is ItemsControl itemsContainer)
             {
-                if (!_containerNamesCaches.TryAdd(currentValue, itemsContainer))
+                if (!_viewContainerNamesCaches.TryAdd(currentValue, itemsContainer))
                 {
                     throw new InvalidOperationException($"There is already a container named {currentValue}!");
                 }
@@ -73,14 +69,49 @@ namespace Lemon.ModuleNavigation.Avaloniaui
         }
 
 
-        public static string GetContainerName(Control control)
+        public static string GetViewContainerName(Control control)
         {
-            return control.GetValue(ContainerNameProperty);
+            return control.GetValue(ViewContainerNameProperty);
         }
-        public static void SetContainerName(Control control, string value)
+        public static void SetViewContainerName(Control control, string value)
         {
-            control.SetValue(ContainerNameProperty, value);
+            control.SetValue(ViewContainerNameProperty, value);
         }
         #endregion
+
+
+        public static readonly AttachedProperty<string> ModuleContainerNameProperty =
+       AvaloniaProperty.RegisterAttached<NavigationExtension, Control, string>("ModuleContainerName",
+           defaultValue: "",
+           validate: ValidateModuleContainerName,
+           coerce: CoerceModuleContainerName);
+
+        private static bool ValidateModuleContainerName(string arg)
+        {
+            return true;
+        }
+
+        private static string CoerceModuleContainerName(AvaloniaObject targetObject, string currentValue)
+        {
+            if (targetObject is Control control)
+            {
+                var otherName = GetViewContainerName(control);
+                if (!string.IsNullOrEmpty(otherName))
+                {
+                    throw new InvalidOperationException();
+                }
+            }
+            return currentValue;
+        }
+
+
+        public static string GetModuleContainerName(Control control)
+        {
+            return control.GetValue(ModuleContainerNameProperty);
+        }
+        public static void SetModuleContainerName(Control control, string value)
+        {
+            control.SetValue(ModuleContainerNameProperty, value);
+        }
     }
 }
