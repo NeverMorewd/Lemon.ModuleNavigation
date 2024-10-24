@@ -2,6 +2,9 @@
 {
     public class ViewAlphaViewModel : SampleViewModelBase
     {
-        public ViewAlphaViewModel() { }
+        public ViewAlphaViewModel() 
+        {
+            
+        }
     }
 }

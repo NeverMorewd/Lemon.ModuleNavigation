@@ -22,56 +22,107 @@
             <Setter Property="Margin" Value="5,0,5,0" />
         </Style>
     </UserControl.Styles>
-    <Grid ColumnDefinitions="auto,*,*,*" ShowGridLines="True">
-        <StackPanel Orientation="Vertical">
-            <Label Content="Modules" Target="{Binding ElementName=ModuleLists}" />
-            <ListBox
-                Name="ModuleLists"
-                Grid.Column="0"
-                ItemsSource="{Binding Modules}"
-                SelectedItem="{Binding SelectedModule, Mode=TwoWay}">
-                <ListBox.ItemTemplate>
-                    <DataTemplate>
-                        <TextBlock Text="{Binding Alias}" />
-                    </DataTemplate>
-                </ListBox.ItemTemplate>
-            </ListBox>
-			<Label Content="Views" Margin="0,10,0,0" />
-			<Button Content="ToView" Command="{Binding ToViewCommand}"/>
-        </StackPanel>
-        <StackPanel Grid.Column="1" Classes="ForContainerShow">
-            <Label Content="NContainer" />
-            <Border Classes="HSeparator" />
-            <lm:NContainer lm:NContainerExtension.ContainerName="NContentContainer" NavigationContext="{Binding NavigationContext}" />
-        </StackPanel>
-        <StackPanel Grid.Column="2" Classes="ForContainerShow">
-            <Label Content="NTabContainer" />
-            <Border Classes="HSeparator" />
-            <lm:NTabContainer NavigationContext="{Binding NavigationContext}">
-                <lm:NTabContainer.ItemTemplate>
-                    <DataTemplate>
-                        <StackPanel Orientation="Horizontal" Spacing="2">
-                            <TextBlock Text="{Binding Alias}" />
-                            <Button
-                                Width="20"
-                                Height="20"
-                                Padding="-1,0,0,0"
-                                HorizontalContentAlignment="Center"
-                                VerticalContentAlignment="Center"
-                                lm:NTabContainerBehaviors.CanUnload="{Binding CanUnload}"
-                                Content="X"
-                                FontSize="11" />
-                        </StackPanel>
-                    </DataTemplate>
-                </lm:NTabContainer.ItemTemplate>
-            </lm:NTabContainer>
-        </StackPanel>
-        <StackPanel Grid.Column="3" Classes="ForContainerShow">
-            <Label Content="NItemsContainer" />
-            <Border Classes="HSeparator" />
-            <ScrollViewer Height="600">
-                <lm:NItemsContainer NavigationContext="{Binding NavigationContext}" />
-            </ScrollViewer>
-        </StackPanel>
-    </Grid>
+    <TabControl>
+        <TabItem Header="ModuleNavigation">
+            <Grid ColumnDefinitions="auto,*,*,*" ShowGridLines="True">
+                <StackPanel Orientation="Vertical">
+                    <Label Content="Modules" Target="{Binding ElementName=ModuleLists}" />
+                    <ListBox
+                        Name="ModuleLists"
+                        Grid.Column="0"
+                        ItemsSource="{Binding Modules}"
+                        SelectedItem="{Binding SelectedModule, Mode=TwoWay}">
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding Alias}" />
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+                </StackPanel>
+                <StackPanel Grid.Column="1" Classes="ForContainerShow">
+                    <Label Content="NContainer" />
+                    <Border Classes="HSeparator" />
+                    <lm:NContainer NavigationContext="{Binding NavigationContext}" />
+                </StackPanel>
+                <StackPanel Grid.Column="2" Classes="ForContainerShow">
+                    <Label Content="NTabContainer" />
+                    <Border Classes="HSeparator" />
+                    <lm:NTabContainer NavigationContext="{Binding NavigationContext}">
+                        <lm:NTabContainer.ItemTemplate>
+                            <DataTemplate>
+                                <StackPanel Orientation="Horizontal" Spacing="2">
+                                    <TextBlock Text="{Binding Alias}" />
+                                    <Button
+                                        Width="20"
+                                        Height="20"
+                                        Padding="-1,0,0,0"
+                                        HorizontalContentAlignment="Center"
+                                        VerticalContentAlignment="Center"
+                                        lm:NTabContainerBehaviors.CanUnload="{Binding CanUnload}"
+                                        Content="X"
+                                        FontSize="11" />
+                                </StackPanel>
+                            </DataTemplate>
+                        </lm:NTabContainer.ItemTemplate>
+                    </lm:NTabContainer>
+                </StackPanel>
+                <StackPanel Grid.Column="3" Classes="ForContainerShow">
+                    <Label Content="NItemsContainer" />
+                    <Border Classes="HSeparator" />
+                    <ScrollViewer Height="600">
+                        <lm:NItemsContainer NavigationContext="{Binding NavigationContext}" />
+                    </ScrollViewer>
+                </StackPanel>
+            </Grid>
+        </TabItem>
+        <TabItem Header="ViewNavigation">
+            <Grid ColumnDefinitions="auto,*,*,*" ShowGridLines="True">
+                <StackPanel Orientation="Vertical">
+                    <Label Content="Views" />
+                    <Button
+                        Command="{Binding ToViewCommand}"
+                        CommandParameter="{Binding $self.Content}"
+                        Content="ViewAlpha" />
+                    <Button
+                        Command="{Binding ToViewCommand}"
+                        CommandParameter="{Binding $self.Content}"
+                        Content="ViewBeta" />
+                    <Button
+                        Command="{Binding ToViewCommand}"
+                        CommandParameter="{Binding $self.Content}"
+                        Content="ViewAlpha.RequestNew" />
+                    <Button
+                        Command="{Binding ToViewCommand}"
+                        CommandParameter="{Binding $self.Content}"
+                        Content="ViewBeta.RequestNew" />
+                </StackPanel>
+                <StackPanel Grid.Column="1" Classes="ForContainerShow">
+                    <Label Content="NContainer" />
+                    <Border Classes="HSeparator" />
+                    <ContentControl lm:NavigationExtension.ContainerName="NContentContainer" />
+                </StackPanel>
+                <StackPanel Grid.Column="2" Classes="ForContainerShow">
+                    <Label Content="NTabContainer" />
+                    <Border Classes="HSeparator" />
+                    <TabControl lm:NavigationExtension.ContainerName="NTabContainer">
+                        <TabControl.ItemTemplate>
+                            <DataTemplate>
+                                <StackPanel Orientation="Horizontal" Spacing="2">
+                                    <TextBlock Text="{Binding}" />
+                                </StackPanel>
+                            </DataTemplate>
+                        </TabControl.ItemTemplate>
+                    </TabControl>
+                </StackPanel>
+                <StackPanel Grid.Column="3" Classes="ForContainerShow">
+                    <Label Content="NItemsContainer" />
+                    <Border Classes="HSeparator" />
+                    <ScrollViewer Height="100">
+                        <ItemsControl lm:NavigationExtension.ContainerName="NItemsContainer" />
+                    </ScrollViewer>
+                </StackPanel>
+            </Grid>
+        </TabItem>
+        <TabItem Header="DialogNavigation" />
+    </TabControl>
 </UserControl>

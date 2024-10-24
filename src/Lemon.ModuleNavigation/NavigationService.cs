@@ -36,21 +36,14 @@ namespace Lemon.ModuleNavigation
             return new Cleanup<INavigationHandler>(_handlers, handler);
         }
 
-        public void NavigateToView(string containerKey, string viewKey)
+        public void NavigateToView(string containerKey, string viewKey, bool requestNew = false)
         {
             foreach (var handler in _viewHandlers)
             {
-                handler.OnNavigateTo(containerKey, viewKey);
+                handler.OnNavigateTo(containerKey, viewKey, requestNew);
             }
         }
 
-        public void NavigateToView<TView>(string containerKey) where TView : notnull
-        {
-            foreach (var handler in _viewHandlers)
-            {
-                handler.OnNavigateTo<TView>(containerKey);
-            }
-        }
         IDisposable IViewNavigationService.BindingViewNavigationHandler(IViewNavigationHandler handler)
         {
             _viewHandlers.Add(handler);

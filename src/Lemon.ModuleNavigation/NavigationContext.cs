@@ -97,12 +97,9 @@ namespace Lemon.ModuleNavigation
             return _serviceProvider.GetRequiredKeyedService<IViewModel>(module.Key);
         }
 
-        public virtual void OnNavigateTo(string containerName, string viewName)
-        {
-            
-        }
-
-        public virtual void OnNavigateTo<TView>(string containerName) where TView : notnull
+        public virtual void OnNavigateTo(string containerName, 
+            string viewName, 
+            bool requestNew = false)
         {
             
         }

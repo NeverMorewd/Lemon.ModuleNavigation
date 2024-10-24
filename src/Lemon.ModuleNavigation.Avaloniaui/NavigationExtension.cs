@@ -1,18 +1,16 @@
 ﻿using Avalonia;
 using Avalonia.Controls;
-using Avalonia.Controls.Templates;
-using Avalonia.Data;
 using Lemon.ModuleNavigation.Abstracts;
 using System.Collections.Concurrent;
 
-namespace Lemon.ModuleNavigation.Avaloniaui.Containers
+namespace Lemon.ModuleNavigation.Avaloniaui
 {
-    public class NContainerExtension
+    public class NavigationExtension
     {
         private static readonly ConcurrentDictionary<string, Control> _containerNamesCaches = [];
         #region ContainerNameProperty
         public static readonly AttachedProperty<string> ContainerNameProperty =
-               AvaloniaProperty.RegisterAttached<NContainerExtension, Control, string>("ContainerName",
+               AvaloniaProperty.RegisterAttached<NavigationExtension, Control, string>("ContainerName",
                    defaultValue: "",
                    coerce: CoerceContainerName);
 
@@ -30,7 +28,10 @@ namespace Lemon.ModuleNavigation.Avaloniaui.Containers
                     var navigationContext = navigationContextProvider!.NavigationContext;
                     if (navigationContext is AvaNavigationContext context)
                     {
-                        context.NContainers.Add(currentValue, contentContainer);
+                        if (!context.NContainers.ContainsKey(currentValue))
+                        {
+                            context.NContainers.Add(currentValue, contentContainer);
+                        }
                     }
                 };
 
@@ -54,6 +55,18 @@ namespace Lemon.ModuleNavigation.Avaloniaui.Containers
                 {
                     throw new InvalidOperationException($"There is already a container named {currentValue}!");
                 }
+                itemsContainer.Loaded += (s, e) =>
+                {
+                    var navigationContextProvider = itemsContainer.DataContext as INavigationContextProvider;
+                    var navigationContext = navigationContextProvider!.NavigationContext;
+                    if (navigationContext is AvaNavigationContext context)
+                    {
+                        if (!context.NContainers.ContainsKey(currentValue))
+                        {
+                            context.NContainers.Add(currentValue, itemsContainer);
+                        }
+                    }
+                };
                 return currentValue;
             }
             throw new InvalidOperationException("NContainerName support ContentControl or ItemsControl Only");

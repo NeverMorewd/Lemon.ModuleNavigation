@@ -3,7 +3,6 @@
     public interface IViewNavigationService
     {
         IDisposable BindingViewNavigationHandler(IViewNavigationHandler handler);
-        void NavigateToView(string containerKey, string viewKey);
-        void NavigateToView<TView>(string containerKey) where TView : notnull;
+        void NavigateToView(string containerKey, string viewKey, bool requestNew = false);
     }
 }

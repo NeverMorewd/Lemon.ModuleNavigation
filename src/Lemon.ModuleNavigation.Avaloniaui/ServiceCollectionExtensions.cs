@@ -12,22 +12,23 @@ namespace Lemon.ModuleNavigation.Avaloniaui
             return
             serviceDescriptors
                 .AddTransient<TViewModel>()
-                .AddTransient((sp) =>
+                .AddKeyedTransient<UserControl>(typeof(TView).Name, (sp, key) =>
                 {
                     var viewModel = sp.GetRequiredService<TViewModel>();
                     var view = ActivatorUtilities.CreateInstance<TView>(sp);
                     view.DataContext = viewModel;
                     return view;
-                })
-                .AddKeyedSingleton(typeof(UserControl), (sp, key) =>
-                {
-                    return sp.GetRequiredService<TView>();
                 });
+                //.AddKeyedSingleton<UserControl>(typeof(UserControl), (sp, key) =>
+                //{
+                //    return sp.GetRequiredKeyedService<UserControl>(typeof(TView).Name);
+                //});
         }
 
         public static IServiceCollection AddAvaNavigationSupport(this IServiceCollection serviceDescriptors)
         {
             return serviceDescriptors
+                .AddSingleton(sp => sp.GetKeyedServices<UserControl>(typeof(UserControl)))
                 .AddSingleton<AvaNavigationContext>();
 
         }

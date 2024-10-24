@@ -2,6 +2,9 @@
 {
     public class ViewBetaViewModel: SampleViewModelBase
     {
+        public ViewBetaViewModel()
+        {
 
+        }
     }
 }
