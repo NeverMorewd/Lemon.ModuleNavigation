@@ -28,8 +28,9 @@ namespace Lemon.ModuleNavigation.Avaloniaui
         public static IServiceCollection AddAvaNavigationSupport(this IServiceCollection serviceDescriptors)
         {
             return serviceDescriptors
-                .AddSingleton(sp => sp.GetKeyedServices<UserControl>(typeof(UserControl)))
-                .AddSingleton<AvaNavigationContext>();
+                    .AddNavigationSupport()
+                    .AddSingleton(sp => sp.GetKeyedServices<UserControl>(typeof(UserControl)))
+                    .AddSingleton<AvaNavigationContext>();
 
         }
     }

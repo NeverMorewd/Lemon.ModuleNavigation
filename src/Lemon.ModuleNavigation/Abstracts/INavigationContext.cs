@@ -6,7 +6,6 @@ namespace Lemon.ModuleNavigation.Abstracts
     {
         IServiceProvider ServiceProvider { get; }
         ObservableCollection<IModule> ActiveModules { get; set; }
-
         IView CreateNewView(IModule module);
     }
 }

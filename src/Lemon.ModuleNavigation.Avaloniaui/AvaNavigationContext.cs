@@ -1,6 +1,7 @@
 ﻿using Avalonia.Controls;
 using Avalonia.Controls.Templates;
 using Avalonia.LogicalTree;
+using Avalonia.Threading;
 using Lemon.ModuleNavigation.Abstracts;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -90,11 +91,10 @@ namespace Lemon.ModuleNavigation.Avaloniaui
                 }
                 else
                 {
-
                     itemsControl.Items.Add(viewName);
                     /// https://github.com/AvaloniaUI/Avalonia/issues/17347
-                    var scrollViewer = itemsControl.FindLogicalAncestorOfType<ScrollViewer>(includeSelf: false);
-                    scrollViewer?.ScrollToEnd();
+                    Dispatcher.UIThread.RunJobs(DispatcherPriority.Loaded);
+                    itemsControl.ScrollIntoView(itemsControl.Items.Count - 1);
                 }
             }
         }

@@ -25,7 +25,6 @@ public class MainViewModel : SampleViewModelBase, INavigationContextProvider
         _serviceProvider = serviceProvider;
         NavigationContext = navigationContext;
         Modules = new ObservableCollection<IModule>(modules);
-        //Views = new ObservableCollection<UserControl>(views);
         ToViewCommand = ReactiveCommand.Create<string>(content => 
         {
             var viewName = content;
@@ -47,15 +46,7 @@ public class MainViewModel : SampleViewModelBase, INavigationContextProvider
         get;
         set;
     }
-    /// <summary>
-    /// For binding
-    /// </summary>
     public ObservableCollection<IModule> Modules
-    {
-        get;
-        set;
-    }
-    public IEnumerable<string> ViewNames
     {
         get;
         set;

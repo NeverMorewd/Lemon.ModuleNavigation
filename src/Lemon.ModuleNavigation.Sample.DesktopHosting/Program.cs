@@ -25,7 +25,6 @@ internal static class Program
         var hostBuilder = Host.CreateApplicationBuilder();
 
         // module navigation
-        hostBuilder.Services.AddNavigationSupport();
         hostBuilder.Services.AddAvaNavigationSupport();
         hostBuilder.Logging.ClearProviders();
         hostBuilder.Logging.AddConsole();
