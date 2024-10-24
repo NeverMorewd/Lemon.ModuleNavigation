@@ -1,6 +1,5 @@
 ﻿using Avalonia.Controls;
 using Avalonia.Controls.Templates;
-using Avalonia.LogicalTree;
 using Avalonia.Threading;
 using Lemon.ModuleNavigation.Abstracts;
 using Microsoft.Extensions.DependencyInjection;

@@ -19,10 +19,6 @@ namespace Lemon.ModuleNavigation.Avaloniaui
                     view.DataContext = viewModel;
                     return view;
                 });
-                //.AddKeyedSingleton<UserControl>(typeof(UserControl), (sp, key) =>
-                //{
-                //    return sp.GetRequiredKeyedService<UserControl>(typeof(TView).Name);
-                //});
         }
 
         public static IServiceCollection AddAvaNavigationSupport(this IServiceCollection serviceDescriptors)
