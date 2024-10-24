@@ -11,9 +11,11 @@ namespace Lemon.ModuleNavigation
     {
         private readonly INavigationService<IModule> _navigationService;
         private readonly IDisposable _navigationCleanup;
+        private readonly IDisposable _viewNavigationCleanup;
         private readonly IServiceProvider _serviceProvider;
         private readonly ConcurrentDictionary<string, IModule> _modulesCache;
         public NavigationContext(INavigationService<IModule> navigationService,
+            IViewNavigationService viewNavigationService,
             IEnumerable<IModule> modules,
             IServiceProvider serviceProvider) 
         {
@@ -34,6 +36,7 @@ namespace Lemon.ModuleNavigation
                         return m.Value;
                     }));
             _navigationCleanup = _navigationService.BindingNavigationHandler(this);
+            _viewNavigationCleanup = viewNavigationService.BindingViewNavigationHandler(this);
         }
 
         public ObservableCollection<IModule> ActiveModules
@@ -99,7 +102,7 @@ namespace Lemon.ModuleNavigation
             
         }
 
-        public virtual void OnNavigateTo<TView>(string containerName) where TView : IView
+        public virtual void OnNavigateTo<TView>(string containerName) where TView : notnull
         {
             
         }
@@ -132,6 +135,7 @@ namespace Lemon.ModuleNavigation
         public void Dispose()
         {
             _navigationCleanup?.Dispose();
+            _viewNavigationCleanup?.Dispose();
         }
     }
 }

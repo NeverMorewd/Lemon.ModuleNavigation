@@ -44,7 +44,7 @@ namespace Lemon.ModuleNavigation
             }
         }
 
-        public void NavigateToView<TView>(string containerKey) where TView : IView
+        public void NavigateToView<TView>(string containerKey) where TView : notnull
         {
             foreach (var handler in _viewHandlers)
             {

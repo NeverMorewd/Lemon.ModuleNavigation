@@ -24,20 +24,28 @@ namespace Lemon.ModuleNavigation.Avaloniaui.Containers
                 {
                     throw new InvalidOperationException($"There is already a container named {currentValue}!");
                 }
-                var navigationContextProvider = contentContainer.DataContext as INavigationContextProvider;
-                var navigationContext = navigationContextProvider!.NavigationContext;
-                contentContainer.Bind(ContentControl.ContentProperty,
-                new Binding(nameof(NavigationContext)
-                + "."
-                + nameof(navigationContext.CurrentModule)));
-                contentContainer.ContentTemplate = new FuncDataTemplate<IModule>((m, np) =>
+                contentContainer.Loaded += (s, e) =>
                 {
-                    if (m == null)
+                    var navigationContextProvider = contentContainer.DataContext as INavigationContextProvider;
+                    var navigationContext = navigationContextProvider!.NavigationContext;
+                    if (navigationContext is AvaNavigationContext context)
                     {
-                        return null;
+                        context.NContainers.Add(currentValue, contentContainer);
                     }
-                    return navigationContext.CreateNewView(m) as Control;
-                });
+                };
+
+                //contentContainer.Bind(ContentControl.ContentProperty,
+                //new Binding(nameof(NavigationContext)
+                //+ "."
+                //+ nameof(navigationContext.CurrentModule)));
+                //contentContainer.ContentTemplate = new FuncDataTemplate<IModule>((m, np) =>
+                //{
+                //    if (m == null)
+                //    {
+                //        return null;
+                //    }
+                //    return navigationContext.CreateNewView(m) as Control;
+                //});
                 return currentValue;
             }
             else if (targetObject is ItemsControl itemsContainer)

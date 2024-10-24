@@ -4,6 +4,6 @@
     {
         IDisposable BindingViewNavigationHandler(IViewNavigationHandler handler);
         void NavigateToView(string containerKey, string viewKey);
-        void NavigateToView<TView>(string containerKey) where TView : IView;
+        void NavigateToView<TView>(string containerKey) where TView : notnull;
     }
 }

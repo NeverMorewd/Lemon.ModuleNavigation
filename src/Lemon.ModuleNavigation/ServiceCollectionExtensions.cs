@@ -61,43 +61,15 @@ namespace Lemon.ModuleNavigation
                 .AddModulesBuilder()
                 .AddSingleton<NavigationService>()
                 .AddSingleton<INavigationService<IModule>>(sp => sp.GetRequiredService<NavigationService>())
+                .AddSingleton<IViewNavigationService>(sp => sp.GetRequiredService<NavigationService>())
                 .AddSingleton<INavigationContext, NavigationContext>();
+                
         }
 
         public static IServiceCollection AddAppServiceProvider(this IServiceCollection serviceDescriptors,
             IServiceProvider serviceProvider)
         {
             return serviceDescriptors.AddSingleton<IServiceProviderDecorator>(_ => new ServiceProviderDecorator(serviceProvider));
-        }
-
-        public static IServiceCollection RegisterView<TView, TViewModel>(this IServiceCollection serviceDescriptors) 
-            where TView : class, IView 
-            where TViewModel : class, IViewModel
-        {
-            return
-            serviceDescriptors
-                .AddTransient<TViewModel>()
-                .AddKeyedTransient<IView>(typeof(IView).FullName, (sp, key) =>
-                {
-                    var viewModel = sp.GetRequiredService<TViewModel>();
-                    var view = ActivatorUtilities.CreateInstance<TView>(sp);
-                    view.SetDataContext(viewModel);
-                    return view;
-                });
-        }
-        public static IServiceCollection RegisterView<TView>(this IServiceCollection serviceDescriptors,
-            Func<IServiceProvider, IViewModel> viewModelBuilder) 
-            where TView : class, IView
-        {
-            return
-            serviceDescriptors
-                .AddKeyedTransient<IView>(typeof(IView).FullName, (sp, key) =>
-                {
-                    var viewModel = viewModelBuilder.Invoke(sp);
-                    var view = ActivatorUtilities.CreateInstance<TView>(sp);
-                    view.SetDataContext(viewModel);
-                    return view;
-                });
         }
     }
 }

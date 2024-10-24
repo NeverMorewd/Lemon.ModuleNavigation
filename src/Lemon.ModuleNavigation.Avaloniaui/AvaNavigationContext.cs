@@ -1,5 +1,5 @@
 ﻿using Avalonia.Controls;
-using Avalonia.Styling;
+using Avalonia.Controls.Templates;
 using Lemon.ModuleNavigation.Abstracts;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -7,12 +7,13 @@ namespace Lemon.ModuleNavigation.Avaloniaui
 {
     public class AvaNavigationContext : NavigationContext
     {
-        public AvaNavigationContext(INavigationService<IModule> navigationService, 
+        public AvaNavigationContext(INavigationService<IModule> navigationService,
+            IViewNavigationService viewNavigationService,
             IEnumerable<IModule> modules,
-            IEnumerable<IView> views,
             IServiceProvider serviceProvider)
-            : base(navigationService, 
-                  modules, 
+            : base(navigationService,
+                  viewNavigationService,
+                  modules,
                   serviceProvider)
         {
             NContainers = [];
@@ -29,13 +30,21 @@ namespace Lemon.ModuleNavigation.Avaloniaui
         }
         public override void OnNavigateTo<TView>(string containerName)
         {
-            var view = ServiceProvider.GetRequiredKeyedService<TView>(containerName);
             var container = NContainers[containerName];
-            
-        }
-        private void HandleContainerControl(Control container,IView view)
-        {
+            ContainerHandleCore<TView>(container);
 
+
+        }
+        private void ContainerHandleCore<TView>(Control container) where TView : notnull
+        {
+            if (container is ContentControl contentControl)
+            {
+                contentControl.Content = this;
+                contentControl.ContentTemplate = new FuncDataTemplate<object>((m, np) =>
+                {
+                    return ServiceProvider.GetRequiredService<TView>() as Control;
+                });
+            }
         }
     }
 }
