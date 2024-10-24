@@ -1,8 +1,6 @@
-﻿using Avalonia;
-using Avalonia.Controls;
+﻿using Avalonia.Controls;
 using Avalonia.Controls.Templates;
 using Avalonia.LogicalTree;
-using Avalonia.Threading;
 using Lemon.ModuleNavigation.Abstracts;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -10,7 +8,7 @@ namespace Lemon.ModuleNavigation.Avaloniaui
 {
     public class AvaNavigationContext : NavigationContext
     {
-        private readonly Dictionary<string, object> _contentDatas;
+        private readonly Dictionary<string, IDataTemplate> _contentDatas;
         public AvaNavigationContext(INavigationService<IModule> navigationService,
             IViewNavigationService viewNavigationService,
             IEnumerable<IModule> modules,
@@ -20,11 +18,11 @@ namespace Lemon.ModuleNavigation.Avaloniaui
                   modules,
                   serviceProvider)
         {
-            NContainers = [];
+            ViewContainers = [];
             _contentDatas = [];
         }
 
-        public Dictionary<string, Control> NContainers
+        public Dictionary<string, Control> ViewContainers
         {
             get;
         }
@@ -33,7 +31,7 @@ namespace Lemon.ModuleNavigation.Avaloniaui
             string viewName, 
             bool requestNew = false)
         {
-            var container = NContainers[containerName];
+            var container = ViewContainers[containerName];
             ContainerHandleCore(container, viewName, requestNew);
         }
         private void ContainerHandleCore<TView>(Control container) where TView : notnull

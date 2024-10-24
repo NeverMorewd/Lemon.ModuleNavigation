@@ -24,7 +24,7 @@
     </UserControl.Styles>
     <TabControl>
         <TabItem Header="ModuleNavigation">
-            <Grid ColumnDefinitions="auto,*,*,*" ShowGridLines="True">
+            <Grid ColumnDefinitions="auto,*,*,*,*" ShowGridLines="True">
                 <StackPanel Orientation="Vertical">
                     <Label Content="Modules" Target="{Binding ElementName=ModuleLists}" />
                     <ListBox
@@ -40,15 +40,15 @@
                     </ListBox>
                 </StackPanel>
                 <StackPanel Grid.Column="1" Classes="ForContainerShow">
-                    <Label Content="NContainer" />
+                    <Label Content="ContentControl" />
                     <Border Classes="HSeparator" />
-                    <lm:NContainer NavigationContext="{Binding NavigationContext}" />
+                    <ContentControl lm:NavigationExtension.ModuleContainerName="NContentControl" />
                 </StackPanel>
                 <StackPanel Grid.Column="2" Classes="ForContainerShow">
-                    <Label Content="NTabContainer" />
+                    <Label Content="TabControl" />
                     <Border Classes="HSeparator" />
-                    <lm:NTabContainer NavigationContext="{Binding NavigationContext}">
-                        <lm:NTabContainer.ItemTemplate>
+                    <TabControl lm:NavigationExtension.ModuleContainerName="NTabControl">
+                        <TabControl.ItemTemplate>
                             <DataTemplate>
                                 <StackPanel Orientation="Horizontal" Spacing="2">
                                     <TextBlock Text="{Binding Alias}" />
@@ -58,21 +58,26 @@
                                         Padding="-1,0,0,0"
                                         HorizontalContentAlignment="Center"
                                         VerticalContentAlignment="Center"
-                                        lm:NTabContainerBehaviors.CanUnload="{Binding CanUnload}"
+                                        lm:NavigationExtension.CanUnload="{Binding CanUnload}"
                                         Content="X"
                                         FontSize="11" />
                                 </StackPanel>
                             </DataTemplate>
-                        </lm:NTabContainer.ItemTemplate>
-                    </lm:NTabContainer>
+                        </TabControl.ItemTemplate>
+                    </TabControl>
                 </StackPanel>
                 <StackPanel Grid.Column="3" Classes="ForContainerShow">
-                    <Label Content="NItemsContainer" />
+                    <Label Content="ListBox" />
                     <Border Classes="HSeparator" />
                     <ScrollViewer Height="600">
-                        <lm:NItemsContainer NavigationContext="{Binding NavigationContext}" />
+                        <ListBox lm:NavigationExtension.ModuleContainerName="NListBox" />
                     </ScrollViewer>
                 </StackPanel>
+				<StackPanel Grid.Column="4" Classes="ForContainerShow">
+					<Label Content="TransitioningContentControl" />
+					<Border Classes="HSeparator" />
+					<TransitioningContentControl lm:NavigationExtension.ModuleContainerName="NTransitioningContentControl" />
+				</StackPanel>
             </Grid>
         </TabItem>
         <TabItem Header="ViewNavigation">
@@ -128,6 +133,6 @@
                 </StackPanel>
             </Grid>
         </TabItem>
-        <TabItem Header="DialogNavigation" />
+        <TabItem Header="DialogNavigation(ongoing)" />
     </TabControl>
 </UserControl>
