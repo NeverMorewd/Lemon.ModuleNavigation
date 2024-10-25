@@ -212,20 +212,20 @@ namespace Lemon.ModuleNavigation.Avaloniaui
                         {
                             if (navigationContext.CurrentModule != null)
                             {
-                                itemsControl.ScrollIntoView(navigationContext.CurrentModule);
+                                //itemsControl.ScrollIntoView(navigationContext.CurrentModule);
                                 //https://github.com/AvaloniaUI/Avalonia/issues/17349
-                                //if (itemsControl is SelectingItemsControl selecting)
-                                //{
-                                //    if (!selecting.AutoScrollToSelectedItem)
-                                //    {
-                                //        selecting.AutoScrollToSelectedItem = true;
-                                //    }
-                                //    selecting.SelectedItem = navigationContext.CurrentModule;
-                                //}
-                                //else
-                                //{
-                                //    itemsControl.ScrollIntoView(navigationContext.CurrentModule);
-                                //}
+                                if (itemsControl is SelectingItemsControl selecting)
+                                {
+                                    if (!selecting.AutoScrollToSelectedItem)
+                                    {
+                                        selecting.AutoScrollToSelectedItem = true;
+                                    }
+                                    selecting.SelectedItem = navigationContext.CurrentModule;
+                                }
+                                else
+                                {
+                                    itemsControl.ScrollIntoView(navigationContext.CurrentModule);
+                                }
                             }
                         }
                     };

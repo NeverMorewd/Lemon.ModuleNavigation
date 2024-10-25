@@ -82,7 +82,14 @@
                         lm:NavigationExtension.ModuleContainerName="NListBox"
                         Background="Transparent"
                         BorderBrush="Blue"
-                        BorderThickness="1" />
+                        BorderThickness="1" >
+						<!--https://github.com/AvaloniaUI/Avalonia/issues/17349-->
+						<ListBox.ItemsPanel>
+							<ItemsPanelTemplate>
+								<StackPanel/>
+							</ItemsPanelTemplate>
+						</ListBox.ItemsPanel>
+					</ListBox>
                 </StackPanel>
                 <StackPanel Grid.Column="4" Classes="ForContainerShow">
                     <Label Content="TransitioningContentControl" />
