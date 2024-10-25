@@ -5,7 +5,6 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using ILogger = Microsoft.Extensions.Logging.ILogger;
 
 namespace Lemon.ModuleNavigation.Sample.ModuleCs
@@ -37,7 +36,7 @@ namespace Lemon.ModuleNavigation.Sample.ModuleCs
         }
         public override bool LoadOnDemand => true;
         public override bool ForceNew => true;
-        public override string? Alias => $"{base.Alias}:{nameof(ForceNew)}";
+        public override string Alias => $"{base.Alias}:{nameof(ForceNew)}";
 
         public override void Initialize()
         {
@@ -46,7 +45,7 @@ namespace Lemon.ModuleNavigation.Sample.ModuleCs
             var subModules = _subServiceProvider.GetRequiredService<IEnumerable<IModule>>();
             foreach (var subModule in subModules) 
             {
-                Debug.WriteLine(subModule.Key);
+                _logger.LogInformation(subModule.Key);
             }
         }
     }
