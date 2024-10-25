@@ -34,11 +34,13 @@ namespace Lemon.ModuleNavigation.Avaloniaui
                     }
                     void LoadedHandler(object? sender, RoutedEventArgs e)
                     {
-                        var navigationContextProvider = control.DataContext as INavigationContextProvider;
-                        var navigationContext = navigationContextProvider!.NavigationContext;
-                        if (navigationContext is AvaNavigationContext context)
+                        if (control.DataContext is INavigationContextProvider navigationContextProvider)
                         {
-                            context.ViewContainers.TryAdd(currentValue, control);
+                            var navigationContext = navigationContextProvider!.NavigationContext;
+                            if (navigationContext is AvaNavigationContext context)
+                            {
+                                context.ViewContainers.TryAdd(currentValue, control);
+                            }
                         }
                         control.Loaded -= LoadedHandler;
                     }
@@ -87,11 +89,13 @@ namespace Lemon.ModuleNavigation.Avaloniaui
                 }
                 void LoadedHandler(object? sender, RoutedEventArgs e)
                 {
-                    var navigationContextProvider = control.DataContext as INavigationContextProvider;
-                    var navigationContext = navigationContextProvider!.NavigationContext;
-                    if (navigationContext is AvaNavigationContext context)
+                    if (control.DataContext is INavigationContextProvider navigationContextProvider)
                     {
-                        SetBinding(control, context);
+                        var navigationContext = navigationContextProvider.NavigationContext;
+                        if (navigationContext is AvaNavigationContext context)
+                        {
+                            SetBinding(control, context);
+                        }
                     }
                     control.Loaded -= LoadedHandler;
                 }
@@ -182,15 +186,15 @@ namespace Lemon.ModuleNavigation.Avaloniaui
             if (control is TabControl tabControl)
             {
                 tabControl.Bind(SelectingItemsControl.SelectedItemProperty,
-                                    new Binding(nameof(NavigationContext) 
-                                    + "." 
+                                    new Binding(nameof(NavigationContext)
+                                    + "."
                                     + nameof(NavigationContext.CurrentModule))
                                     {
                                         Mode = BindingMode.TwoWay
                                     });
                 tabControl.Bind(ItemsControl.ItemsSourceProperty,
-                                    new Binding(nameof(NavigationContext) 
-                                    + "." 
+                                    new Binding(nameof(NavigationContext)
+                                    + "."
                                     + nameof(NavigationContext.ActiveModules)));
 
                 tabControl.ContentTemplate = new FuncDataTemplate<IModule>((m, np) =>
@@ -247,7 +251,7 @@ namespace Lemon.ModuleNavigation.Avaloniaui
             else if (control is ContentControl contentControl)
             {
                 contentControl.Bind(ContentControl.ContentProperty,
-                                        new Binding(nameof(NavigationContext) 
+                                        new Binding(nameof(NavigationContext)
                                         + "."
                                         + nameof(NavigationContext.CurrentModule)));
 
