@@ -1,9 +1,7 @@
 ﻿using Lemon.ModuleNavigation.Abstracts;
 using Lemon.ModuleNavigation.Internals;
 using Microsoft.Extensions.DependencyInjection;
-using System;
 using System.Diagnostics.CodeAnalysis;
-using System.Reflection;
 
 namespace Lemon.ModuleNavigation
 {
