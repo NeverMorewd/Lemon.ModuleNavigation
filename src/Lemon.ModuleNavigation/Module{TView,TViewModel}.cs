@@ -4,9 +4,12 @@ using System.Diagnostics.CodeAnalysis;
 
 namespace Lemon.ModuleNavigation
 {
-    public abstract class Module<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] TView, [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] TViewModel> : IModule where TViewModel : IViewModel where TView : IView
+    public abstract class Module<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] TView, 
+        [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] TViewModel>
+        : IModule 
+        where TViewModel : IViewModel 
+        where TView : IView
     {
-        public string Key => GetType().Name;
         protected readonly IServiceProvider ServiceProvider;
         public Module(IServiceProvider serviceProvider)
         {
@@ -23,6 +26,7 @@ namespace Lemon.ModuleNavigation
                 IsInitialized = true;
             }
         }
+        public string Key => GetType().Name;
         public IView? View
         {
             get;
