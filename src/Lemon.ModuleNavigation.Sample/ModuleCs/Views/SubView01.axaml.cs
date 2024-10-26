@@ -11,9 +11,4 @@ public partial class SubView01 : UserControl, IView
     {
         InitializeComponent();
     }
-
-    public void SetDataContext(IViewModel viewModel)
-    {
-        DataContext = viewModel;
-    }
 }

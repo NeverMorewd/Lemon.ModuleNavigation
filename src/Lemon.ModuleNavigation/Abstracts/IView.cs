@@ -2,6 +2,10 @@
 {
     public interface IView
     {
-        void SetDataContext(IViewModel viewModel);
+        object? DataContext
+        {
+            get;
+            set;
+        }
     }
 }
