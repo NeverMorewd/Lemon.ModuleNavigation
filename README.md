@@ -319,7 +319,8 @@ Add rd.xml
 </Directives>
 ```
 
-### Lemon.Toolkit
+### [Lemon.Toolkit](https://github.com/NeverMorewd/Lemon.Toolkit)
+
 This is a practical application of `Lemon.ModuleNavigation`. It is a collection of toolkits for clients based on `Semi-Avaloniaui`, `Lemon.Hosting.AvaloniaUIDesktop`, and `Lemon.ModuleNavigation`. As of now, it includes:
 - Module navigation based on NTabContainer
 - Custom HomeModule
