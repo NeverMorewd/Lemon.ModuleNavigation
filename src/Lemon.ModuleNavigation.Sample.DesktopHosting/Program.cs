@@ -38,8 +38,8 @@ internal static class Program
         hostBuilder.Services.AddView<ViewBeta, ViewBetaViewModel>(nameof(ViewAlpha));
 
         // dialog
-        hostBuilder.Services.AddAvaDialog<ViewAlpha, ViewAlphaViewModel>("Dialog" + nameof(ViewAlpha));
-        hostBuilder.Services.AddAvaDialog<ViewBeta, ViewBetaViewModel>("Dialog" + nameof(ViewBeta));
+        //hostBuilder.Services.AddAvaDialog<ViewAlpha, ViewAlphaViewModel>("Dialog" + nameof(ViewAlpha));
+        //hostBuilder.Services.AddAvaDialog<ViewBeta, ViewBetaViewModel>("Dialog" + nameof(ViewBeta));
 
         hostBuilder.Services.AddAvaloniauiDesktopApplication<App>(BuildAvaloniaApp);
         hostBuilder.Services.AddMainWindow<MainWindow, MainViewModel>();

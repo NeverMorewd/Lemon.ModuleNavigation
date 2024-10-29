@@ -156,10 +156,10 @@
         <TabItem Header="DialogNavigation(ongoing)">
             <StackPanel Orientation="Vertical" Spacing="5" Width ="300">
                 <Label Content="Dialogs" />
-                <Button Classes="DialogNavigation" Content="DialogViewAlpha" />
-                <Button Classes="DialogNavigation" Content="DialogViewBeta" />
-                <Button Classes="DialogNavigation" Content="DialogViewAlpha.ShowDialog" />
-                <Button Classes="DialogNavigation" Content="DialogViewBeta.ShowDialog" />
+                <Button Classes="DialogNavigation" Content="ViewAlpha" />
+                <Button Classes="DialogNavigation" Content="ViewBeta" />
+                <Button Classes="DialogNavigation" Content="ViewAlpha.ShowDialog" />
+                <Button Classes="DialogNavigation" Content="ViewBeta.ShowDialog" />
             </StackPanel>
         </TabItem>
     </TabControl>

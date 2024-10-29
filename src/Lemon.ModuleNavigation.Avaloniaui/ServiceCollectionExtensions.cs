@@ -1,5 +1,4 @@
-﻿using Avalonia.Controls;
-using Lemon.ModuleNavigation.Abstracts;
+﻿using Lemon.ModuleNavigation.Abstracts;
 using Lemon.ModuleNavigation.Avaloniaui.Dialogs;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -8,19 +7,32 @@ namespace Lemon.ModuleNavigation.Avaloniaui
     public static class ServiceCollectionExtensions
     {
         public static IServiceCollection AddView<TView, TViewModel>(this IServiceCollection serviceDescriptors, string viewKey)
-            where TView : IView
-            where TViewModel : class
+            where TView : class, IView
+            where TViewModel : class, INavigationAware
         {
-            return
+
             serviceDescriptors
                 .AddTransient<TViewModel>()
+                .AddTransient<TView>()
                 .AddKeyedTransient<IView>(viewKey, (sp, key) =>
                 {
-                    var viewModel = sp.GetRequiredService<TViewModel>();
-                    var view = ActivatorUtilities.CreateInstance<TView>(sp);
-                    view.DataContext = viewModel;
+                    var view = sp.GetRequiredService<TView>();
                     return view;
+                })
+                .AddKeyedTransient<INavigationAware>(viewKey, (sp, key) =>
+                {
+                    var viewModel = sp.GetRequiredService<TViewModel>();
+                    return viewModel;
                 });
+            if (typeof(TViewModel).IsAssignableTo(typeof(IDialogAware)))
+            {
+                serviceDescriptors.AddKeyedTransient(viewKey, (sp, key) =>
+                {
+                    var viewModel = sp.GetRequiredService<TViewModel>();
+                    return (IDialogAware)viewModel;
+                });
+            }
+            return serviceDescriptors;
         }
 
         public static IServiceCollection AddAvaNavigationSupport(this IServiceCollection serviceDescriptors)

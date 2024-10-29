@@ -7,7 +7,7 @@ using System.Reactive;
 
 namespace Lemon.ModuleNavigation.Sample.ViewModels
 {
-    public class ViewBetaViewModel: SampleViewModelBase, IDialogAware
+    public class ViewBetaViewModel: SampleViewModelBase, IDialogAware, INavigationAware
     {
         private readonly ILogger _logger;
         public ViewBetaViewModel(ILogger<ViewBetaViewModel> logger)
