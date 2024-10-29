@@ -15,7 +15,7 @@ public class MainViewModel : SampleViewModelBase, INavigationContextProvider
     private readonly IServiceProvider _serviceProvider;
     private readonly IDialogService _dialogService;
     private readonly ILogger _logger;
-    public MainViewModel(INavigationContext navigationContext,
+    public MainViewModel(INavigationHandler navigationContext,
         IEnumerable<IModule> modules,
         IServiceProvider serviceProvider,
         NavigationService navigationService,
@@ -115,7 +115,7 @@ public class MainViewModel : SampleViewModelBase, INavigationContextProvider
             _navigationService.NavigateTo(_selectedModule!);
         }
     }
-    public INavigationContext NavigationContext
+    public INavigationHandler NavigationContext
     {
         get;
     }

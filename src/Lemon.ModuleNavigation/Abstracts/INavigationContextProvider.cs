@@ -2,6 +2,6 @@
 {
     public interface INavigationContextProvider
     {
-        INavigationContext NavigationContext { get; }
+        INavigationHandler NavigationContext { get; }
     }
 }

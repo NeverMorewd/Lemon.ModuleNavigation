@@ -1,6 +1,6 @@
 ﻿namespace Lemon.ModuleNavigation.Abstracts
 {
-    public interface INavigationHandler<in T> :INavigationHandler where T : IModule
+    public interface IModuleNavigationHandler<in T> :IModuleNavigationHandler where T : IModule
     {
         void OnNavigateTo(T module);
     }

@@ -2,7 +2,7 @@
 {
     public interface INavigationService<T> :INavigationService where T : IModule
     {
-        IDisposable BindingNavigationHandler(INavigationHandler<T> handler);
+        IDisposable BindingNavigationHandler(IModuleNavigationHandler<T> handler);
         void NavigateTo(T module);
     }
 }

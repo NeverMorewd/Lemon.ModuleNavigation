@@ -6,7 +6,7 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace Lemon.ModuleNavigation.Avaloniaui
 {
-    public class AvaNavigationContext : NavigationContext
+    public class AvaNavigationContext : NavigationHandler
     {
         private readonly Dictionary<string, IDataTemplate> _contentDatas;
         public AvaNavigationContext(INavigationService<IModule> navigationService,
@@ -60,12 +60,12 @@ namespace Lemon.ModuleNavigation.Avaloniaui
                 else
                 {
                     contentControl.Content = viewName;
-                    contentControl.ContentTemplate = GetDataTemplate();
+                    contentControl.ContentTemplate ??= GetDataTemplate();
                 }
             }
             else if (container is TabControl tabControl)
             {
-                tabControl.ContentTemplate = GetDataTemplate();
+                tabControl.ContentTemplate ??= GetDataTemplate();
                 if (!requestNew && tabControl.Items.Contains(viewName))
                 {
                     tabControl.SelectedItem = viewName;
@@ -79,14 +79,10 @@ namespace Lemon.ModuleNavigation.Avaloniaui
             }
             else if (container is ItemsControl itemsControl)
             {
-                itemsControl.ItemTemplate = GetDataTemplate();
+                itemsControl.ItemTemplate ??= GetDataTemplate();
                 if (!requestNew && itemsControl.Items.Contains(viewName))
                 {
                     itemsControl.ScrollIntoView(viewName);
-                    if (itemsControl is ListBox listBox)
-                    {
-                        listBox.SelectedItem = viewName;
-                    }
                 }
                 else
                 {

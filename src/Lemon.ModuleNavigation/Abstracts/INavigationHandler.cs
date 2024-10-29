@@ -1,9 +1,11 @@
-﻿namespace Lemon.ModuleNavigation.Abstracts
+﻿using System.Collections.ObjectModel;
+
+namespace Lemon.ModuleNavigation.Abstracts
 {
-    public interface INavigationHandler
+    public interface INavigationHandler : IModuleNavigationHandler<IModule>, IViewNavigationHandler
     {
-        void OnNavigateTo(string moduleKey);
-        IEnumerable<IModule> Modules { get; }
-        IModule? CurrentModule { get; }
+        IServiceProvider ServiceProvider { get; }
+        ObservableCollection<IModule> ActiveModules { get; set; }
+        IView CreateNewView(IModule module);
     }
 }

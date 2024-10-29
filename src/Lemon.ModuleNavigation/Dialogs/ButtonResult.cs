@@ -1,4 +1,4 @@
-﻿namespace Lemon.ModuleNavigation
+﻿namespace Lemon.ModuleNavigation.Dialogs
 {
     public enum ButtonResult
     {
