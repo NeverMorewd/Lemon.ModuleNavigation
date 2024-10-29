@@ -2,6 +2,7 @@
 using Avalonia.Controls.Templates;
 using Avalonia.Threading;
 using Lemon.ModuleNavigation.Abstracts;
+using Lemon.ModuleNavigation.Core;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Lemon.ModuleNavigation.Avaloniaui

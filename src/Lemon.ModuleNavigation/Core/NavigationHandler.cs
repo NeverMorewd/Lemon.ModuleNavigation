@@ -5,7 +5,7 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 
-namespace Lemon.ModuleNavigation
+namespace Lemon.ModuleNavigation.Core
 {
     public class NavigationHandler : INavigationHandler, IDisposable, INotifyPropertyChanged
     {
@@ -17,12 +17,12 @@ namespace Lemon.ModuleNavigation
         public NavigationHandler(INavigationService<IModule> navigationService,
             IViewNavigationService viewNavigationService,
             IEnumerable<IModule> modules,
-            IServiceProvider serviceProvider) 
+            IServiceProvider serviceProvider)
         {
             _serviceProvider = serviceProvider;
             _navigationService = navigationService;
-            _modulesCache = new ConcurrentDictionary<string, IModule>(modules.ToDictionary(m=>m.Key,m=>m));
-            Modules = _modulesCache.Select(m=>m.Value);
+            _modulesCache = new ConcurrentDictionary<string, IModule>(modules.ToDictionary(m => m.Key, m => m));
+            Modules = _modulesCache.Select(m => m.Value);
             ActiveModules = new ObservableCollection<IModule>(_modulesCache
                     .Where(m =>
                     {
@@ -72,7 +72,7 @@ namespace Lemon.ModuleNavigation
         }
         public void OnNavigateTo(string moduleKey)
         {
-            if(_modulesCache.TryGetValue(moduleKey, out var module))
+            if (_modulesCache.TryGetValue(moduleKey, out var module))
             {
                 OnNavigateToCore(module);
             }
@@ -97,11 +97,11 @@ namespace Lemon.ModuleNavigation
             return _serviceProvider.GetRequiredKeyedService<IViewModel>(module.Key);
         }
 
-        public virtual void OnNavigateTo(string containerName, 
-            string viewName, 
+        public virtual void OnNavigateTo(string containerName,
+            string viewName,
             bool requestNew = false)
         {
-            
+
         }
 
         private void OnNavigateToCore(IModule module)

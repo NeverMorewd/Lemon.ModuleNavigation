@@ -1,13 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Lemon.ModuleNavigation.Core;
 
 namespace Lemon.ModuleNavigation.Abstracts
 {
     public interface INavigationAware
     {
-
+        void OnNavigatedTo(NavigationContext navigationContext);
+        bool IsNavigationTarget(NavigationContext navigationContext);
+        void OnNavigatedFrom(NavigationContext navigationContext);
     }
 }

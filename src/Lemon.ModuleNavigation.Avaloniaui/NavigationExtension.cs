@@ -6,6 +6,7 @@ using Avalonia.Data;
 using Avalonia.Interactivity;
 using Avalonia.LogicalTree;
 using Lemon.ModuleNavigation.Abstracts;
+using Lemon.ModuleNavigation.Core;
 using System.Collections.Concurrent;
 using System.ComponentModel;
 

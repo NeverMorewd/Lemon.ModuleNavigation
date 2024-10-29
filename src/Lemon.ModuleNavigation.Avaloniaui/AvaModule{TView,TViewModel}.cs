@@ -1,4 +1,5 @@
 using Lemon.ModuleNavigation.Abstracts;
+using Lemon.ModuleNavigation.Core;
 using System.Diagnostics.CodeAnalysis;
 
 namespace Lemon.ModuleNavigation.Avaloniaui;

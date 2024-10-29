@@ -2,12 +2,12 @@
 using Microsoft.Extensions.DependencyInjection;
 using System.Diagnostics.CodeAnalysis;
 
-namespace Lemon.ModuleNavigation
+namespace Lemon.ModuleNavigation.Core
 {
-    public abstract class Module<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] TView, 
+    public abstract class Module<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] TView,
         [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] TViewModel>
-        : IModule 
-        where TViewModel : IViewModel 
+        : IModule
+        where TViewModel : IViewModel
         where TView : IView
     {
         protected readonly IServiceProvider ServiceProvider;
