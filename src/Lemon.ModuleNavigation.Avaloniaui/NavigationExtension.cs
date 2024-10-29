@@ -5,7 +5,6 @@ using Avalonia.Controls.Templates;
 using Avalonia.Data;
 using Avalonia.Interactivity;
 using Avalonia.LogicalTree;
-using Avalonia.VisualTree;
 using Lemon.ModuleNavigation.Abstracts;
 using System.Collections.Concurrent;
 using System.ComponentModel;

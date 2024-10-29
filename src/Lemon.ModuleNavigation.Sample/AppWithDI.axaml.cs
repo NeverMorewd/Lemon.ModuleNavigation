@@ -32,8 +32,10 @@ public partial class AppWithDi : Application
                 .AddSingleton<MainWindow>()
                 .AddSingleton<MainView>()
                 .AddSingleton<MainViewModel>()
-                .RegisterView<ViewAlpha,ViewAlphaViewModel>()
-                .RegisterView<ViewBeta,ViewBetaViewModel>();
+                .AddView<ViewAlpha,ViewAlphaViewModel>(nameof(ViewAlpha))
+                .AddView<ViewBeta,ViewBetaViewModel>(nameof(ViewBeta))
+                .AddAvaDialog<ViewAlpha, ViewAlphaViewModel>("Dialog" + nameof(ViewAlpha))
+                .AddAvaDialog<ViewBeta, ViewBetaViewModel>("Dialog" + nameof(ViewBeta));
         AppServiceProvider = services.BuildServiceProvider();
 
         var viewModel = AppServiceProvider.GetRequiredService<MainViewModel>();

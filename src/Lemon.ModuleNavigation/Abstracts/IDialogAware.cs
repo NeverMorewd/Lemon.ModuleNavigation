@@ -3,8 +3,8 @@
     public interface IDialogAware
     {
         string Title { get; }
-        event Action<object> RequestClose;
+        event Action<IDialogResult>? RequestClose;
         void OnDialogClosed();
-        void OnDialogOpened<TParam>(TParam parameters);
+        void OnDialogOpened(IDialogParameters? parameters);
     }
 }

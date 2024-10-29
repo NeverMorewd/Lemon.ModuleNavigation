@@ -1,13 +1,10 @@
-﻿using Avalonia.Controls;
-using Lemon.ModuleNavigation.Abstracts;
-using Lemon.ModuleNavigation.Avaloniaui;
-using Lemon.ModuleNavigation.Sample.Views;
-using Microsoft.Extensions.DependencyInjection;
+﻿using Lemon.ModuleNavigation.Abstracts;
+using Lemon.ModuleNavigation.Dialogs;
+using Microsoft.Extensions.Logging;
 using ReactiveUI;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
 using System.Reactive;
 
 namespace Lemon.ModuleNavigation.Sample.ViewModels;
@@ -16,13 +13,19 @@ public class MainViewModel : SampleViewModelBase, INavigationContextProvider
 {
     private readonly NavigationService _navigationService;
     private readonly IServiceProvider _serviceProvider;
-    public MainViewModel(AvaNavigationContext navigationContext,
+    private readonly IDialogService _dialogService;
+    private readonly ILogger _logger;
+    public MainViewModel(INavigationContext navigationContext,
         IEnumerable<IModule> modules,
         IServiceProvider serviceProvider,
-        NavigationService navigationService)
+        NavigationService navigationService,
+        IDialogService dialogService,
+        ILogger<MainViewModel> logger)
     {
+        _logger = logger;
         _navigationService = navigationService;
         _serviceProvider = serviceProvider;
+        _dialogService = dialogService;
         NavigationContext = navigationContext;
         Modules = new ObservableCollection<IModule>(modules);
         ToViewCommand = ReactiveCommand.Create<string>(content => 
@@ -40,8 +43,42 @@ public class MainViewModel : SampleViewModelBase, INavigationContextProvider
             _navigationService.NavigateToView("NItemsContainer", viewName, requestNew);
             _navigationService.NavigateToView("NTransitioningContentControl", viewName, requestNew);
         });
+        ToDialogCommand = ReactiveCommand.Create<string>(content =>
+        {
+            var viewName = content;
+            var showDialog = false;
+            if (content.EndsWith(".ShowDialog"))
+            {
+                viewName = content.Replace(".ShowDialog", string.Empty);
+                showDialog = true;
+
+            }
+            var param = new DialogParameters
+            {
+                { "start", nameof(MainViewModel) }
+            };
+            if (showDialog)
+            {
+                _dialogService.ShowDialog(viewName, param, p =>
+                {
+                    _logger.LogDebug($"close call back:{p}");
+                });
+            }
+            else
+            {
+                _dialogService.Show(viewName, param, p =>
+                {
+                    _logger.LogDebug($"close call back:{p}");
+                });
+            }
+        });
     }
     public ReactiveCommand<string, Unit> ToViewCommand
+    {
+        get;
+        set;
+    }
+    public ReactiveCommand<string, Unit> ToDialogCommand
     {
         get;
         set;
@@ -51,8 +88,8 @@ public class MainViewModel : SampleViewModelBase, INavigationContextProvider
         get;
         set;
     }
-    private UserControl? _selectedView;
-    public UserControl? SelectedView
+    private IView? _selectedView;
+    public IView? SelectedView
     {
         get => _selectedView;
         set

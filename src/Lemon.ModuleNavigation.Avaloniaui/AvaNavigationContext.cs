@@ -51,7 +51,6 @@ namespace Lemon.ModuleNavigation.Avaloniaui
         {
             if (container is ContentControl contentControl)
             {
-                SetDataTemplate(contentControl.ContentTemplate);
                 if (!requestNew 
                     && contentControl.Content is not null
                     && contentControl.Content.ToString() == viewName)
@@ -61,6 +60,7 @@ namespace Lemon.ModuleNavigation.Avaloniaui
                 else
                 {
                     contentControl.Content = viewName;
+                    SetDataTemplate(contentControl.ContentTemplate);
                 }
             }
             else if (container is TabControl tabControl)
@@ -105,7 +105,8 @@ namespace Lemon.ModuleNavigation.Avaloniaui
             {
                 dataTemplate = new FuncDataTemplate<object>((m, np) =>
                 {
-                    return ServiceProvider.GetRequiredKeyedService<UserControl>(m);
+                    var view = ServiceProvider.GetRequiredKeyedService<IView>(m);
+                    return view as Control;
                 });
             }
 
