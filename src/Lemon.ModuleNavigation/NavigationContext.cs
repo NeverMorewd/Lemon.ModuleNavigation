@@ -87,7 +87,7 @@ namespace Lemon.ModuleNavigation
             {
                 var view = _serviceProvider.GetRequiredKeyedService<IView>(module.Key);
                 var viewmodel = _serviceProvider.GetRequiredKeyedService<IViewModel>(module.Key);
-                view.SetDataContext(viewmodel);
+                view.DataContext = viewmodel;
                 return view;
             }
             throw new ArgumentNullException(nameof(module));

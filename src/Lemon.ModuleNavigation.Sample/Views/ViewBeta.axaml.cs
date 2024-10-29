@@ -1,10 +1,9 @@
-using Avalonia;
 using Avalonia.Controls;
-using Avalonia.Markup.Xaml;
+using Lemon.ModuleNavigation.Abstracts;
 
 namespace Lemon.ModuleNavigation.Sample.Views;
 
-public partial class ViewBeta : UserControl
+public partial class ViewBeta : UserControl, IView
 {
     public ViewBeta()
     {

@@ -51,7 +51,6 @@ namespace Lemon.ModuleNavigation.Avaloniaui
         {
             if (container is ContentControl contentControl)
             {
-                SetDataTemplate(contentControl.ContentTemplate);
                 if (!requestNew 
                     && contentControl.Content is not null
                     && contentControl.Content.ToString() == viewName)
@@ -61,11 +60,12 @@ namespace Lemon.ModuleNavigation.Avaloniaui
                 else
                 {
                     contentControl.Content = viewName;
+                    contentControl.ContentTemplate = GetDataTemplate();
                 }
             }
             else if (container is TabControl tabControl)
             {
-                SetDataTemplate(tabControl.ContentTemplate);
+                tabControl.ContentTemplate = GetDataTemplate();
                 if (!requestNew && tabControl.Items.Contains(viewName))
                 {
                     tabControl.SelectedItem = viewName;
@@ -79,7 +79,7 @@ namespace Lemon.ModuleNavigation.Avaloniaui
             }
             else if (container is ItemsControl itemsControl)
             {
-                SetDataTemplate(itemsControl.ItemTemplate);
+                itemsControl.ItemTemplate = GetDataTemplate();
                 if (!requestNew && itemsControl.Items.Contains(viewName))
                 {
                     itemsControl.ScrollIntoView(viewName);
@@ -99,16 +99,19 @@ namespace Lemon.ModuleNavigation.Avaloniaui
         }
 
 
-        private void SetDataTemplate(IDataTemplate? dataTemplate)
+        private IDataTemplate GetDataTemplate()
         {
-            if (dataTemplate == null)
+            return new FuncDataTemplate<object>((m, np) =>
             {
-                dataTemplate = new FuncDataTemplate<object>((m, np) =>
+                if (m == null)
                 {
-                    return ServiceProvider.GetRequiredKeyedService<UserControl>(m);
-                });
-            }
-
+                    return default;
+                }
+                var view = ServiceProvider.GetRequiredKeyedService<IView>(m);
+                var viewModel = ServiceProvider.GetRequiredKeyedService<INavigationAware>(m);
+                view.DataContext = viewModel;
+                return view as Control;
+            });
         }
     }
 }

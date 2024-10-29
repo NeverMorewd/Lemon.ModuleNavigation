@@ -9,9 +9,4 @@ public partial class SubView02 : UserControl, IView
     {
         InitializeComponent();
     }
-
-    public void SetDataContext(IViewModel viewModel)
-    {
-        DataContext = viewModel;
-    }
 }

@@ -17,7 +17,7 @@ namespace Lemon.ModuleNavigation.Sample.ModuleCs
         {
             _navigationService = navigationService;
             _moduleServiceProvider = moduleServiceProvider;
-            NavigationContext = _moduleServiceProvider.GetRequiredService<AvaNavigationContext>();
+            NavigationContext = _moduleServiceProvider.GetRequiredService<INavigationContext>();
             NavigateCommand = ReactiveCommand.Create<string>(target => 
             {
                 _navigationService.NavigateTo(target);

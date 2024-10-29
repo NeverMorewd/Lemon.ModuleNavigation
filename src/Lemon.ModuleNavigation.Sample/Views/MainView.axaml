@@ -28,11 +28,21 @@
             <Setter Property="CommandParameter" Value="{Binding $self.Content}" />
             <Setter Property="VerticalContentAlignment" Value="Center" />
         </Style>
+		<Style Selector="Button.DialogNavigation">
+			<Setter Property="Height" Value="30" />
+			<Setter Property="Width" Value="300" />
+			<Setter Property="Command" Value="{Binding ToDialogCommand}" />
+			<Setter Property="CommandParameter" Value="{Binding $self.Content}" />
+			<Setter Property="VerticalContentAlignment" Value="Center" />
+		</Style>
     </UserControl.Styles>
     <TabControl>
         <TabItem Header="ModuleNavigation">
             <Grid ColumnDefinitions="auto,*,*,*,*" ShowGridLines="True">
-                <StackPanel Orientation="Vertical" Spacing="5" Margin="0,0,2,0">
+                <StackPanel
+                    Margin="0,0,2,0"
+                    Orientation="Vertical"
+                    Spacing="5">
                     <Label Content="Modules" Target="{Binding ElementName=ModuleLists}" />
                     <ListBox
                         Name="ModuleLists"
@@ -77,19 +87,19 @@
                     <Label Content="ListBox" />
                     <Border Classes="HSeparator" />
                     <ListBox
-						Margin="2"
-						MaxHeight="600"
+                        MaxHeight="600"
+                        Margin="2"
                         lm:NavigationExtension.ModuleContainerName="NListBox"
                         Background="Transparent"
                         BorderBrush="Blue"
-                        BorderThickness="1" >
-						<!--https://github.com/AvaloniaUI/Avalonia/issues/17349-->
-						<ListBox.ItemsPanel>
-							<ItemsPanelTemplate>
-								<StackPanel/>
-							</ItemsPanelTemplate>
-						</ListBox.ItemsPanel>
-					</ListBox>
+                        BorderThickness="1">
+                        <!--  https://github.com/AvaloniaUI/Avalonia/issues/17349  -->
+                        <ListBox.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <StackPanel />
+                            </ItemsPanelTemplate>
+                        </ListBox.ItemsPanel>
+                    </ListBox>
                 </StackPanel>
                 <StackPanel Grid.Column="4" Classes="ForContainerShow">
                     <Label Content="TransitioningContentControl" />
@@ -143,6 +153,14 @@
                 </StackPanel>
             </Grid>
         </TabItem>
-        <TabItem Header="DialogNavigation(ongoing)" />
+        <TabItem Header="DialogNavigation(ongoing)">
+            <StackPanel Orientation="Vertical" Spacing="5" Width ="300">
+                <Label Content="Dialogs" />
+                <Button Classes="DialogNavigation" Content="ViewAlpha" />
+                <Button Classes="DialogNavigation" Content="ViewBeta" />
+                <Button Classes="DialogNavigation" Content="ViewAlpha.ShowDialog" />
+                <Button Classes="DialogNavigation" Content="ViewBeta.ShowDialog" />
+            </StackPanel>
+        </TabItem>
     </TabControl>
 </UserControl>

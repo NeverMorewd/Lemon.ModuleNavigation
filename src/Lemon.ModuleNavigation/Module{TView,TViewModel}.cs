@@ -22,7 +22,7 @@ namespace Lemon.ModuleNavigation
                 if (IsInitialized) return;
                 View = ServiceProvider.GetRequiredKeyedService<IView>(Key);
                 ViewModel = ServiceProvider.GetRequiredKeyedService<IViewModel>(Key);
-                View.SetDataContext(ViewModel);
+                View.DataContext = ViewModel;
                 IsInitialized = true;
             }
         }
