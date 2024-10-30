@@ -4,7 +4,6 @@ using Avalonia.Threading;
 using Lemon.ModuleNavigation.Abstracts;
 using Lemon.ModuleNavigation.Core;
 using Microsoft.Extensions.DependencyInjection;
-using System.Linq;
 
 namespace Lemon.ModuleNavigation.Avaloniaui
 {
@@ -70,14 +69,7 @@ namespace Lemon.ModuleNavigation.Avaloniaui
             else if (container is TabControl tabControl)
             {
                 tabControl.ContentTemplate ??= GetDataTemplate();
-                var targetItem = tabControl.Items.FirstOrDefault(i =>
-                {
-                    if (i is NavigationContext current)
-                    {
-                        return NavigationContext.Comparer.Equals(current, context);
-                    }
-                    return false;
-                });
+                var targetItem = GetTargetItem(tabControl.Items, context);
                 if (!requestNew && targetItem != null)
                 {
                     tabControl.SelectedItem = targetItem;
@@ -91,14 +83,7 @@ namespace Lemon.ModuleNavigation.Avaloniaui
             else if (container is ItemsControl itemsControl)
             {
                 itemsControl.ItemTemplate ??= GetDataTemplate();
-                var targetItem = itemsControl.Items.FirstOrDefault(i =>
-                {
-                    if (i is NavigationContext current)
-                    {
-                        return NavigationContext.Comparer.Equals(current, context);
-                    }
-                    return false;
-                });
+                var targetItem = GetTargetItem(itemsControl.Items, context);
                 if (!requestNew && targetItem != null)
                 {
                     itemsControl.ScrollIntoView(targetItem);
@@ -111,7 +96,6 @@ namespace Lemon.ModuleNavigation.Avaloniaui
                     itemsControl.ScrollIntoView(itemsControl.Items.Count - 1);
                 }
             }
-            Dispatcher.UIThread.RunJobs(DispatcherPriority.Loaded);
         }
 
 
@@ -143,6 +127,18 @@ namespace Lemon.ModuleNavigation.Avaloniaui
                     _viewCache.TryAdd((context.ContainerName, context.TargetName), view);
                 }
                 return view as Control;
+            });
+        }
+        private object? GetTargetItem(ItemCollection itemCollection, 
+            NavigationContext navigationContext)
+        {
+            return itemCollection.FirstOrDefault(i =>
+            {
+                if (i is NavigationContext current)
+                {
+                    return NavigationContext.Comparer.Equals(current, navigationContext);
+                }
+                return false;
             });
         }
     }
