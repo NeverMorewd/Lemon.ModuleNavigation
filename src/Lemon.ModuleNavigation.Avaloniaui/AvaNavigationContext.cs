@@ -32,24 +32,20 @@ namespace Lemon.ModuleNavigation.Avaloniaui
             string viewName, 
             bool requestNew = false)
         {
-            var container = ViewContainers[containerName];
-            ContainerHandleCore(container, viewName, requestNew);
+            ContainerHandleCore(containerName, viewName, requestNew);
         }
-        private void ContainerHandleCore<TView>(Control container) where TView : notnull
+        public override void OnNavigateTo(string containerName,
+            string viewName,
+            NavigationParameters navigationParameters,
+            bool requestNew = false)
         {
-            if (container is ContentControl contentControl)
-            {
-                contentControl.Content = this;
-                contentControl.ContentTemplate = new FuncDataTemplate<object>((m, np) =>
-                {
-                    return ServiceProvider.GetRequiredService<TView>() as Control;
-                });
-            }
+            ContainerHandleCore(containerName, viewName, requestNew);
         }
-        private void ContainerHandleCore(Control container, 
+        private void ContainerHandleCore(string containerName, 
             string viewName, 
             bool requestNew = false)
         {
+            var container = ViewContainers[containerName];
             if (container is ContentControl contentControl)
             {
                 if (!requestNew 
@@ -104,6 +100,7 @@ namespace Lemon.ModuleNavigation.Avaloniaui
                 {
                     return default;
                 }
+                // todo:bug
                 var view = ServiceProvider.GetRequiredKeyedService<IView>(m);
                 var viewModel = ServiceProvider.GetRequiredKeyedService<INavigationAware>(m);
                 view.DataContext = viewModel;

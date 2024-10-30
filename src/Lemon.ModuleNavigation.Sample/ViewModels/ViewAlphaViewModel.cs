@@ -1,4 +1,5 @@
 ﻿using Lemon.ModuleNavigation.Abstracts;
+using Lemon.ModuleNavigation.Core;
 using Lemon.ModuleNavigation.Dialogs;
 using Microsoft.Extensions.Logging;
 using ReactiveUI;
@@ -7,7 +8,9 @@ using System.Reactive;
 
 namespace Lemon.ModuleNavigation.Sample.ViewModels
 {
-    public class ViewAlphaViewModel : SampleViewModelBase, IDialogAware, INavigationAware
+    public class ViewAlphaViewModel : SampleViewModelBase, 
+        IDialogAware, 
+        INavigationAware
     {
         private readonly ILogger _logger;
         public ViewAlphaViewModel(ILogger<ViewAlphaViewModel> logger)
@@ -44,6 +47,21 @@ namespace Lemon.ModuleNavigation.Sample.ViewModels
         {
             _logger.LogInformation($"OnDialogOpened:{parameters?.ToString()}");
             IsDialog = true;
+        }
+
+        public void OnNavigatedTo(NavigationContext navigationContext)
+        {
+            //throw new NotImplementedException();
+        }
+
+        public bool IsNavigationTarget(NavigationContext navigationContext)
+        {
+            return true;
+        }
+
+        public void OnNavigatedFrom(NavigationContext navigationContext)
+        {
+            //throw new NotImplementedException();
         }
     }
 }

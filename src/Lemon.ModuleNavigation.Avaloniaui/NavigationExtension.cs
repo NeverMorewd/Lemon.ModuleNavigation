@@ -34,9 +34,9 @@ namespace Lemon.ModuleNavigation.Avaloniaui
                     }
                     void LoadedHandler(object? sender, RoutedEventArgs e)
                     {
-                        if (control.DataContext is INavigationContextProvider navigationContextProvider)
+                        if (control.DataContext is INavigationProvider navigationContextProvider)
                         {
-                            var navigationContext = navigationContextProvider!.NavigationContext;
+                            var navigationContext = navigationContextProvider!.NavigationHandler;
                             if (navigationContext is AvaNavigationContext context)
                             {
                                 context.ViewContainers.TryAdd(currentValue, control);
@@ -89,9 +89,9 @@ namespace Lemon.ModuleNavigation.Avaloniaui
                 }
                 void LoadedHandler(object? sender, RoutedEventArgs e)
                 {
-                    if (control.DataContext is INavigationContextProvider navigationContextProvider)
+                    if (control.DataContext is INavigationProvider navigationContextProvider)
                     {
-                        var navigationContext = navigationContextProvider.NavigationContext;
+                        var navigationContext = navigationContextProvider.NavigationHandler;
                         if (navigationContext is AvaNavigationContext context)
                         {
                             SetBinding(control, context);
@@ -172,9 +172,9 @@ namespace Lemon.ModuleNavigation.Avaloniaui
                     IModule item = tabItem.DataContext as IModule ?? throw new InvalidOperationException($"The DataContext of tabItem is not derived from IModule");
                     if (item.CanUnload)
                     {
-                        if (tabContainer.DataContext is INavigationContextProvider navigationContextProvider)
+                        if (tabContainer.DataContext is INavigationProvider navigationContextProvider)
                         {
-                            navigationContextProvider.NavigationContext.ActiveModules.Remove(item);
+                            navigationContextProvider.NavigationHandler.ActiveModules.Remove(item);
                         }
                     }
                 }

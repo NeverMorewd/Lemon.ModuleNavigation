@@ -36,7 +36,9 @@ namespace Lemon.ModuleNavigation.Core
             return new Cleanup<IModuleNavigationHandler>(_handlers, handler);
         }
 
-        public void NavigateToView(string containerKey, string viewKey, bool requestNew = false)
+        public void NavigateToView(string containerKey, 
+            string viewKey, 
+            bool requestNew = false)
         {
             foreach (var handler in _viewHandlers)
             {
@@ -50,6 +52,16 @@ namespace Lemon.ModuleNavigation.Core
             return new Cleanup<IViewNavigationHandler>(_viewHandlers, handler);
         }
 
+        public void NavigateToView(string containerKey, 
+            string viewKey, 
+            NavigationParameters parameters, 
+            bool requestNew = false)
+        {
+            foreach (var handler in _viewHandlers)
+            {
+                handler.OnNavigateTo(containerKey, viewKey, requestNew);
+            }
+        }
 
         private class Cleanup<T>(List<T> handlers, T handler)
             : IDisposable

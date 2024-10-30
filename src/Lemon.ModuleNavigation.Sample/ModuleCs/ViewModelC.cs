@@ -8,7 +8,7 @@ using System.Reactive;
 
 namespace Lemon.ModuleNavigation.Sample.ModuleCs
 {
-    public class ViewModelC : SampleViewModelBase, IViewModel, INavigationContextProvider
+    public class ViewModelC : SampleViewModelBase, IViewModel, INavigationProvider
     {
         private readonly INavigationService<IModule> _navigationService;
         private readonly IServiceProvider _moduleServiceProvider;
@@ -17,7 +17,7 @@ namespace Lemon.ModuleNavigation.Sample.ModuleCs
         {
             _navigationService = navigationService;
             _moduleServiceProvider = moduleServiceProvider;
-            NavigationContext = _moduleServiceProvider.GetRequiredService<INavigationHandler>();
+            NavigationHandler = _moduleServiceProvider.GetRequiredService<INavigationHandler>();
             NavigateCommand = ReactiveCommand.Create<string>(target => 
             {
                 _navigationService.NavigateTo(target);
@@ -34,7 +34,7 @@ namespace Lemon.ModuleNavigation.Sample.ModuleCs
         /// <summary>
         /// Sub NavigationContext
         /// </summary>
-        public INavigationHandler NavigationContext
+        public INavigationHandler NavigationHandler
         {
             get;
         }

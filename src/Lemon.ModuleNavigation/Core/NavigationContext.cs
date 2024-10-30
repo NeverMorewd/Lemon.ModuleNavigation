@@ -6,9 +6,7 @@ namespace Lemon.ModuleNavigation.Core
     {
         public NavigationContext(INavigationService navigationService, 
             Uri uri)
-            : this(navigationService, 
-                  uri , 
-                  null)
+            : this(navigationService, uri , null)
         {
 
         }

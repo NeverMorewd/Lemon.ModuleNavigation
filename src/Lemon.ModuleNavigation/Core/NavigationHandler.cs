@@ -104,6 +104,14 @@ namespace Lemon.ModuleNavigation.Core
 
         }
 
+        public virtual void OnNavigateTo(string containerName,
+            string viewName,
+            NavigationParameters parameters,
+            bool requestNew = false)
+        {
+
+        }
+
         private void OnNavigateToCore(IModule module)
         {
             if (module.ForceNew)
