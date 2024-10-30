@@ -9,12 +9,12 @@ namespace Lemon.ModuleNavigation.Core
 {
     public class NavigationHandler : INavigationHandler, IDisposable, INotifyPropertyChanged
     {
-        private readonly INavigationService<IModule> _navigationService;
+        private readonly IModuleNavigationService<IModule> _navigationService;
         private readonly IDisposable _navigationCleanup;
         private readonly IDisposable _viewNavigationCleanup;
         private readonly IServiceProvider _serviceProvider;
         private readonly ConcurrentDictionary<string, IModule> _modulesCache;
-        public NavigationHandler(INavigationService<IModule> navigationService,
+        public NavigationHandler(IModuleNavigationService<IModule> navigationService,
             IViewNavigationService viewNavigationService,
             IEnumerable<IModule> modules,
             IServiceProvider serviceProvider)

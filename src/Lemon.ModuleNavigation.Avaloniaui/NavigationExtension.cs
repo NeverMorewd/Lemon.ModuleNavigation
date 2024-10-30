@@ -37,7 +37,7 @@ namespace Lemon.ModuleNavigation.Avaloniaui
                         if (control.DataContext is INavigationProvider navigationContextProvider)
                         {
                             var navigationContext = navigationContextProvider!.NavigationHandler;
-                            if (navigationContext is AvaNavigationContext context)
+                            if (navigationContext is AvaNavigationHandler context)
                             {
                                 context.ViewContainers.TryAdd(currentValue, control);
                             }
@@ -92,7 +92,7 @@ namespace Lemon.ModuleNavigation.Avaloniaui
                     if (control.DataContext is INavigationProvider navigationContextProvider)
                     {
                         var navigationContext = navigationContextProvider.NavigationHandler;
-                        if (navigationContext is AvaNavigationContext context)
+                        if (navigationContext is AvaNavigationHandler context)
                         {
                             SetBinding(control, context);
                         }
@@ -181,7 +181,7 @@ namespace Lemon.ModuleNavigation.Avaloniaui
             }
         }
 
-        private static void SetBinding(Control control, AvaNavigationContext navigationContext)
+        private static void SetBinding(Control control, AvaNavigationHandler navigationContext)
         {
             if (control is TabControl tabControl)
             {

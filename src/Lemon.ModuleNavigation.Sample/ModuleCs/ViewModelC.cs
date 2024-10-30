@@ -10,9 +10,9 @@ namespace Lemon.ModuleNavigation.Sample.ModuleCs
 {
     public class ViewModelC : SampleViewModelBase, IViewModel, INavigationProvider
     {
-        private readonly INavigationService<IModule> _navigationService;
+        private readonly IModuleNavigationService<IModule> _navigationService;
         private readonly IServiceProvider _moduleServiceProvider;
-        public ViewModelC(INavigationService<IModule> navigationService, 
+        public ViewModelC(IModuleNavigationService<IModule> navigationService, 
             IModuleServiceProvider moduleServiceProvider) 
         {
             _navigationService = navigationService;

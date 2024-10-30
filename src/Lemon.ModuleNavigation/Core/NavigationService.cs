@@ -2,7 +2,7 @@
 
 namespace Lemon.ModuleNavigation.Core
 {
-    public class NavigationService : INavigationService<IModule>, IViewNavigationService
+    public class NavigationService : IModuleNavigationService<IModule>, IViewNavigationService
     {
         private readonly List<IModuleNavigationHandler> _handlers = [];
         private readonly List<IViewNavigationHandler> _viewHandlers = [];
@@ -25,12 +25,12 @@ namespace Lemon.ModuleNavigation.Core
             }
         }
 
-        IDisposable INavigationService<IModule>.BindingNavigationHandler(IModuleNavigationHandler<IModule> moduleHandler)
+        IDisposable IModuleNavigationService<IModule>.BindingNavigationHandler(IModuleNavigationHandler<IModule> moduleHandler)
         {
             _handlers.Add(moduleHandler);
             return new Cleanup<IModuleNavigationHandler>(_handlers, moduleHandler);
         }
-        IDisposable INavigationService.BindingNavigationHandler(IModuleNavigationHandler handler)
+        IDisposable IModuleNavigationService.BindingNavigationHandler(IModuleNavigationHandler handler)
         {
             _handlers.Add(handler);
             return new Cleanup<IModuleNavigationHandler>(_handlers, handler);

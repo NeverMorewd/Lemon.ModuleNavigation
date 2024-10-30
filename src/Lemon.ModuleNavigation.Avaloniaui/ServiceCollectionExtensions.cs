@@ -40,7 +40,7 @@ namespace Lemon.ModuleNavigation.Avaloniaui
             return serviceDescriptors
                     .AddNavigationSupport()
                     .AddSingleton(sp => sp.GetKeyedServices<IView>(typeof(IView)))
-                    .AddSingleton<INavigationHandler, AvaNavigationContext>()
+                    .AddSingleton<INavigationHandler, AvaNavigationHandler>()
                     .AddSingleton<IDialogService, AvaDialogService>()
                     .AddKeyedTransient<IAvaDialogWindow, DefaultDialogWindow>(DefaultDialogWindow.Key);
         }

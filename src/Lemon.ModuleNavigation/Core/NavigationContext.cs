@@ -1,29 +1,28 @@
-﻿using Lemon.ModuleNavigation.Abstracts;
-
-namespace Lemon.ModuleNavigation.Core
+﻿namespace Lemon.ModuleNavigation.Core
 {
     public class NavigationContext
     {
-        public NavigationContext(INavigationService navigationService, 
-            Uri uri)
-            : this(navigationService, uri , null)
+        public readonly static NavigationContextComparer Comparer = new();
+        public NavigationContext(string targetName,
+            string containerName)
+            : this(targetName, 
+                  containerName, 
+                  false, 
+                  null)
         {
 
         }
-        public NavigationContext(INavigationService navigationService, 
-            Uri uri, 
+        public NavigationContext(string targetName, 
+            string containerName,
+            bool requestNew,
             NavigationParameters? navigationParameters)
         {
-            NavigationService = navigationService;
-            Uri = uri;
+            TargetName = targetName;
             Parameters = navigationParameters;
+            RequestNew = requestNew;
+            ContainerName = containerName;
         }
-        public INavigationService NavigationService 
-        { 
-            get; 
-            private set; 
-        }
-        public Uri Uri 
+        public string TargetName 
         { 
             get; 
             private set; 
@@ -32,6 +31,39 @@ namespace Lemon.ModuleNavigation.Core
         { 
             get; 
             private set; 
+        }
+        public bool RequestNew
+        {
+            get;
+            private set;
+        }
+        public string ContainerName
+        { 
+            get; 
+            private set; 
+        }
+        public Uri? Uri
+        {
+            get;
+            set;
+        }
+        public override string ToString()
+        {
+            return TargetName;
+        }
+    }
+    public class NavigationContextComparer : IEqualityComparer<NavigationContext>
+    {
+        public bool Equals(NavigationContext? x, NavigationContext? y)
+        {
+            if (x == null && y == null) return true;
+            if (x == null || y == null) return false;
+            return x.TargetName == y.TargetName;
+        }
+
+        public int GetHashCode(NavigationContext obj)
+        {
+            return obj.TargetName.GetHashCode();
         }
     }
 }
