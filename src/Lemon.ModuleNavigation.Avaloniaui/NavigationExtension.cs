@@ -38,9 +38,9 @@ namespace Lemon.ModuleNavigation.Avaloniaui
                         if (control.DataContext is INavigationProvider navigationProvider)
                         {
                             var navigationHandler = navigationProvider!.NavigationHandler;
-                            if (navigationHandler is AvaNavigationHandler context)
+                            if (navigationHandler is NavigationHandler handler)
                             {
-                                context.ContainerManager.AddContainer(currentValue, control.ToContainer());
+                                handler.ContainerManager.AddContainer(currentValue, control.ToContainer());
                             }
                         }
                         control.Loaded -= LoadedHandler;
@@ -93,9 +93,9 @@ namespace Lemon.ModuleNavigation.Avaloniaui
                     if (control.DataContext is INavigationProvider navigationContextProvider)
                     {
                         var navigationContext = navigationContextProvider.NavigationHandler;
-                        if (navigationContext is AvaNavigationHandler context)
+                        if (navigationContext is NavigationHandler handler)
                         {
-                            SetBinding(control, context);
+                            SetBinding(control, handler);
                         }
                     }
                     control.Loaded -= LoadedHandler;
@@ -182,7 +182,7 @@ namespace Lemon.ModuleNavigation.Avaloniaui
             }
         }
 
-        private static void SetBinding(Control control, AvaNavigationHandler navigationContext)
+        private static void SetBinding(Control control, NavigationHandler navigationHandler)
         {
             if (control is TabControl tabControl)
             {
@@ -204,18 +204,18 @@ namespace Lemon.ModuleNavigation.Avaloniaui
                     {
                         return null;
                     }
-                    return navigationContext.CreateNewView(m) as Control;
+                    return navigationHandler.CreateNewView(m) as Control;
                 });
             }
             else if (control is ItemsControl itemsControl)
             {
-                if (navigationContext is INotifyPropertyChanged npc)
+                if (navigationHandler is INotifyPropertyChanged npc)
                 {
                     npc.PropertyChanged += (sender, e) =>
                     {
                         if (e.PropertyName == nameof(NavigationHandler.CurrentModule))
                         {
-                            if (navigationContext.CurrentModule != null)
+                            if (navigationHandler.CurrentModule != null)
                             {
                                 //itemsControl.ScrollIntoView(navigationContext.CurrentModule);
                                 //https://github.com/AvaloniaUI/Avalonia/issues/17349
@@ -225,11 +225,11 @@ namespace Lemon.ModuleNavigation.Avaloniaui
                                     {
                                         selecting.AutoScrollToSelectedItem = true;
                                     }
-                                    selecting.SelectedItem = navigationContext.CurrentModule;
+                                    selecting.SelectedItem = navigationHandler.CurrentModule;
                                 }
                                 else
                                 {
-                                    itemsControl.ScrollIntoView(navigationContext.CurrentModule);
+                                    itemsControl.ScrollIntoView(navigationHandler.CurrentModule);
                                 }
                             }
                         }
@@ -246,7 +246,7 @@ namespace Lemon.ModuleNavigation.Avaloniaui
                     {
                         return null;
                     }
-                    return navigationContext.CreateNewView(m) as Control;
+                    return navigationHandler.CreateNewView(m) as Control;
                 });
             }
             else if (control is ContentControl contentControl)
@@ -262,7 +262,7 @@ namespace Lemon.ModuleNavigation.Avaloniaui
                     {
                         return null;
                     }
-                    return navigationContext.CreateNewView(m) as Control;
+                    return navigationHandler.CreateNewView(m) as Control;
                 });
             }
         }
