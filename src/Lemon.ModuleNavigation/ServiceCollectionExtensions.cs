@@ -61,8 +61,8 @@ namespace Lemon.ModuleNavigation
                 .AddSingleton<NavigationService>()
                 .AddSingleton<IModuleNavigationService<IModule>>(sp => sp.GetRequiredService<NavigationService>())
                 .AddSingleton<IViewNavigationService>(sp => sp.GetRequiredService<NavigationService>())
-                .AddSingleton<INavigationHandler, NavigationHandler>();
-
+                .AddSingleton<INavigationHandler, NavigationHandler>()
+                .AddSingleton<INavigationContainerManager, NavigationContainerManager>();
         }
 
         public static IServiceCollection AddAppServiceProvider(this IServiceCollection serviceDescriptors,

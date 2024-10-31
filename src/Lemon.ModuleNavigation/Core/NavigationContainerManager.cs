@@ -1,5 +1,4 @@
 ﻿using Lemon.ModuleNavigation.Abstracts;
-using Microsoft.Extensions.DependencyInjection;
 
 namespace Lemon.ModuleNavigation.Core
 {
@@ -12,37 +11,25 @@ namespace Lemon.ModuleNavigation.Core
         {
             _serviceProvider = serviceProvider;
         }
-        public void RegisterViewWithRegion(string regionName, Func<IView> viewFactory)
-        {
-            if (!_containers.TryGetValue(regionName, out var region))
-            {
-                region = new NavigationContainer();
-                _containers[regionName] = region;
-            }
 
-            region.Views.Add(viewFactory());
-        }
-
-        public void RequestNavigate(string regionName, string viewName, NavigationParameters parameters = null)
+        public void RequestNavigate(string containerName, string viewName, bool requestNew, NavigationParameters? parameters = null)
         {
-            if (_containers.TryGetValue(regionName, out var region))
+            if (_containers.TryGetValue(containerName, out var container))
             {
-               var view = _serviceProvider.GetRequiredKeyedService<IView>(viewName);
-               region.Views.Add(view);
+                var context = new NavigationContext(viewName, containerName, _serviceProvider, requestNew, parameters);
+                container.Activate(context);
             }
         }
 
-        public INavigationContainer CreateRegion(string regionName)
+        public void AddContainer(string containerName, INavigationContainer container)
         {
-            var region = new NavigationContainer();
-            _containers[regionName] = region;
-            return region;
+            _containers.Add(containerName, container);
         }
 
-        public INavigationContainer? GetRegion(string regionName)
+        public INavigationContainer? GetContainer(string containerName)
         {
-            _containers.TryGetValue(regionName, out var region);
-            return region;
+            _containers.TryGetValue(containerName, out var container);
+            return container;
         }
     }
 

@@ -9,6 +9,7 @@ using Lemon.ModuleNavigation.Abstracts;
 using Lemon.ModuleNavigation.Core;
 using System.Collections.Concurrent;
 using System.ComponentModel;
+using Lemon.ModuleNavigation.Avaloniaui.Containers;
 
 namespace Lemon.ModuleNavigation.Avaloniaui
 {
@@ -34,12 +35,12 @@ namespace Lemon.ModuleNavigation.Avaloniaui
                     }
                     void LoadedHandler(object? sender, RoutedEventArgs e)
                     {
-                        if (control.DataContext is INavigationProvider navigationContextProvider)
+                        if (control.DataContext is INavigationProvider navigationProvider)
                         {
-                            var navigationContext = navigationContextProvider!.NavigationHandler;
-                            if (navigationContext is AvaNavigationHandler context)
+                            var navigationHandler = navigationProvider!.NavigationHandler;
+                            if (navigationHandler is AvaNavigationHandler context)
                             {
-                                context.ViewContainers.TryAdd(currentValue, control);
+                                context.ContainerManager.AddContainer(currentValue, control.ToContainer());
                             }
                         }
                         control.Loaded -= LoadedHandler;

@@ -14,13 +14,16 @@ namespace Lemon.ModuleNavigation.Core
         private readonly IDisposable _viewNavigationCleanup;
         private readonly IServiceProvider _serviceProvider;
         private readonly ConcurrentDictionary<string, IModule> _modulesCache;
+        private readonly INavigationContainerManager _containerManager;
         public NavigationHandler(IModuleNavigationService<IModule> navigationService,
             IViewNavigationService viewNavigationService,
             IEnumerable<IModule> modules,
+            INavigationContainerManager containerManager,
             IServiceProvider serviceProvider)
         {
             _serviceProvider = serviceProvider;
             _navigationService = navigationService;
+            _containerManager = containerManager;
             _modulesCache = new ConcurrentDictionary<string, IModule>(modules.ToDictionary(m => m.Key, m => m));
             Modules = _modulesCache.Select(m => m.Value);
             ActiveModules = new ObservableCollection<IModule>(_modulesCache
@@ -49,6 +52,7 @@ namespace Lemon.ModuleNavigation.Core
             get;
             set;
         }
+        public INavigationContainerManager ContainerManager => _containerManager;
         public IServiceProvider ServiceProvider => _serviceProvider;
 
         private IModule? _currentModule;

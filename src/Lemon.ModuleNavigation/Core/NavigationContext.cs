@@ -2,27 +2,23 @@
 {
     public class NavigationContext
     {
-        public readonly static NavigationContextComparer Comparer = new();
-        public NavigationContext(string targetName,
-            string containerName)
-            : this(targetName, 
-                  containerName, 
-                  false, 
-                  null)
-        {
-
-        }
-        public NavigationContext(string targetName, 
+        private readonly Guid _guid;
+        internal NavigationContext(string viewName, 
             string containerName,
+            IServiceProvider serviceProvider,
             bool requestNew,
             NavigationParameters? navigationParameters)
         {
-            TargetName = targetName;
+            ViewName = viewName;
             Parameters = navigationParameters;
             RequestNew = requestNew;
             ContainerName = containerName;
+            _guid = Guid.NewGuid();
+            ServiceProvider = serviceProvider;
         }
-        public string TargetName 
+        public static ViewNameComparer ViewNameComparer => new();
+        public static StrictComparer StrictComparer => new();
+        public string ViewName 
         { 
             get; 
             private set; 
@@ -47,23 +43,42 @@
             get;
             set;
         }
+        public Guid Guid => _guid;
+        public IServiceProvider ServiceProvider
+        {
+            get;
+        }
         public override string ToString()
         {
-            return TargetName;
+            return ViewName;
         }
     }
-    public class NavigationContextComparer : IEqualityComparer<NavigationContext>
+    public class ViewNameComparer : IEqualityComparer<NavigationContext>
     {
         public bool Equals(NavigationContext? x, NavigationContext? y)
         {
             if (x == null && y == null) return true;
             if (x == null || y == null) return false;
-            return x.TargetName == y.TargetName;
+            return x.ViewName == y.ViewName;
         }
 
         public int GetHashCode(NavigationContext obj)
         {
-            return obj.TargetName.GetHashCode();
+            return obj.ViewName.GetHashCode();
+        }
+    }
+    public class StrictComparer : IEqualityComparer<NavigationContext>
+    {
+        public bool Equals(NavigationContext? x, NavigationContext? y)
+        {
+            if (x == null && y == null) return true;
+            if (x == null || y == null) return false;
+            return x.Guid == y.Guid;
+        }
+
+        public int GetHashCode(NavigationContext obj)
+        {
+            return obj.Guid.GetHashCode();
         }
     }
 }

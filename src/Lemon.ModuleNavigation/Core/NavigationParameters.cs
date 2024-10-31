@@ -4,5 +4,6 @@ namespace Lemon.ModuleNavigation.Core
 {
     public class NavigationParameters : BaseParameters
     {
+
     }
 }

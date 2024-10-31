@@ -13,19 +13,15 @@ namespace Lemon.ModuleNavigation.Avaloniaui
         public AvaNavigationHandler(IModuleNavigationService<IModule> navigationService,
             IViewNavigationService viewNavigationService,
             IEnumerable<IModule> modules,
+            INavigationContainerManager navigationContainerManager,
             IServiceProvider serviceProvider)
             : base(navigationService,
                   viewNavigationService,
                   modules,
+                  navigationContainerManager,
                   serviceProvider)
         {
-            ViewContainers = [];
             _viewCache = [];
-        }
-
-        public Dictionary<string, Control> ViewContainers
-        {
-            get;
         }
 
         public override void OnNavigateTo(string containerName, 
@@ -46,89 +42,60 @@ namespace Lemon.ModuleNavigation.Avaloniaui
             NavigationParameters? navigationParameters,
             bool requestNew = false)
         {
-            var context = new NavigationContext(viewName,
-                                                containerName,
-                                                requestNew,
-                                                navigationParameters);
-            var container = ViewContainers[containerName];
-            if (container is ContentControl contentControl)
-            {
-                if (!requestNew
-                    && contentControl.Content is not null
-                    && contentControl.Content is NavigationContext current
-                    && NavigationContext.Comparer.Equals(current, context))
-                {
-                    return;
-                }
-                else
-                {
-                    contentControl.Content = context;
-                    contentControl.ContentTemplate ??= GetDataTemplate();
-                }
-            }
-            else if (container is TabControl tabControl)
-            {
-                tabControl.ContentTemplate ??= GetDataTemplate();
-                var targetItem = GetTargetItem(tabControl.Items, context);
-                if (!requestNew && targetItem != null)
-                {
-                    tabControl.SelectedItem = targetItem;
-                }
-                else
-                {
-                    tabControl.Items.Add(context);
-                    tabControl.SelectedIndex = tabControl.Items.Count - 1;
-                }
-            }
-            else if (container is ItemsControl itemsControl)
-            {
-                itemsControl.ItemTemplate ??= GetDataTemplate();
-                var targetItem = GetTargetItem(itemsControl.Items, context);
-                if (!requestNew && targetItem != null)
-                {
-                    itemsControl.ScrollIntoView(targetItem);
-                }
-                else
-                {
-                    itemsControl.Items.Add(context);
-                    /// https://github.com/AvaloniaUI/Avalonia/issues/17347
-                    Dispatcher.UIThread.RunJobs(DispatcherPriority.Loaded);
-                    itemsControl.ScrollIntoView(itemsControl.Items.Count - 1);
-                }
-            }
+
+            ContainerManager.RequestNavigate(containerName, viewName, requestNew, navigationParameters);
+            //var context = new NavigationContext(viewName,
+            //                        containerName,
+            //                        requestNew,
+            //                        navigationParameters);
+            //var container = ContainerManager.GetContainer(containerName);
+            //if (container is ContentControl contentControl)
+            //{
+            //    if (!requestNew
+            //        && contentControl.Content is not null
+            //        && contentControl.Content is NavigationContext current
+            //        && NavigationContext.ViewNameComparer.Equals(current, context))
+            //    {
+            //        return;
+            //    }
+            //    else
+            //    {
+            //        contentControl.Content = context;
+            //        contentControl.ContentTemplate ??= GetDataTemplate();
+            //    }
+            //}
+            //else if (container is TabControl tabControl)
+            //{
+            //    tabControl.ContentTemplate ??= GetDataTemplate();
+            //    var targetItem = GetTargetItem(tabControl.Items, context);
+            //    if (!requestNew && targetItem != null)
+            //    {
+            //        tabControl.SelectedItem = targetItem;
+            //    }
+            //    else
+            //    {
+            //        tabControl.Items.Add(context);
+            //        tabControl.SelectedIndex = tabControl.Items.Count - 1;
+            //    }
+            //}
+            //else if (container is ItemsControl itemsControl)
+            //{
+            //    itemsControl.ItemTemplate ??= GetDataTemplate();
+            //    var targetItem = GetTargetItem(itemsControl.Items, context);
+            //    if (!requestNew && targetItem != null)
+            //    {
+            //        itemsControl.ScrollIntoView(targetItem);
+            //    }
+            //    else
+            //    {
+            //        itemsControl.Items.Add(context);
+            //        /// https://github.com/AvaloniaUI/Avalonia/issues/17347
+            //        Dispatcher.UIThread.RunJobs(DispatcherPriority.Loaded);
+            //        itemsControl.ScrollIntoView(itemsControl.Items.Count - 1);
+            //    }
+            //}
         }
 
-
-        private IDataTemplate GetDataTemplate()
-        {
-            return new FuncDataTemplate<NavigationContext>((context, np) =>
-            {
-                if (context == null)
-                {
-                    return default;
-                }
-                if (context.RequestNew || !_viewCache.TryGetValue((context.ContainerName, context.TargetName), out IView? view))
-                {
-                    view = ServiceProvider.GetRequiredKeyedService<IView>(context.TargetName);
-
-                    var viewFullName = view.GetType().FullName;
-
-                    context.Uri = new Uri($"avares://{viewFullName}.axaml");
-                    var viewModel = ServiceProvider.GetRequiredKeyedService<INavigationAware>(context.TargetName);
-                    viewModel.OnNavigatedTo(context);
-                    if (viewModel.IsNavigationTarget(context))
-                    {
-                        view.DataContext = viewModel;
-                    }
-                    else
-                    {
-                        return default;
-                    }
-                    _viewCache.TryAdd((context.ContainerName, context.TargetName), view);
-                }
-                return view as Control;
-            });
-        }
         private object? GetTargetItem(ItemCollection itemCollection, 
             NavigationContext navigationContext)
         {
@@ -136,7 +103,7 @@ namespace Lemon.ModuleNavigation.Avaloniaui
             {
                 if (i is NavigationContext current)
                 {
-                    return NavigationContext.Comparer.Equals(current, navigationContext);
+                    return NavigationContext.ViewNameComparer.Equals(current, navigationContext);
                 }
                 return false;
             });
