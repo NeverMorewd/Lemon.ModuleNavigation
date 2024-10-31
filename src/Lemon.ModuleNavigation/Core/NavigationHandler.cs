@@ -101,19 +101,18 @@ namespace Lemon.ModuleNavigation.Core
             return _serviceProvider.GetRequiredKeyedService<IViewModel>(module.Key);
         }
 
-        public virtual void OnNavigateTo(string containerName,
-            string viewName,
-            bool requestNew = false)
+        public void OnNavigateTo(string containerName,
+             string viewName,
+             bool requestNew = false)
         {
-
+            ContainerManager.RequestNavigate(containerName, viewName, requestNew, null);
         }
-
-        public virtual void OnNavigateTo(string containerName,
+        public void OnNavigateTo(string containerName,
             string viewName,
-            NavigationParameters parameters,
+            NavigationParameters navigationParameters,
             bool requestNew = false)
         {
-
+            ContainerManager.RequestNavigate(containerName, viewName, requestNew, navigationParameters);
         }
 
         private void OnNavigateToCore(IModule module)

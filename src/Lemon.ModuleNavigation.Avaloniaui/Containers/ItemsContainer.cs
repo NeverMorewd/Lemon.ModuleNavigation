@@ -1,6 +1,5 @@
 ﻿using Avalonia.Controls;
 using Avalonia.Controls.Primitives;
-using Avalonia.Controls.Templates;
 using Lemon.ModuleNavigation.Core;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
