@@ -6,8 +6,10 @@ using Avalonia.Data;
 using Avalonia.Interactivity;
 using Avalonia.LogicalTree;
 using Lemon.ModuleNavigation.Abstracts;
+using Lemon.ModuleNavigation.Core;
 using System.Collections.Concurrent;
 using System.ComponentModel;
+using Lemon.ModuleNavigation.Avaloniaui.Containers;
 
 namespace Lemon.ModuleNavigation.Avaloniaui
 {
@@ -33,12 +35,12 @@ namespace Lemon.ModuleNavigation.Avaloniaui
                     }
                     void LoadedHandler(object? sender, RoutedEventArgs e)
                     {
-                        if (control.DataContext is INavigationContextProvider navigationContextProvider)
+                        if (control.DataContext is INavigationProvider navigationProvider)
                         {
-                            var navigationContext = navigationContextProvider!.NavigationContext;
-                            if (navigationContext is AvaNavigationContext context)
+                            var navigationHandler = navigationProvider!.NavigationHandler;
+                            if (navigationHandler is AvaNavigationHandler context)
                             {
-                                context.ViewContainers.TryAdd(currentValue, control);
+                                context.ContainerManager.AddContainer(currentValue, control.ToContainer());
                             }
                         }
                         control.Loaded -= LoadedHandler;
@@ -88,10 +90,10 @@ namespace Lemon.ModuleNavigation.Avaloniaui
                 }
                 void LoadedHandler(object? sender, RoutedEventArgs e)
                 {
-                    if (control.DataContext is INavigationContextProvider navigationContextProvider)
+                    if (control.DataContext is INavigationProvider navigationContextProvider)
                     {
-                        var navigationContext = navigationContextProvider.NavigationContext;
-                        if (navigationContext is AvaNavigationContext context)
+                        var navigationContext = navigationContextProvider.NavigationHandler;
+                        if (navigationContext is AvaNavigationHandler context)
                         {
                             SetBinding(control, context);
                         }
@@ -171,30 +173,30 @@ namespace Lemon.ModuleNavigation.Avaloniaui
                     IModule item = tabItem.DataContext as IModule ?? throw new InvalidOperationException($"The DataContext of tabItem is not derived from IModule");
                     if (item.CanUnload)
                     {
-                        if (tabContainer.DataContext is INavigationContextProvider navigationContextProvider)
+                        if (tabContainer.DataContext is INavigationProvider navigationContextProvider)
                         {
-                            navigationContextProvider.NavigationContext.ActiveModules.Remove(item);
+                            navigationContextProvider.NavigationHandler.ActiveModules.Remove(item);
                         }
                     }
                 }
             }
         }
 
-        private static void SetBinding(Control control, AvaNavigationContext navigationContext)
+        private static void SetBinding(Control control, AvaNavigationHandler navigationContext)
         {
             if (control is TabControl tabControl)
             {
                 tabControl.Bind(SelectingItemsControl.SelectedItemProperty,
-                                    new Binding(nameof(NavigationContext)
+                                    new Binding(nameof(NavigationHandler)
                                     + "."
-                                    + nameof(NavigationContext.CurrentModule))
+                                    + nameof(NavigationHandler.CurrentModule))
                                     {
                                         Mode = BindingMode.TwoWay
                                     });
                 tabControl.Bind(ItemsControl.ItemsSourceProperty,
-                                    new Binding(nameof(NavigationContext)
+                                    new Binding(nameof(NavigationHandler)
                                     + "."
-                                    + nameof(NavigationContext.ActiveModules)));
+                                    + nameof(NavigationHandler.ActiveModules)));
 
                 tabControl.ContentTemplate = new FuncDataTemplate<IModule>((m, np) =>
                 {
@@ -211,7 +213,7 @@ namespace Lemon.ModuleNavigation.Avaloniaui
                 {
                     npc.PropertyChanged += (sender, e) =>
                     {
-                        if (e.PropertyName == nameof(NavigationContext.CurrentModule))
+                        if (e.PropertyName == nameof(NavigationHandler.CurrentModule))
                         {
                             if (navigationContext.CurrentModule != null)
                             {
@@ -234,9 +236,9 @@ namespace Lemon.ModuleNavigation.Avaloniaui
                     };
                 }
                 itemsControl.Bind(ItemsControl.ItemsSourceProperty,
-                            new Binding(nameof(NavigationContext)
+                            new Binding(nameof(NavigationHandler)
                             + "."
-                            + nameof(NavigationContext.ActiveModules)));
+                            + nameof(NavigationHandler.ActiveModules)));
 
                 itemsControl.ItemTemplate = new FuncDataTemplate<IModule>((m, np) =>
                 {
@@ -250,9 +252,9 @@ namespace Lemon.ModuleNavigation.Avaloniaui
             else if (control is ContentControl contentControl)
             {
                 contentControl.Bind(ContentControl.ContentProperty,
-                                        new Binding(nameof(NavigationContext)
+                                        new Binding(nameof(NavigationHandler)
                                         + "."
-                                        + nameof(NavigationContext.CurrentModule)));
+                                        + nameof(NavigationHandler.CurrentModule)));
 
                 contentControl.ContentTemplate = new FuncDataTemplate<IModule>((m, np) =>
                 {

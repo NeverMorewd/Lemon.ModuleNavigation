@@ -9,6 +9,11 @@
     mc:Ignorable="d">
     <StackPanel>
         <TextBlock Text="{Binding Greeting}" />
-		<Button Width="200" Height="50" Content="CloseDialog" Command="{Binding CloseCommand}"/>
+        <Button
+			IsVisible="{Binding IsDialog}"
+            Width="200"
+            Height="50"
+            Command="{Binding CloseCommand}"
+            Content="CloseDialog" />
     </StackPanel>
 </UserControl>

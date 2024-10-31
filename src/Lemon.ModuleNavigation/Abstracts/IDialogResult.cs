@@ -1,4 +1,6 @@
-﻿namespace Lemon.ModuleNavigation.Abstracts
+﻿using Lemon.ModuleNavigation.Dialogs;
+
+namespace Lemon.ModuleNavigation.Abstracts
 {
     public interface IDialogResult
     {

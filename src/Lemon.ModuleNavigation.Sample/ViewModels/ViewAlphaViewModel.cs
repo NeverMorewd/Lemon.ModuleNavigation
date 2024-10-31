@@ -1,4 +1,5 @@
 ﻿using Lemon.ModuleNavigation.Abstracts;
+using Lemon.ModuleNavigation.Core;
 using Lemon.ModuleNavigation.Dialogs;
 using Microsoft.Extensions.Logging;
 using ReactiveUI;
@@ -7,7 +8,9 @@ using System.Reactive;
 
 namespace Lemon.ModuleNavigation.Sample.ViewModels
 {
-    public class ViewAlphaViewModel : SampleViewModelBase, IDialogAware, INavigationAware
+    public class ViewAlphaViewModel : SampleViewModelBase, 
+        IDialogAware, 
+        INavigationAware
     {
         private readonly ILogger _logger;
         public ViewAlphaViewModel(ILogger<ViewAlphaViewModel> logger)
@@ -22,7 +25,15 @@ namespace Lemon.ModuleNavigation.Sample.ViewModels
                 RequestClose?.Invoke(new DialogResult(ButtonResult.OK, param));
             });
         }
-
+        private bool _isDialog = false;
+        public bool IsDialog
+        {
+            get => _isDialog;
+            set
+            {
+                this.RaiseAndSetIfChanged(ref _isDialog, value);
+            }
+        }
         public ReactiveCommand<Unit, Unit> CloseCommand { get; } 
         public string Title => nameof(ViewAlphaViewModel);
         public event Action<IDialogResult>? RequestClose;
@@ -35,6 +46,22 @@ namespace Lemon.ModuleNavigation.Sample.ViewModels
         public void OnDialogOpened(IDialogParameters? parameters)
         {
             _logger.LogInformation($"OnDialogOpened:{parameters?.ToString()}");
+            IsDialog = true;
+        }
+
+        public void OnNavigatedTo(NavigationContext navigationContext)
+        {
+            //throw new NotImplementedException();
+        }
+
+        public bool IsNavigationTarget(NavigationContext navigationContext)
+        {
+            return true;
+        }
+
+        public void OnNavigatedFrom(NavigationContext navigationContext)
+        {
+            //throw new NotImplementedException();
         }
     }
 }

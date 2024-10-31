@@ -5,24 +5,27 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 
-namespace Lemon.ModuleNavigation
+namespace Lemon.ModuleNavigation.Core
 {
-    public class NavigationContext : INavigationContext, IDisposable, INotifyPropertyChanged
+    public class NavigationHandler : INavigationHandler, IDisposable, INotifyPropertyChanged
     {
-        private readonly INavigationService<IModule> _navigationService;
+        private readonly IModuleNavigationService<IModule> _navigationService;
         private readonly IDisposable _navigationCleanup;
         private readonly IDisposable _viewNavigationCleanup;
         private readonly IServiceProvider _serviceProvider;
         private readonly ConcurrentDictionary<string, IModule> _modulesCache;
-        public NavigationContext(INavigationService<IModule> navigationService,
+        private readonly INavigationContainerManager _containerManager;
+        public NavigationHandler(IModuleNavigationService<IModule> navigationService,
             IViewNavigationService viewNavigationService,
             IEnumerable<IModule> modules,
-            IServiceProvider serviceProvider) 
+            INavigationContainerManager containerManager,
+            IServiceProvider serviceProvider)
         {
             _serviceProvider = serviceProvider;
             _navigationService = navigationService;
-            _modulesCache = new ConcurrentDictionary<string, IModule>(modules.ToDictionary(m=>m.Key,m=>m));
-            Modules = _modulesCache.Select(m=>m.Value);
+            _containerManager = containerManager;
+            _modulesCache = new ConcurrentDictionary<string, IModule>(modules.ToDictionary(m => m.Key, m => m));
+            Modules = _modulesCache.Select(m => m.Value);
             ActiveModules = new ObservableCollection<IModule>(_modulesCache
                     .Where(m =>
                     {
@@ -49,6 +52,7 @@ namespace Lemon.ModuleNavigation
             get;
             set;
         }
+        public INavigationContainerManager ContainerManager => _containerManager;
         public IServiceProvider ServiceProvider => _serviceProvider;
 
         private IModule? _currentModule;
@@ -72,7 +76,7 @@ namespace Lemon.ModuleNavigation
         }
         public void OnNavigateTo(string moduleKey)
         {
-            if(_modulesCache.TryGetValue(moduleKey, out var module))
+            if (_modulesCache.TryGetValue(moduleKey, out var module))
             {
                 OnNavigateToCore(module);
             }
@@ -97,11 +101,19 @@ namespace Lemon.ModuleNavigation
             return _serviceProvider.GetRequiredKeyedService<IViewModel>(module.Key);
         }
 
-        public virtual void OnNavigateTo(string containerName, 
-            string viewName, 
+        public virtual void OnNavigateTo(string containerName,
+            string viewName,
             bool requestNew = false)
         {
-            
+
+        }
+
+        public virtual void OnNavigateTo(string containerName,
+            string viewName,
+            NavigationParameters parameters,
+            bool requestNew = false)
+        {
+
         }
 
         private void OnNavigateToCore(IModule module)

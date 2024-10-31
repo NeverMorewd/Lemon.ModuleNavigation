@@ -1,17 +1,17 @@
 ﻿using Lemon.ModuleNavigation.Abstracts;
 
-namespace Lemon.ModuleNavigation
+namespace Lemon.ModuleNavigation.Core
 {
-    public class NavigationService : INavigationService<IModule>, IViewNavigationService
+    public class NavigationService : IModuleNavigationService<IModule>, IViewNavigationService
     {
-        private readonly List<INavigationHandler> _handlers = [];
+        private readonly List<IModuleNavigationHandler> _handlers = [];
         private readonly List<IViewNavigationHandler> _viewHandlers = [];
 
         public void NavigateTo(IModule module)
         {
             foreach (var handler in _handlers)
             {
-                if (handler is INavigationHandler<IModule> moduleHandler)
+                if (handler is IModuleNavigationHandler<IModule> moduleHandler)
                 {
                     moduleHandler.OnNavigateTo(module);
                 }
@@ -25,18 +25,20 @@ namespace Lemon.ModuleNavigation
             }
         }
 
-        IDisposable INavigationService<IModule>.BindingNavigationHandler(INavigationHandler<IModule> moduleHandler)
+        IDisposable IModuleNavigationService<IModule>.BindingNavigationHandler(IModuleNavigationHandler<IModule> moduleHandler)
         {
             _handlers.Add(moduleHandler);
-            return new Cleanup<INavigationHandler>(_handlers, moduleHandler);
+            return new Cleanup<IModuleNavigationHandler>(_handlers, moduleHandler);
         }
-        IDisposable INavigationService.BindingNavigationHandler(INavigationHandler handler)
+        IDisposable IModuleNavigationService.BindingNavigationHandler(IModuleNavigationHandler handler)
         {
             _handlers.Add(handler);
-            return new Cleanup<INavigationHandler>(_handlers, handler);
+            return new Cleanup<IModuleNavigationHandler>(_handlers, handler);
         }
 
-        public void NavigateToView(string containerKey, string viewKey, bool requestNew = false)
+        public void NavigateToView(string containerKey, 
+            string viewKey, 
+            bool requestNew = false)
         {
             foreach (var handler in _viewHandlers)
             {
@@ -50,6 +52,16 @@ namespace Lemon.ModuleNavigation
             return new Cleanup<IViewNavigationHandler>(_viewHandlers, handler);
         }
 
+        public void NavigateToView(string containerKey, 
+            string viewKey, 
+            NavigationParameters parameters, 
+            bool requestNew = false)
+        {
+            foreach (var handler in _viewHandlers)
+            {
+                handler.OnNavigateTo(containerKey, viewKey, requestNew);
+            }
+        }
 
         private class Cleanup<T>(List<T> handlers, T handler)
             : IDisposable
