@@ -111,7 +111,7 @@ public class MainViewModel : SampleViewModelBase, IServiceAware
         set
         {
             this.RaiseAndSetIfChanged(ref _selectedModule, value);
-            _navigationService.NavigateTo(_selectedModule!);
+            _navigationService.RequestModuleNavigate(_selectedModule!, null);
         }
     }
     public IServiceProvider ServiceProvider => _serviceProvider;

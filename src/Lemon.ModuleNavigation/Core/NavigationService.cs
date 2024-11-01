@@ -2,26 +2,25 @@
 
 namespace Lemon.ModuleNavigation.Core
 {
-    public class NavigationService : IModuleNavigationService<IModule>, IViewNavigationService
+    public class NavigationService : INavigationService
     {
         private readonly List<IModuleNavigationHandler> _handlers = [];
         private readonly List<IViewNavigationHandler> _viewHandlers = [];
-
-        public void NavigateTo(IModule module)
+        public void RequestModuleNavigate(IModule module, NavigationParameters parameters)
         {
             foreach (var handler in _handlers)
             {
                 if (handler is IModuleNavigationHandler<IModule> moduleHandler)
                 {
-                    moduleHandler.OnNavigateTo(module);
+                    moduleHandler.OnNavigateTo(module, parameters);
                 }
             }
         }
-        public void NavigateTo(string moduleKey)
+        public void RequestModuleNavigate(string moduleName, NavigationParameters parameters)
         {
             foreach (var handler in _handlers)
             {
-                handler.OnNavigateTo(moduleKey);
+                handler.OnNavigateTo(moduleName, parameters);
             }
         }
 

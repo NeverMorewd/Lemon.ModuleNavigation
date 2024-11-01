@@ -28,12 +28,12 @@ namespace Lemon.ModuleNavigation
                     if (moduleSp == null)
                     {
                         var viewModel = ActivatorUtilities.CreateInstance(sp, module.ViewModelType);
-                        return (viewModel as IViewModel)!;
+                        return (viewModel as IModuleNavigationAware)!;
                     }
                     else
                     {
                         var viewModel = ActivatorUtilities.CreateInstance(sp, module.ViewModelType, moduleSp);
-                        return (viewModel as IViewModel)!;
+                        return (viewModel as IModuleNavigationAware)!;
                     }
                 })
                 .AddKeyedTransient(typeof(TModule).Name, (sp, key) =>
@@ -60,8 +60,9 @@ namespace Lemon.ModuleNavigation
                 .AddModulesBuilder()
                 .AddSingleton<NavigationService>()
                 .AddSingleton<IModuleNavigationService<IModule>>(sp => sp.GetRequiredService<NavigationService>())
-                .AddSingleton<IViewNavigationService>(sp => sp.GetRequiredService<NavigationService>())
+                .AddSingleton<INavigationService>(sp => sp.GetRequiredService<NavigationService>())
                 .AddSingleton<INavigationHandler, NavigationHandler>()
+                .AddSingleton<IModuleManager, ModuleManager>()
                 .AddSingleton<INavigationContainerManager, NavigationContainerManager>();
         }
 

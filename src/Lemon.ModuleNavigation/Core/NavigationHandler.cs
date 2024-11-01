@@ -1,106 +1,36 @@
 ﻿using Lemon.ModuleNavigation.Abstracts;
-using Microsoft.Extensions.DependencyInjection;
-using System.Collections.Concurrent;
-using System.Collections.ObjectModel;
-using System.ComponentModel;
-using System.Runtime.CompilerServices;
 
 namespace Lemon.ModuleNavigation.Core
 {
-    public class NavigationHandler : INavigationHandler, IDisposable, INotifyPropertyChanged
+    public class NavigationHandler : INavigationHandler, IDisposable
     {
-        private readonly IModuleNavigationService<IModule> _navigationService;
-        private readonly IDisposable _navigationCleanup;
-        private readonly IDisposable _viewNavigationCleanup;
-        private readonly IServiceProvider _serviceProvider;
-        private readonly ConcurrentDictionary<string, IModule> _modulesCache;
+        private readonly IDisposable _cleanup1;
+        private readonly IDisposable _cleanup2;
+        private readonly INavigationService _navigationService;
         private readonly INavigationContainerManager _containerManager;
-        public NavigationHandler(IModuleNavigationService<IModule> navigationService,
-            IViewNavigationService viewNavigationService,
-            IEnumerable<IModule> modules,
+        private readonly IModuleManager _moduleManager;
+        public NavigationHandler(INavigationService navigationService,
             INavigationContainerManager containerManager,
-            IServiceProvider serviceProvider)
+            IModuleManager moduleManager)
         {
-            _serviceProvider = serviceProvider;
             _navigationService = navigationService;
             _containerManager = containerManager;
-            _modulesCache = new ConcurrentDictionary<string, IModule>(modules.ToDictionary(m => m.Key, m => m));
-            Modules = _modulesCache.Select(m => m.Value);
-            ActiveModules = new ObservableCollection<IModule>(_modulesCache
-                    .Where(m =>
-                    {
-                        Console.WriteLine($"Find a module:{m.Key}");
-                        return !m.Value.LoadOnDemand;
-                    })
-                    .Select(m =>
-                    {
-                        Console.WriteLine($"Initialize module:{m.Key}");
-                        m.Value.Initialize();
-                        return m.Value;
-                    }));
-            _navigationCleanup = _navigationService.BindingNavigationHandler(this);
-            _viewNavigationCleanup = viewNavigationService.BindingViewNavigationHandler(this);
-        }
-
-        public ObservableCollection<IModule> ActiveModules
-        {
-            get;
-            set;
-        }
-        public IEnumerable<IModule> Modules
-        {
-            get;
-            set;
+            _moduleManager = moduleManager;
+            _cleanup1 = _navigationService.BindingNavigationHandler(this);
+            _cleanup2 = _navigationService.BindingViewNavigationHandler(this);
         }
         public INavigationContainerManager ContainerManager => _containerManager;
-        public IServiceProvider ServiceProvider => _serviceProvider;
+        public IModuleManager ModuleManager => _moduleManager;
 
-        private IModule? _currentModule;
-        public IModule? CurrentModule
-        {
-            get => _currentModule;
-            set
-            {
-                if (_currentModule != value)
-                {
-                    _currentModule = value;
-                    OnPropertyChanged();
-                }
-            }
-        }
-        public event PropertyChangedEventHandler? PropertyChanged;
 
-        public void OnNavigateTo(IModule module)
+        public void OnNavigateTo(IModule module, NavigationParameters parameter)
         {
-            OnNavigateToCore(module);
+            _moduleManager.RequestNavigate(module, parameter);
         }
-        public void OnNavigateTo(string moduleKey)
+        public void OnNavigateTo(string moduleKey, NavigationParameters parameters)
         {
-            if (_modulesCache.TryGetValue(moduleKey, out var module))
-            {
-                OnNavigateToCore(module);
-            }
-            else
-            {
-                throw new InvalidOperationException($"Invalid module key:{moduleKey}");
-            }
+            _moduleManager.RequestNavigate(moduleKey, parameters);
         }
-        public IView CreateNewView(IModule module)
-        {
-            if (module != null)
-            {
-                var view = _serviceProvider.GetRequiredKeyedService<IView>(module.Key);
-                var viewmodel = _serviceProvider.GetRequiredKeyedService<IViewModel>(module.Key);
-                view.DataContext = viewmodel;
-                return view;
-            }
-            throw new ArgumentNullException(nameof(module));
-        }
-        public IViewModel CreateNewViewModel(IModule module)
-        {
-            return _serviceProvider.GetRequiredKeyedService<IViewModel>(module.Key);
-        }
-
         public void OnNavigateTo(string containerName,
              string viewName,
              bool requestNew = false)
@@ -115,35 +45,10 @@ namespace Lemon.ModuleNavigation.Core
             ContainerManager.RequestNavigate(containerName, viewName, requestNew, navigationParameters);
         }
 
-        private void OnNavigateToCore(IModule module)
+        void IDisposable.Dispose()
         {
-            if (module.ForceNew)
-            {
-                module = _serviceProvider.GetKeyedService<IModule>(module.Key)!;
-                ActiveModules.Add(module);
-            }
-            else
-            {
-                if (!ActiveModules.Contains(module))
-                {
-                    ActiveModules.Add(module);
-                }
-            }
-
-            ///TODO:Consider an async implementation
-            module.Initialize();
-            module.IsActivated = true;
-            CurrentModule = module;
-        }
-
-        protected void OnPropertyChanged([CallerMemberName] string? propertyName = null)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
-        public void Dispose()
-        {
-            _navigationCleanup?.Dispose();
-            _viewNavigationCleanup?.Dispose();
+            _cleanup1?.Dispose();
+            _cleanup2?.Dispose();
         }
     }
 }

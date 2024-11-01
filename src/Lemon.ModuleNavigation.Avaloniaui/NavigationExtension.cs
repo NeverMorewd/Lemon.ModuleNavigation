@@ -173,7 +173,7 @@ namespace Lemon.ModuleNavigation.Avaloniaui
                         if (tabContainer.DataContext is IServiceAware serviceAware)
                         {
                             var handler = serviceAware.ServiceProvider.GetRequiredService<INavigationHandler>();
-                            handler.ActiveModules.Remove(item);
+                            handler.ModuleManager.ActiveModules.Remove(item);
                         }
                     }
                 }
@@ -185,15 +185,15 @@ namespace Lemon.ModuleNavigation.Avaloniaui
             if (control is TabControl tabControl)
             {
                 tabControl.Bind(SelectingItemsControl.SelectedItemProperty,
-                                    new Binding(nameof(NavigationHandler.CurrentModule))
+                                    new Binding(nameof(IModuleManager.CurrentModule))
                                     {
                                         Mode = BindingMode.TwoWay,
-                                        Source = navigationHandler
+                                        Source = navigationHandler.ModuleManager
                                     });
                 tabControl.Bind(ItemsControl.ItemsSourceProperty,
-                                    new Binding(nameof(NavigationHandler.ActiveModules))
+                                    new Binding(nameof(IModuleManager.ActiveModules))
                                     {
-                                        Source = navigationHandler
+                                        Source = navigationHandler.ModuleManager
                                     });
 
                 tabControl.ContentTemplate = new FuncDataTemplate<IModule>((m, np) =>
@@ -202,41 +202,33 @@ namespace Lemon.ModuleNavigation.Avaloniaui
                     {
                         return null;
                     }
-                    return navigationHandler.CreateNewView(m) as Control;
+                    return navigationHandler.ModuleManager.CreateView(m) as Control;
                 });
             }
             else if (control is ItemsControl itemsControl)
             {
-                if (navigationHandler is INotifyPropertyChanged npc)
+                if (navigationHandler.ModuleManager is INotifyPropertyChanged npc)
                 {
                     npc.PropertyChanged += (sender, e) =>
                     {
-                        if (e.PropertyName == nameof(NavigationHandler.CurrentModule))
+                        if (e.PropertyName == nameof(IModuleManager.CurrentModule))
                         {
-                            if (navigationHandler.CurrentModule != null)
+                            if (navigationHandler.ModuleManager.CurrentModule != null)
                             {
-                                //itemsControl.ScrollIntoView(navigationContext.CurrentModule);
                                 //https://github.com/AvaloniaUI/Avalonia/issues/17349
                                 if (itemsControl is SelectingItemsControl selecting)
                                 {
-                                    if (!selecting.AutoScrollToSelectedItem)
-                                    {
-                                        selecting.AutoScrollToSelectedItem = true;
-                                    }
-                                    selecting.SelectedItem = navigationHandler.CurrentModule;
+                                    selecting.SelectedItem = navigationHandler.ModuleManager.CurrentModule;
                                 }
-                                else
-                                {
-                                    itemsControl.ScrollIntoView(navigationHandler.CurrentModule);
-                                }
+                                itemsControl.ScrollIntoView(navigationHandler.ModuleManager.CurrentModule);
                             }
                         }
                     };
                 }
                 itemsControl.Bind(ItemsControl.ItemsSourceProperty,
-                            new Binding(nameof(NavigationHandler.ActiveModules))
+                            new Binding(nameof(IModuleManager.ActiveModules))
                             {
-                                Source = navigationHandler
+                                Source = navigationHandler.ModuleManager
                             });
 
                 itemsControl.ItemTemplate = new FuncDataTemplate<IModule>((m, np) =>
@@ -245,15 +237,15 @@ namespace Lemon.ModuleNavigation.Avaloniaui
                     {
                         return null;
                     }
-                    return navigationHandler.CreateNewView(m) as Control;
+                    return navigationHandler.ModuleManager.CreateView(m) as Control;
                 });
             }
             else if (control is ContentControl contentControl)
             {
                 contentControl.Bind(ContentControl.ContentProperty,
-                                        new Binding(nameof(NavigationHandler.CurrentModule))
+                                        new Binding(nameof(NavigationHandler.ModuleManager.CurrentModule))
                                         {
-                                            Source = navigationHandler
+                                            Source = navigationHandler.ModuleManager
                                         });
 
                 contentControl.ContentTemplate = new FuncDataTemplate<IModule>((m, np) =>
@@ -262,7 +254,7 @@ namespace Lemon.ModuleNavigation.Avaloniaui
                     {
                         return null;
                     }
-                    return navigationHandler.CreateNewView(m) as Control;
+                    return navigationHandler.ModuleManager.CreateView(m) as Control;
                 });
             }
         }

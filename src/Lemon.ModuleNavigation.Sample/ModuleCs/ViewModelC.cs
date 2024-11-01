@@ -6,7 +6,7 @@ using System.Reactive;
 
 namespace Lemon.ModuleNavigation.Sample.ModuleCs
 {
-    public class ViewModelC : SampleViewModelBase, IViewModel, IServiceAware
+    public class ViewModelC : SampleViewModelBase, IModuleNavigationAware, IServiceAware
     {
         private readonly IModuleNavigationService<IModule> _navigationService;
         private readonly IServiceProvider _moduleServiceProvider;
@@ -17,7 +17,7 @@ namespace Lemon.ModuleNavigation.Sample.ModuleCs
             _moduleServiceProvider = moduleServiceProvider;
             NavigateCommand = ReactiveCommand.Create<string>(target => 
             {
-                _navigationService.NavigateTo(target);
+                _navigationService.RequestModuleNavigate(target, null);
             });
         }
 

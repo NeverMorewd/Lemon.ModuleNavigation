@@ -7,7 +7,7 @@ namespace Lemon.ModuleNavigation.Core
     public abstract class Module<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] TView,
         [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] TViewModel>
         : IModule
-        where TViewModel : IViewModel
+        where TViewModel : IModuleNavigationAware
         where TView : IView
     {
         protected readonly IServiceProvider ServiceProvider;
@@ -21,7 +21,7 @@ namespace Lemon.ModuleNavigation.Core
             {
                 if (IsInitialized) return;
                 View = ServiceProvider.GetRequiredKeyedService<IView>(Key);
-                ViewModel = ServiceProvider.GetRequiredKeyedService<IViewModel>(Key);
+                ViewModel = ServiceProvider.GetRequiredKeyedService<IModuleNavigationAware>(Key);
                 View.DataContext = ViewModel;
                 IsInitialized = true;
             }
@@ -32,7 +32,7 @@ namespace Lemon.ModuleNavigation.Core
             get;
             protected set;
         }
-        public IViewModel? ViewModel
+        public IModuleNavigationAware? ViewModel
         {
             get;
             protected set;
