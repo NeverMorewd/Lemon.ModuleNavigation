@@ -10,14 +10,13 @@ using System.Reactive;
 
 namespace Lemon.ModuleNavigation.Sample.ViewModels;
 
-public class MainViewModel : SampleViewModelBase, INavigationProvider
+public class MainViewModel : SampleViewModelBase, IServiceAware
 {
     private readonly NavigationService _navigationService;
     private readonly IServiceProvider _serviceProvider;
     private readonly IDialogService _dialogService;
     private readonly ILogger _logger;
-    public MainViewModel(INavigationHandler navigationContext,
-        IEnumerable<IModule> modules,
+    public MainViewModel(IEnumerable<IModule> modules,
         IServiceProvider serviceProvider,
         NavigationService navigationService,
         IDialogService dialogService,
@@ -27,7 +26,6 @@ public class MainViewModel : SampleViewModelBase, INavigationProvider
         _navigationService = navigationService;
         _serviceProvider = serviceProvider;
         _dialogService = dialogService;
-        NavigationHandler = navigationContext;
         Modules = new ObservableCollection<IModule>(modules);
         ToViewCommand = ReactiveCommand.Create<string>(content => 
         {
@@ -116,8 +114,5 @@ public class MainViewModel : SampleViewModelBase, INavigationProvider
             _navigationService.NavigateTo(_selectedModule!);
         }
     }
-    public INavigationHandler NavigationHandler
-    {
-        get;
-    }
+    public IServiceProvider ServiceProvider => _serviceProvider;
 }

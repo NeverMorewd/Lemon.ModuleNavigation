@@ -1,14 +1,12 @@
 ﻿using Lemon.ModuleNavigation.Abstracts;
-using Lemon.ModuleNavigation.Avaloniaui;
 using Lemon.ModuleNavigation.Sample.ViewModels;
-using Microsoft.Extensions.DependencyInjection;
 using ReactiveUI;
 using System;
 using System.Reactive;
 
 namespace Lemon.ModuleNavigation.Sample.ModuleCs
 {
-    public class ViewModelC : SampleViewModelBase, IViewModel, INavigationProvider
+    public class ViewModelC : SampleViewModelBase, IViewModel, IServiceAware
     {
         private readonly IModuleNavigationService<IModule> _navigationService;
         private readonly IServiceProvider _moduleServiceProvider;
@@ -17,7 +15,6 @@ namespace Lemon.ModuleNavigation.Sample.ModuleCs
         {
             _navigationService = navigationService;
             _moduleServiceProvider = moduleServiceProvider;
-            NavigationHandler = _moduleServiceProvider.GetRequiredService<INavigationHandler>();
             NavigateCommand = ReactiveCommand.Create<string>(target => 
             {
                 _navigationService.NavigateTo(target);
@@ -31,12 +28,6 @@ namespace Lemon.ModuleNavigation.Sample.ModuleCs
             get;
         }
 
-        /// <summary>
-        /// Sub NavigationContext
-        /// </summary>
-        public INavigationHandler NavigationHandler
-        {
-            get;
-        }
+        public IServiceProvider ServiceProvider => _moduleServiceProvider;
     }
 }
