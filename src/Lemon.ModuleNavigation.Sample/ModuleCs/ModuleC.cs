@@ -1,6 +1,7 @@
 ﻿using Lemon.ModuleNavigation.Abstracts;
-using Lemon.ModuleNavigation.Avaloniaui;
-using Lemon.ModuleNavigation.Sample.ModuleCs.SubModules;
+using Lemon.ModuleNavigation.Sample.ModuleCs.Services;
+using Lemon.ModuleNavigation.Sample.ModuleCs.ViewModels;
+using Lemon.ModuleNavigation.Sample.ModuleCs.Views;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using System;
@@ -9,44 +10,52 @@ using ILogger = Microsoft.Extensions.Logging.ILogger;
 
 namespace Lemon.ModuleNavigation.Sample.ModuleCs
 {
-    public class ModuleC : AvaModule<ViewC, ViewModelC>, IModuleScope
+    //[ServiceDescriptors(
+    //    new List<ServiceDescription> { new ServiceDescription(typeof(SomeService), ServiceLifetime.Singleton) }, 
+    //    new List<NavigationDescription> { new NavigationDescription(typeof(SubView01), typeof(SubViewModel01), ServiceLifetime.Singleton) })
+    //]
+    [ServiceDescriptors(ServiceDescriptions = [])
+
+    ]
+    public class ModuleC : IModule
     {
-        private readonly IServiceProvider _subServiceProvider;
         private readonly ILogger _logger;
         public ModuleC(IServiceProvider serviceProvider, ILogger<ModuleC> logger) : base(serviceProvider)
         {
             _logger = logger;
-
-            ScopeServiceCollection = new ServiceCollection();
-            ScopeServiceCollection.AddAppServiceProvider(serviceProvider);
-            ScopeServiceCollection.AddModule<SubModule01>();
-            ScopeServiceCollection.AddModule<SubModule02>();
-            ScopeServiceCollection.AddAvaNavigationSupport();
-
-            _subServiceProvider = ScopeServiceCollection.BuildServiceProvider();
-            ScopeServiceProvider = _subServiceProvider;
         }
-        public IServiceCollection ScopeServiceCollection
-        {
-            get;
-        }
-        public IServiceProvider ScopeServiceProvider
-        {
-            get;
-        }
-        public override bool LoadOnDemand => true;
-        public override bool ForceNew => true;
-        public override string Alias => $"{base.Alias}:{nameof(ForceNew)}";
+        public bool LoadOnDemand => true;
+        public bool ForceNew => true;
+        public string Alias => $"";
 
-        public override void Initialize()
+        public string Key => throw new NotImplementedException();
+
+        public bool IsInitialized => throw new NotImplementedException();
+
+        public bool CanUnload => throw new NotImplementedException();
+
+        public bool IsActivated { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+
+        public Type ViewType => throw new NotImplementedException();
+
+        public Type ViewModelType => throw new NotImplementedException();
+
+        public IEnumerable<KeyValuePair<Type, Type>> ViewTypes => throw new NotImplementedException();
+
+        public IEnumerable<Type> ServiceTypes => throw new NotImplementedException();
+
+        public void ConfigService(IServiceCollection serviceDescriptors)
         {
-            base.Initialize();
+            //serviceDescriptors.adds
+        }
+        public void ConfigView(IServiceCollection serviceDescriptors)
+        {
+            
+        }
+
+        public void Initialize()
+        {
             Console.WriteLine($"Initialize:{nameof(ModuleC)}");
-            var subModules = _subServiceProvider.GetRequiredService<IEnumerable<IModule>>();
-            foreach (var subModule in subModules) 
-            {
-                _logger.LogInformation(subModule.Key);
-            }
         }
     }
 }

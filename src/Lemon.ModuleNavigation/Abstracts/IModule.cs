@@ -40,5 +40,13 @@
             get;
         }
         public void Initialize();
+        public IEnumerable<KeyValuePair<Type, Type>> ViewTypes
+        {
+            get;
+        }
+        public IEnumerable<Type> ServiceTypes
+        {
+            get;
+        }
     }
 }

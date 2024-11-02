@@ -30,8 +30,8 @@ internal static class Program
         hostBuilder.Logging.AddConsole();
         hostBuilder.Logging.SetMinimumLevel(LogLevel.Debug);
         // modules
-        hostBuilder.Services.AddModule<ModuleA>();
-        hostBuilder.Services.AddModule<ModuleB>();
+        //hostBuilder.Services.AddModule<ModuleA>();
+        //hostBuilder.Services.AddModule<ModuleB>();
         hostBuilder.Services.AddModule<ModuleC>();
         // views
         hostBuilder.Services.AddView<ViewAlpha, ViewAlphaViewModel>(nameof(ViewAlpha));
