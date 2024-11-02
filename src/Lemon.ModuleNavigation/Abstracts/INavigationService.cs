@@ -1,8 +1,7 @@
 ﻿namespace Lemon.ModuleNavigation.Abstracts
 {
-    public interface IModuleNavigationService
+    public interface INavigationService: IModuleNavigationService<IModule>, IViewNavigationService
     {
-        IDisposable BindingNavigationHandler(IModuleNavigationHandler handler);
-        void NavigateTo(string moduleKey);
+
     }
 }
