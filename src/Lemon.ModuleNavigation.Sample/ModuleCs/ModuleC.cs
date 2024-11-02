@@ -14,9 +14,11 @@ namespace Lemon.ModuleNavigation.Sample.ModuleCs
     //    new List<ServiceDescription> { new ServiceDescription(typeof(SomeService), ServiceLifetime.Singleton) }, 
     //    new List<NavigationDescription> { new NavigationDescription(typeof(SubView01), typeof(SubViewModel01), ServiceLifetime.Singleton) })
     //]
-    [ServiceDescriptors(ServiceDescriptions = [])
-
-    ]
+    [ServiceDescriptors(
+        [typeof(SomeService), typeof(SomeService)],
+        [ServiceLifetime.Singleton, ServiceLifetime.Transient],
+        [null, "myKey"]
+    )]
     public class ModuleC : IModule
     {
         private readonly ILogger _logger;

@@ -2,23 +2,35 @@
 
 namespace Lemon.ModuleNavigation.Abstracts
 {
+    using System;
+
+    [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method)]
     public class ServiceDescriptorsAttribute : Attribute
     {
-        public ServiceDescriptorsAttribute() 
+        public ServiceDescriptorsAttribute(Type[] serviceTypes, ServiceLifetime[] serviceLifetimes, object[]? keys = null)
         {
+            ServiceTypes = serviceTypes;
+            ServiceLifetimes = serviceLifetimes;
+            Keys = keys ?? Array.Empty<object>();
+        }
 
-        }
-        public IEnumerable<ServiceDescription> ServiceDescriptions
-        {
-            get;
-            set;
-        }
-        public IEnumerable<NavigationDescription> NavigationDescriptions
-        {
-            get;
-            set;
-        }
+        public Type[] ServiceTypes { get; }
+        public ServiceLifetime[] ServiceLifetimes { get; }
+        public object[] Keys { get; }
     }
+
+    //public class ServiceDescriptorsAttribute : Attribute
+    //{
+    //    public ServiceDescriptorsAttribute(params (Type, ServiceLifetime, object?)[] serviceDescriptions) 
+    //    {
+    //        ServiceDescriptions = serviceDescriptions;
+    //    }
+    //    public IEnumerable<(Type, ServiceLifetime, object?)> ServiceDescriptions
+    //    {
+    //        get;
+    //        private set;
+    //    }
+    //}
     public class ServiceDescription
     {
         public ServiceDescription(Type type, ServiceLifetime lifetime, object? key = null)
