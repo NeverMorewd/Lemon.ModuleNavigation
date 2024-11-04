@@ -120,12 +120,12 @@
                 <StackPanel Grid.Column="1" Classes="ForContainerShow">
                     <Label Content="ContentControl" />
                     <Border Classes="HSeparator" />
-                    <ContentControl lm:NavigationExtension.RegionName="NContentContainer" />
+                    <ContentControl lm:NavigationExtension.RegionName="ContentRegion" />
                 </StackPanel>
                 <StackPanel Grid.Column="2" Classes="ForContainerShow">
                     <Label Content="TabControl" />
                     <Border Classes="HSeparator" />
-                    <TabControl lm:NavigationExtension.RegionName="NTabContainer">
+                    <TabControl lm:NavigationExtension.RegionName="TabRegion">
                         <TabControl.ItemTemplate>
                             <DataTemplate>
                                 <StackPanel Orientation="Horizontal" Spacing="2">
@@ -141,7 +141,7 @@
                     <ListBox
                         MaxHeight="600"
                         Margin="2"
-                        lm:NavigationExtension.RegionName="NItemsContainer"
+                        lm:NavigationExtension.RegionName="ItemsRegion"
                         Background="Transparent"
                         BorderBrush="Blue"
                         BorderThickness="1" />
@@ -149,7 +149,7 @@
                 <StackPanel Grid.Column="4" Classes="ForContainerShow">
                     <Label Content="TransitioningContentControl" />
                     <Border Classes="HSeparator" />
-                    <TransitioningContentControl lm:NavigationExtension.RegionName="NTransitioningContentControl" />
+                    <TransitioningContentControl lm:NavigationExtension.RegionName="TransitioningContentRegion" />
                 </StackPanel>
             </Grid>
         </TabItem>

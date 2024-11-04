@@ -39,7 +39,7 @@ namespace Lemon.ModuleNavigation.Avaloniaui
                         {
                             var serviceProvider = navigationProvider!.ServiceProvider;
                             var handler = serviceProvider.GetRequiredService<INavigationHandler>();
-                            handler.ContainerManager.AddContainer(currentValue, control.ToContainer());
+                            handler.RegionManager.AddRegion(currentValue, control.ToContainer());
                         }
                         control.Loaded -= LoadedHandler;
                     }

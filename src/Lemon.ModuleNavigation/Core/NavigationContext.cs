@@ -4,7 +4,7 @@
     {
         private readonly Guid _guid;
         internal NavigationContext(string viewName, 
-            string containerName,
+            string regionName,
             IServiceProvider serviceProvider,
             bool requestNew,
             NavigationParameters? navigationParameters)
@@ -12,7 +12,7 @@
             ViewName = viewName;
             Parameters = navigationParameters;
             RequestNew = requestNew;
-            ContainerName = containerName;
+            RegionName = regionName;
             _guid = Guid.NewGuid();
             ServiceProvider = serviceProvider;
         }
@@ -33,7 +33,7 @@
             get;
             private set;
         }
-        public string ContainerName
+        public string RegionName
         { 
             get; 
             private set; 

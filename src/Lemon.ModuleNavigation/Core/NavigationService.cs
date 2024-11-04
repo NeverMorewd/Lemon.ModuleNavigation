@@ -35,13 +35,13 @@ namespace Lemon.ModuleNavigation.Core
             return new Cleanup<IModuleNavigationHandler>(_handlers, handler);
         }
 
-        public void NavigateToView(string containerKey, 
+        public void NavigateToView(string regionName, 
             string viewKey, 
             bool requestNew = false)
         {
             foreach (var handler in _viewHandlers)
             {
-                handler.OnNavigateTo(containerKey, viewKey, requestNew);
+                handler.OnNavigateTo(regionName, viewKey, requestNew);
             }
         }
 
@@ -51,14 +51,14 @@ namespace Lemon.ModuleNavigation.Core
             return new Cleanup<IViewNavigationHandler>(_viewHandlers, handler);
         }
 
-        public void NavigateToView(string containerKey, 
+        public void NavigateToView(string regionName, 
             string viewKey, 
             NavigationParameters parameters, 
             bool requestNew = false)
         {
             foreach (var handler in _viewHandlers)
             {
-                handler.OnNavigateTo(containerKey, viewKey, requestNew);
+                handler.OnNavigateTo(regionName, viewKey, requestNew);
             }
         }
 

@@ -14,7 +14,7 @@ namespace Lemon.ModuleNavigation.Avaloniaui.Regions
             _itemsControl = itemsControl;
             Contexts = [];
             Contexts.CollectionChanged += ViewContents_CollectionChanged;
-            _itemsControl.ItemTemplate = ContainerTemplate;
+            _itemsControl.ItemTemplate = RegionTemplate;
         }
 
         public object? SelectedItem

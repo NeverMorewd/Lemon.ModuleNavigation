@@ -20,12 +20,10 @@ namespace Lemon.ModuleNavigation.Core
             ActiveModules = new ObservableCollection<IModule>(_modulesCache
             .Where(m =>
             {
-                Console.WriteLine($"Find a module:{m.Key}");
                 return !m.Value.LoadOnDemand;
             })
             .Select(m =>
             {
-                Console.WriteLine($"Initialize module:{m.Key}");
                 m.Value.Initialize();
                 return m.Value;
             }));

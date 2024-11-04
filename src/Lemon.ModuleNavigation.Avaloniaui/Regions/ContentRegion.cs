@@ -13,7 +13,7 @@ namespace Lemon.ModuleNavigation.Avaloniaui.Regions
             _contentControl = contentControl;
             Contexts = [];
             Contexts.CollectionChanged += ViewContents_CollectionChanged;
-            _contentControl.ContentTemplate = ContainerTemplate;
+            _contentControl.ContentTemplate = RegionTemplate;
         }
 
         public object? Content 

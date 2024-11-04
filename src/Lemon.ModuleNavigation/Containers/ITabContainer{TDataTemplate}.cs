@@ -1,15 +1,15 @@
 ﻿using Lemon.ModuleNavigation.Abstracts;
 
-namespace Lemon.ModuleNavigation.Containers
+namespace Lemon.ModuleNavigation.Regions
 {
-    public interface ITabContainer<TDataTemplate> : IRegion
+    public interface ITabRegion<TDataTemplate> : IRegion
     {
         object? SelectedItem
         {
             get;
             set;
         }
-        TDataTemplate? ContainerTemplate
+        TDataTemplate? RegionTemplate
         {
             get;
             set;

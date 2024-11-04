@@ -5,8 +5,8 @@ namespace Lemon.ModuleNavigation.Abstracts
 {
     public interface IRegionManager
     {
-        void AddContainer(string containerName, IRegion container);
-        IRegion? GetContainer(string containerName);
-        void RequestNavigate(string containerName, string viewName, bool requestNae, NavigationParameters? parameters = null);
+        void AddRegion(string regionName, IRegion region);
+        IRegion? GetRegion(string regionName);
+        void RequestNavigate(string regionName, string viewName, bool requestNae, NavigationParameters? parameters = null);
     }
 }

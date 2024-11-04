@@ -13,7 +13,7 @@ namespace Lemon.ModuleNavigation.Avaloniaui.Regions
             _tabControl = tabControl;
             Contexts = [];
             Contexts.CollectionChanged += ViewContents_CollectionChanged;
-            _tabControl.ContentTemplate = ContainerTemplate;
+            _tabControl.ContentTemplate = RegionTemplate;
         }
         public object? SelectedItem
         {

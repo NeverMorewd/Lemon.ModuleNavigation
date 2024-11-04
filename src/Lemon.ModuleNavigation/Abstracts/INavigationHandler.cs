@@ -4,7 +4,7 @@ namespace Lemon.ModuleNavigation.Abstracts
 {
     public interface INavigationHandler : IModuleNavigationHandler<IModule>, IViewNavigationHandler
     {
-        IRegionManager ContainerManager { get; }
+        IRegionManager RegionManager { get; }
         IModuleManager ModuleManager { get; }
     }
 }

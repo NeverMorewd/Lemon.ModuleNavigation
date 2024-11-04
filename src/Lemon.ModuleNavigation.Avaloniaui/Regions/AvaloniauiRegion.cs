@@ -13,13 +13,13 @@ namespace Lemon.ModuleNavigation.Avaloniaui.Regions
         public AvaloniauiRegion()
         {
             _viewCache = [];
-            ContainerTemplate = GetDataTemplate();
+            RegionTemplate = GetDataTemplate();
         }
         public abstract ObservableCollection<NavigationContext> Contexts
         {
             get;
         }
-        public IDataTemplate? ContainerTemplate
+        public IDataTemplate? RegionTemplate
         {
             get;
             set;

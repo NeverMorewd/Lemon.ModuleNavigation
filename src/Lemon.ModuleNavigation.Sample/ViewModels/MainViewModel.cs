@@ -37,10 +37,10 @@ public class MainViewModel : SampleViewModelBase, IServiceAware
                 requestNew = true;
 
             }
-            _navigationService.NavigateToView("NContentContainer", viewName, requestNew);
-            _navigationService.NavigateToView("NTabContainer", viewName, requestNew);
-            _navigationService.NavigateToView("NItemsContainer", viewName, requestNew);
-            _navigationService.NavigateToView("NTransitioningContentControl", viewName, requestNew);
+            _navigationService.NavigateToView("ContentRegion", viewName, requestNew);
+            _navigationService.NavigateToView("TabRegion", viewName, requestNew);
+            _navigationService.NavigateToView("ItemsRegion", viewName, requestNew);
+            _navigationService.NavigateToView("TransitioningContentRegion", viewName, requestNew);
         });
         ToDialogCommand = ReactiveCommand.Create<string>(content =>
         {
@@ -86,22 +86,6 @@ public class MainViewModel : SampleViewModelBase, IServiceAware
     {
         get;
         set;
-    }
-    private IView? _selectedView;
-    public IView? SelectedView
-    {
-        get => _selectedView;
-        set
-        {
-            this.RaiseAndSetIfChanged(ref _selectedView, value);
-            if (_selectedView != null)
-            {
-                var viewName = _selectedView.GetType().Name;
-                _navigationService.NavigateToView("NContentContainer", viewName);
-                _navigationService.NavigateToView("NTabContainer", viewName);
-                _navigationService.NavigateToView("NItemsContainer", viewName);
-            }
-        }
     }
 
     private IModule? _selectedModule;
