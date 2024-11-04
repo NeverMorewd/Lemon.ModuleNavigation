@@ -3,11 +3,11 @@
 namespace Lemon.ModuleNavigation.Core
 {
 
-    public class NavigationContainerManager : INavigationContainerManager
+    public class RegionManager : IRegionManager
     {
-        private readonly Dictionary<string, INavigationContainer> _containers = [];
+        private readonly Dictionary<string, IRegion> _containers = [];
         private readonly IServiceProvider _serviceProvider;
-        public NavigationContainerManager(IServiceProvider serviceProvider) 
+        public RegionManager(IServiceProvider serviceProvider) 
         {
             _serviceProvider = serviceProvider;
         }
@@ -21,12 +21,12 @@ namespace Lemon.ModuleNavigation.Core
             }
         }
 
-        public void AddContainer(string containerName, INavigationContainer container)
+        public void AddContainer(string containerName, IRegion container)
         {
             _containers.Add(containerName, container);
         }
 
-        public INavigationContainer? GetContainer(string containerName)
+        public IRegion? GetContainer(string containerName)
         {
             _containers.TryGetValue(containerName, out var container);
             return container;

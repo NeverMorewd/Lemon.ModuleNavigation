@@ -7,10 +7,10 @@ namespace Lemon.ModuleNavigation.Core
         private readonly IDisposable _cleanup1;
         private readonly IDisposable _cleanup2;
         private readonly INavigationService _navigationService;
-        private readonly INavigationContainerManager _containerManager;
+        private readonly IRegionManager _containerManager;
         private readonly IModuleManager _moduleManager;
         public NavigationHandler(INavigationService navigationService,
-            INavigationContainerManager containerManager,
+            IRegionManager containerManager,
             IModuleManager moduleManager)
         {
             _navigationService = navigationService;
@@ -19,7 +19,7 @@ namespace Lemon.ModuleNavigation.Core
             _cleanup1 = _navigationService.BindingNavigationHandler(this);
             _cleanup2 = _navigationService.BindingViewNavigationHandler(this);
         }
-        public INavigationContainerManager ContainerManager => _containerManager;
+        public IRegionManager ContainerManager => _containerManager;
         public IModuleManager ModuleManager => _moduleManager;
 
 

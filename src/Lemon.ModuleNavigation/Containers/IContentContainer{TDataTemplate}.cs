@@ -2,7 +2,7 @@
 
 namespace Lemon.ModuleNavigation.Containers
 {
-    public interface IContentContainer<TDataTemplate> : INavigationContainer
+    public interface IContentContainer<TDataTemplate> : IRegion
     {
         public object? Content
         {

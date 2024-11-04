@@ -5,12 +5,12 @@ using Lemon.ModuleNavigation.Core;
 using Microsoft.Extensions.DependencyInjection;
 using System.Collections.ObjectModel;
 
-namespace Lemon.ModuleNavigation.Avaloniaui.Containers
+namespace Lemon.ModuleNavigation.Avaloniaui.Regions
 {
-    public abstract class AvaNavigationContainer : INavigationContainer
+    public abstract class AvaloniauiRegion : IRegion
     {
         private readonly Dictionary<string, IView> _viewCache;
-        public AvaNavigationContainer()
+        public AvaloniauiRegion()
         {
             _viewCache = [];
             ContainerTemplate = GetDataTemplate();

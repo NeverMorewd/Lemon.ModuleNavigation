@@ -3,12 +3,12 @@ using Lemon.ModuleNavigation.Core;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 
-namespace Lemon.ModuleNavigation.Avaloniaui.Containers
+namespace Lemon.ModuleNavigation.Avaloniaui.Regions
 {
-    public class ContentContainer : AvaNavigationContainer
+    public class ContentRegion : AvaloniauiRegion
     {
         private readonly ContentControl _contentControl;
-        public ContentContainer(ContentControl contentControl) : base()
+        public ContentRegion(ContentControl contentControl) : base()
         {
             _contentControl = contentControl;
             Contexts = [];

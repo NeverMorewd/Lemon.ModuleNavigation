@@ -3,7 +3,7 @@ using System.Collections.ObjectModel;
 
 namespace Lemon.ModuleNavigation.Abstracts
 {
-    public interface INavigationContainer
+    public interface IRegion
     {
         ObservableCollection<NavigationContext> Contexts 
         { 

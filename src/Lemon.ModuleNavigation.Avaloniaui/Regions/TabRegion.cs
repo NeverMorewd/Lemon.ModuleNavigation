@@ -3,12 +3,12 @@ using Lemon.ModuleNavigation.Core;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 
-namespace Lemon.ModuleNavigation.Avaloniaui.Containers
+namespace Lemon.ModuleNavigation.Avaloniaui.Regions
 {
-    public class TabContainer : AvaNavigationContainer
+    public class TabRegion : AvaloniauiRegion
     {
         private readonly TabControl _tabControl;
-        public TabContainer(TabControl tabControl)
+        public TabRegion(TabControl tabControl)
         {
             _tabControl = tabControl;
             Contexts = [];

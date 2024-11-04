@@ -9,22 +9,21 @@ using Lemon.ModuleNavigation.Abstracts;
 using Lemon.ModuleNavigation.Core;
 using System.Collections.Concurrent;
 using System.ComponentModel;
-using Lemon.ModuleNavigation.Avaloniaui.Containers;
+using Lemon.ModuleNavigation.Avaloniaui.Regions;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Lemon.ModuleNavigation.Avaloniaui
 {
     public class NavigationExtension
     {
-        private static readonly ConcurrentDictionary<string, Control> _viewContainerNamesCaches = [];
         private static readonly ConcurrentDictionary<string, Control> _moduleContainerNamesCaches = [];
         private static readonly HashSet<AvaloniaObject> _targets = [];
-        #region ViewContainerNameProperty
-        public static readonly AttachedProperty<string> ViewContainerNameProperty =
-               AvaloniaProperty.RegisterAttached<NavigationExtension, Control, string>("ViewContainerName",
-                   coerce: CoerceViewContainerName);
+        #region RegionNameProperty
+        public static readonly AttachedProperty<string> RegionNameProperty =
+               AvaloniaProperty.RegisterAttached<NavigationExtension, Control, string>("RegionName",
+                   coerce: CoerceRegionName);
 
-        private static string CoerceViewContainerName(AvaloniaObject targetObject, string currentValue)
+        private static string CoerceRegionName(AvaloniaObject targetObject, string currentValue)
         {
             if (targetObject is Control control)
             {
@@ -48,19 +47,19 @@ namespace Lemon.ModuleNavigation.Avaloniaui
                 }
                 else
                 {
-                    throw new InvalidOperationException($"{nameof(ViewContainerNameProperty)} supports {nameof(ContentControl)} and {nameof(ItemsControl)} Only");
+                    throw new InvalidOperationException($"{nameof(RegionNameProperty)} supports {nameof(ContentControl)} and {nameof(ItemsControl)} Only");
                 }
             }
             return currentValue;
         }
 
-        public static string GetViewContainerName(Control control)
+        public static string GetRegionName(Control control)
         {
-            return control.GetValue(ViewContainerNameProperty);
+            return control.GetValue(RegionNameProperty);
         }
-        public static void SetViewContainerName(Control control, string value)
+        public static void SetRegionName(Control control, string value)
         {
-            control.SetValue(ViewContainerNameProperty, value);
+            control.SetValue(RegionNameProperty, value);
         }
         #endregion
 
@@ -83,9 +82,9 @@ namespace Lemon.ModuleNavigation.Avaloniaui
             }
             if (targetObject is Control control)
             {
-                if (!string.IsNullOrEmpty(GetViewContainerName(control)))
+                if (!string.IsNullOrEmpty(GetRegionName(control)))
                 {
-                    throw new InvalidOperationException($"The {control} have a {nameof(ViewContainerNameProperty)} already.");
+                    throw new InvalidOperationException($"The {control} have a {nameof(RegionNameProperty)} already.");
                 }
                 void LoadedHandler(object? sender, RoutedEventArgs e)
                 {
