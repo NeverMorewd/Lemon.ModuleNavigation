@@ -1,19 +1,20 @@
 <Window
+    Design.DataContext="{x:Static designDatas:DesignData.MainWindowViewModel}"
+    ExtendClientAreaToDecorationsHint="False"
+    Icon="/Assets/lemon-28.png"
+    ShowActivated="True"
+    Title="Lemon.ModuleNavigation.Sample"
+    WindowState="Maximized"
+    d:DesignHeight="450"
+    d:DesignWidth="800"
+    mc:Ignorable="d"
     x:Class="Lemon.ModuleNavigation.Sample.Views.MainWindow"
     xmlns="https://github.com/avaloniaui"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:designDatas="clr-namespace:Lemon.ModuleNavigation.Sample.DesignDatas"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:views="clr-namespace:Lemon.ModuleNavigation.Sample.Views"
     xmlns:vm="using:Lemon.ModuleNavigation.Sample.ViewModels"
-    Title="Lemon.ModuleNavigation.Sample"
-	ExtendClientAreaToDecorationsHint="False"
-    d:DesignHeight="450"
-    d:DesignWidth="800"
-    Design.DataContext="{x:Static designDatas:DesignData.MainWindowViewModel}"
-    Icon="/Assets/lemon-28.png"
-    WindowState="Maximized"
-    mc:Ignorable="d">
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
     <views:MainView />
 </Window>
