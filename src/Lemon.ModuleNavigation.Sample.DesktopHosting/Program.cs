@@ -35,7 +35,7 @@ internal static class Program
         hostBuilder.Services.AddModule<ModuleC>();
         // views
         hostBuilder.Services.AddView<ViewAlpha, ViewAlphaViewModel>(nameof(ViewAlpha));
-        hostBuilder.Services.AddView<ViewBeta, ViewBetaViewModel>(nameof(ViewAlpha));
+        hostBuilder.Services.AddView<ViewBeta, ViewBetaViewModel>(nameof(ViewBeta));
 
         hostBuilder.Services.AddAvaloniauiDesktopApplication<App>(BuildAvaloniaApp);
         hostBuilder.Services.AddMainWindow<MainWindow, MainViewModel>();

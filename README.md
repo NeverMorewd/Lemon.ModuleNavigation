@@ -59,14 +59,12 @@ namespace Lemon.ModuleNavigation.Sample.ModuleAs
 
         /// <summary>
         /// Specifies whether this module needs to be loaded on demand
-        /// 指定该模块是否按需加载
         /// Default value is True
         /// </summary>
         public override bool LoadOnDemand => false;
 
         /// <summary>
         /// Alias of module for displaying usually
-        /// 模块的别名，一般用于显示
         /// Default value is class name of Module
         /// </summary>
         public override string? Alias => base.Alias;
@@ -74,14 +72,12 @@ namespace Lemon.ModuleNavigation.Sample.ModuleAs
         /// <summary>
         /// Specifies whether this module allow multiple instances
         /// If true,every navigation to this module will generate a new instance.
-        /// 指定该模块是否支持多实例，如果设置为true，那每次导航到该模块都会创建新的实例。
         /// Default value is false.
         /// </summary>
-        public override bool AllowMultiple => base.AllowMultiple;
+        public override bool ForceNew => base.ForceNew;
 
         /// <summary>
         /// Specifies whether this module can be unloaded.
-        /// 指定该模块是否支持卸载
         /// Default value is false.
         /// </summary>
         public override bool CanUnload => base.CanUnload;
@@ -110,11 +106,6 @@ public partial class ViewA : UserControl, IView
     {
         InitializeComponent();
     }
-
-    public void SetDataContext(IViewModel viewModel)
-    {
-        DataContext = viewModel;
-    }
 }
 ```
 ##### ViewModel.cs
@@ -137,45 +128,53 @@ namespace Lemon.ModuleNavigation.Sample.ModuleAs
 ```
 
 #### In MainView.axaml or MainWindow.axaml
-##### NContainer
-NContainer is an implementation with ContentControl for displaying View of Module.
+##### ContentControl
 ```xaml
-<lm:NContainer xmlns:lm="https://github.com/NeverMorewd/Lemon.ModuleNavigation" Grid.Column="1" NavigationContext="{Binding NavigationContext}" />
+<ContentControl lm:NavigationExtension.ModuleContainerName="NContentControl" xmlns:lm="https://github.com/NeverMorewd/Lemon.ModuleNavigation" Grid.Column="1" />
 ```
-##### NTabContainer
-NTabContainer is an implementation with TabControl for displaying View of Module.
+##### TabControl
 ```xaml
-<lm:NTabContainer xmlns:lm="https://github.com/NeverMorewd/Lemon.ModuleNavigation" Grid.Column="1" NavigationContext="{Binding NavigationContext}" >
-   <lm:NTabContainer.ItemTemplate>
+<TabControl lm:NavigationExtension.ModuleContainerName="NTabControl" xmlns:lm="https://github.com/NeverMorewd/Lemon.ModuleNavigation" Grid.Column="1" >
+   <TabControl.ItemTemplate>
     <DataTemplate>
         <StackPanel Orientation="Horizontal" Spacing="2">
             <TextBlock Text="{Binding Alias}" />
-             <!-- Adding lm:NTabContainerBehaviors.CanUnload to a Button to make this moule can be unloaded with click event.  -->
-            <Button lm:NTabContainerBehaviors.CanUnload="{Binding CanUnload}"/>
+             <!-- Adding TabControlBehaviors.CanUnload to a Button to make this moule can be unloaded with click event.  -->
+            <Button lm:NavigationExtension.CanUnload="{Binding CanUnload}"/>
         </StackPanel>
     </DataTemplate>
-   </lm:NTabContainer.ItemTemplate>
-   <lm:NTabContainer.ContentTemplate>
+   </TabControl.ItemTemplate>
+   <TabControl.ContentTemplate>
     <DataTemplate>
 	<ContentControl Content="{Binding View}" />
     </DataTemplate>
-   </lm:NTabContainer.ContentTemplate>
+   </TabControl.ContentTemplate>
 </NTabContainer>
 ```
 #### MainViewModel.cs
 ```csharp
-public class MainViewModel : ViewModelBase, INavigationContextProvider
+public class MainViewModel : ViewModelBase, IServiceAware
 {
-    public readonly NavigationService _navigationService;
-    public MainViewModel(NavigationContext navigationContext,
-        IEnumerable<IModule> modules,
-        NavigationService navigationService)
+    private readonly NavigationService _navigationService;
+    private readonly IServiceProvider _serviceProvider;
+    private readonly IDialogService _dialogService;
+    private readonly ILogger _logger;
+    public MainViewModel(IEnumerable<IModule> modules,
+        IServiceProvider serviceProvider,
+        NavigationService navigationService,
+        IDialogService dialogService,
+        ILogger<MainViewModel> logger)
     {
+        _logger = logger;
         _navigationService = navigationService;
-        NavigationContext = navigationContext;
+        _serviceProvider = serviceProvider;
+        _dialogService = dialogService;
         Modules = new ObservableCollection<IModule>(modules);
     }
-
+    /// <summary>
+    /// IServiceAware
+    /// <summary>
+    public IServiceProvider ServiceProvider => _serviceProvider;
     /// <summary>
     /// Navigation is triggered based on the timing of the customization
     /// </summary>
@@ -190,11 +189,6 @@ public class MainViewModel : ViewModelBase, INavigationContextProvider
     {
         get;
         set;
-    }
-    
-    public NavigationContext NavigationContext
-    {
-        get;
     }
 }
 
@@ -213,9 +207,14 @@ class Program
         var hostBuilder = Host.CreateApplicationBuilder();
 
         // module navigation
-        hostBuilder.Services.AddNavigationContext();
+        hostBuilder.Services.AddAvaNavigationSupport();
         // modules
         hostBuilder.Services.AddModule<ModuleA>();
+        hostBuilder.Services.AddModule<ModuleB>();
+        hostBuilder.Services.AddModule<ModuleC>();
+        // views
+        hostBuilder.Services.AddView<ViewAlpha, ViewAlphaViewModel>(nameof(ViewAlpha));
+        hostBuilder.Services.AddView<ViewBeta, ViewBetaViewModel>(nameof(ViewAlpha));
 
         hostBuilder.Services.AddAvaloniauiDesktopApplication<App>(BuildAvaloniaApp);
         hostBuilder.Services.AddMainWindow<MainWindow, MainViewModel>();

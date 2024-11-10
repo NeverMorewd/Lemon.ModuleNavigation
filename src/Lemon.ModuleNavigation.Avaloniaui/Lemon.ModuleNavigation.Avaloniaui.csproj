@@ -10,6 +10,7 @@
 	<Title>Lemon.ModuleNavigation.Avaloniaui</Title>
 	<Description>Extending Lemon.ModuleNavigation, this package provides NavigationContainers specifically designed for AvaloniaUI.</Description>
 	<PackageIcon>lemon-100.png</PackageIcon>
+	<PackageReadmeFile>README.md</PackageReadmeFile>
   </PropertyGroup>
 
   <ItemGroup>
@@ -25,6 +26,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Include="..\..\README.md">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
     <None Include="lemon-100.png">
       <Pack>True</Pack>
       <PackagePath>\</PackagePath>

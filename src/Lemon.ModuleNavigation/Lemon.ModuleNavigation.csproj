@@ -10,6 +10,7 @@
 	<Title>Lemon.ModuleNavigation</Title>
 	<PackageIcon>lemon-100.png</PackageIcon>
 	<Description>A lightweight module navigation framework built on top of the Microsoft Dependency Injection (MSDI) for AvaloniaUI,WPF and Xaml-platform else. Support nativeAot</Description>
+	<PackageReadmeFile>README.md</PackageReadmeFile>
   </PropertyGroup>
 
 	<ItemGroup>
@@ -21,6 +22,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Include="..\..\README.md">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
     <None Include="lemon-100.png">
       <Pack>True</Pack>
       <PackagePath>\</PackagePath>
