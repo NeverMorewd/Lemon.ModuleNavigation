@@ -26,6 +26,7 @@ public class MainViewModel : SampleViewModelBase, IServiceAware
         _navigationService = navigationService;
         _serviceProvider = serviceProvider;
         _dialogService = dialogService;
+        _navigationService.NavigateToView("ContentRegion", "ViewAlpha", false);
         Modules = new ObservableCollection<IModule>(modules);
         ToViewCommand = ReactiveCommand.Create<string>(content => 
         {
