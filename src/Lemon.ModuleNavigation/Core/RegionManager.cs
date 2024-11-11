@@ -1,4 +1,5 @@
 ﻿using Lemon.ModuleNavigation.Abstracts;
+using System.Collections.Concurrent;
 
 namespace Lemon.ModuleNavigation.Core
 {
@@ -7,27 +8,33 @@ namespace Lemon.ModuleNavigation.Core
     {
         private readonly Dictionary<string, IRegion> _regions = [];
         private readonly IServiceProvider _serviceProvider;
-        public RegionManager(IServiceProvider serviceProvider) 
+        private readonly ConcurrentStack<NavigationContext> _buffer = [];
+        public RegionManager(IServiceProvider serviceProvider)
         {
             _serviceProvider = serviceProvider;
         }
 
         public void RequestNavigate(string regionName, string viewName, bool requestNew, NavigationParameters? parameters = null)
         {
+            var context = new NavigationContext(viewName, regionName, _serviceProvider, requestNew, parameters);
             if (_regions.TryGetValue(regionName, out var region))
             {
-                var context = new NavigationContext(viewName, regionName, _serviceProvider, requestNew, parameters);
                 region.Activate(context);
             }
             else
             {
-                throw new KeyNotFoundException($"Can not find region {regionName}");
+                _buffer.Push(context);
             }
         }
 
         public void AddRegion(string regionName, IRegion region)
         {
             _regions.Add(regionName, region);
+            if (_buffer.TryPop(out var context))
+            {
+                region.Activate(context);
+                _buffer.Clear();
+            }
         }
 
         public IRegion? GetRegion(string regionName)
@@ -36,5 +43,4 @@ namespace Lemon.ModuleNavigation.Core
             return region;
         }
     }
-
 }
