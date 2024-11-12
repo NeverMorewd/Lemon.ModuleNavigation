@@ -1,4 +1,5 @@
 ﻿using Lemon.ModuleNavigation.Abstracts;
+using Lemon.ModuleNavigation.Internals;
 using System.Collections.Concurrent;
 
 namespace Lemon.ModuleNavigation.Core
@@ -6,9 +7,11 @@ namespace Lemon.ModuleNavigation.Core
 
     public class RegionManager : IRegionManager
     {
-        private readonly Dictionary<string, IRegion> _regions = [];
+        private readonly ConcurrentDictionary<string, IRegion> _regions = [];
         private readonly IServiceProvider _serviceProvider;
         private readonly ConcurrentStack<NavigationContext> _buffer = [];
+        private readonly ConcurrentSet<IObserver<NavigationContext>> _navigationObservers = new();
+        private readonly ConcurrentSet<IObserver<IRegion>> _regionsObservers = new();
         public RegionManager(IServiceProvider serviceProvider)
         {
             _serviceProvider = serviceProvider;
@@ -20,6 +23,7 @@ namespace Lemon.ModuleNavigation.Core
             if (_regions.TryGetValue(regionName, out var region))
             {
                 region.Activate(context);
+                ToNavigationObservers(context);
             }
             else
             {
@@ -29,11 +33,19 @@ namespace Lemon.ModuleNavigation.Core
 
         public void AddRegion(string regionName, IRegion region)
         {
-            _regions.Add(regionName, region);
-            if (_buffer.TryPop(out var context))
+            if (_regions.TryAdd(regionName, region))
             {
-                region.Activate(context);
-                _buffer.Clear();
+                ToRegionsObservers(region);
+                if (_buffer.TryPop(out var context))
+                {
+                    region.Activate(context);
+                    ToNavigationObservers(context);
+                    _buffer.Clear();
+                }
+            }
+            else
+            {
+                throw new InvalidOperationException($"Duplicate key {regionName}");
             }
         }
 
@@ -41,6 +53,55 @@ namespace Lemon.ModuleNavigation.Core
         {
             _regions.TryGetValue(regionName, out var region);
             return region;
+        }
+
+        public IDisposable Subscribe(IObserver<NavigationContext> observer)
+        {
+            if (!_navigationObservers.Add(observer))
+            {
+                throw new InvalidOperationException("Duplicate subscription is not allowed!");
+            }
+            return new DisposableAction(() =>
+            {
+                _navigationObservers.Remove(observer);
+            });
+        }
+        public IDisposable Subscribe(IObserver<IRegion> observer)
+        {
+            if (!_regionsObservers.Add(observer))
+            {
+                throw new InvalidOperationException("Duplicate subscription is not allowed!");
+            }
+            return new DisposableAction(() =>
+            {
+                _regionsObservers.Remove(observer);
+            });
+        }
+        private void ToNavigationObservers(NavigationContext navigationContext)
+        {
+            if (_navigationObservers.Count > 0)
+            {
+                Task.Run(() =>
+                {
+                    foreach (var observer in _navigationObservers)
+                    {
+                        observer.OnNext(navigationContext);
+                    }
+                });
+            }
+        }
+        private void ToRegionsObservers(IRegion region)
+        {
+            if (_regionsObservers.Count > 0)
+            {
+                Task.Run(() =>
+                {
+                    foreach (var observer in _regionsObservers)
+                    {
+                        observer.OnNext(region);
+                    }
+                });
+            }
         }
     }
 }

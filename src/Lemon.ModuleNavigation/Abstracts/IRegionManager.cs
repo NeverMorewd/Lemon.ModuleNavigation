@@ -3,7 +3,7 @@ using Lemon.ModuleNavigation.Core;
 
 namespace Lemon.ModuleNavigation.Abstracts
 {
-    public interface IRegionManager
+    public interface IRegionManager: IObservable<NavigationContext>, IObservable<IRegion>
     {
         void AddRegion(string regionName, IRegion region);
         IRegion? GetRegion(string regionName);
