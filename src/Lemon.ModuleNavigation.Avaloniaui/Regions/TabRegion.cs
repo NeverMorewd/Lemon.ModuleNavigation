@@ -8,12 +8,17 @@ namespace Lemon.ModuleNavigation.Avaloniaui.Regions
     public class TabRegion : AvaloniauiRegion
     {
         private readonly TabControl _tabControl;
-        public TabRegion(TabControl tabControl)
+        public TabRegion(TabControl tabControl, string name)
         {
             _tabControl = tabControl;
+            _tabControl.ContentTemplate = RegionTemplate;
             Contexts = [];
             Contexts.CollectionChanged += ViewContents_CollectionChanged;
-            _tabControl.ContentTemplate = RegionTemplate;
+            Name = name;
+        }
+        public override string Name
+        {
+            get;
         }
         public object? SelectedItem
         {

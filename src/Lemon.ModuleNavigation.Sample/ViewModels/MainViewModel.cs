@@ -15,17 +15,21 @@ public class MainViewModel : SampleViewModelBase, IServiceAware
     private readonly NavigationService _navigationService;
     private readonly IServiceProvider _serviceProvider;
     private readonly IDialogService _dialogService;
+    private readonly IRegionManager _regionManager;
     private readonly ILogger _logger;
     public MainViewModel(IEnumerable<IModule> modules,
         IServiceProvider serviceProvider,
         NavigationService navigationService,
         IDialogService dialogService,
+        IRegionManager regionManager,
         ILogger<MainViewModel> logger)
     {
         _logger = logger;
         _navigationService = navigationService;
         _serviceProvider = serviceProvider;
         _dialogService = dialogService;
+        _regionManager = regionManager;
+        // default view
         _navigationService.NavigateToView("ContentRegion", "ViewAlpha", false);
         Modules = new ObservableCollection<IModule>(modules);
         ToViewCommand = ReactiveCommand.Create<string>(content => 
@@ -71,6 +75,14 @@ public class MainViewModel : SampleViewModelBase, IServiceAware
                     _logger.LogDebug($"close call back:{p}");
                 });
             }
+        });
+        _regionManager.Subscribe<NavigationContext>(n => 
+        {
+            _logger.LogDebug($"Request to : {n.RegionName}.{n.ViewName}");
+        });
+        _regionManager.Subscribe<IRegion>(r => 
+        {
+            _logger.LogDebug($"New region : {r.Name}");
         });
     }
     public ReactiveCommand<string, Unit> ToViewCommand

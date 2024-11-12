@@ -15,6 +15,10 @@ namespace Lemon.ModuleNavigation.Avaloniaui.Regions
             _viewCache = [];
             RegionTemplate = GetDataTemplate();
         }
+        public abstract string Name
+        {
+            get;
+        }
         public abstract ObservableCollection<NavigationContext> Contexts
         {
             get;

@@ -3,20 +3,25 @@ using Avalonia.Controls.Primitives;
 using Lemon.ModuleNavigation.Core;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
+using System.Xml.Linq;
 
 namespace Lemon.ModuleNavigation.Avaloniaui.Regions
 {
     public class ItemsRegion : AvaloniauiRegion
     {
         private readonly ItemsControl _itemsControl;
-        public ItemsRegion(ItemsControl itemsControl)
+        public ItemsRegion(ItemsControl itemsControl, string name)
         {
             _itemsControl = itemsControl;
+            _itemsControl.ItemTemplate = RegionTemplate;
             Contexts = [];
             Contexts.CollectionChanged += ViewContents_CollectionChanged;
-            _itemsControl.ItemTemplate = RegionTemplate;
+            Name = name;
         }
-
+        public override string Name
+        {
+            get;
+        }
         public object? SelectedItem
         {
             get

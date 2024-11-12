@@ -8,14 +8,19 @@ namespace Lemon.ModuleNavigation.Avaloniaui.Regions
     public class ContentRegion : AvaloniauiRegion
     {
         private readonly ContentControl _contentControl;
-        public ContentRegion(ContentControl contentControl) : base()
+        public ContentRegion(ContentControl contentControl, string name) : base()
         {
             _contentControl = contentControl;
+            _contentControl.ContentTemplate = RegionTemplate;
             Contexts = [];
             Contexts.CollectionChanged += ViewContents_CollectionChanged;
-            _contentControl.ContentTemplate = RegionTemplate;
+            Name = name;
         }
 
+        public override string Name
+        {
+            get;
+        }
         public object? Content 
         { 
             get => _contentControl.Content;
