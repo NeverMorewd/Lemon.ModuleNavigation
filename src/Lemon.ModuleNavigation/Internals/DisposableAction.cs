@@ -1,6 +1,6 @@
 ﻿namespace Lemon.ModuleNavigation.Internals
 {
-    internal class DisposableAction : IDisposable
+    internal sealed class DisposableAction : IDisposable
     {
         private readonly Action _action;
         private int _disposed;

@@ -3,7 +3,7 @@ using System.Collections.Concurrent;
 
 namespace Lemon.ModuleNavigation.Internals
 {
-    internal class ConcurrentSet<T> : IEnumerable<T> where T : notnull
+    internal sealed class ConcurrentSet<T> : IEnumerable<T> where T : notnull
     {
         private readonly ConcurrentDictionary<T, byte> _dict = new();
 
