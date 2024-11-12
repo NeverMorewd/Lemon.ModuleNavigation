@@ -8,6 +8,8 @@ namespace Lemon.ModuleNavigation.Core
     {
         private readonly List<IModuleNavigationHandler> _handlers = [];
         private readonly List<IViewNavigationHandler> _viewHandlers = [];
+
+        // reserve only one for now.
         private readonly ConcurrentStack<(IModule module, NavigationParameters parameter)> _bufferModule = [];
         private readonly ConcurrentStack<(string moduleName, NavigationParameters parameter)> _bufferModuleName = [];
         private readonly ConcurrentStack<(string regionName, string viewName, bool requestNew)> _bufferViewName = [];
@@ -36,7 +38,7 @@ namespace Lemon.ModuleNavigation.Core
             }
             _bufferModuleName.Push((moduleName, parameters));
         }
-        public void NavigateToView(string regionName,
+        public void RequestViewNavigation(string regionName,
             string viewKey,
             bool requestNew = false)
         {
@@ -86,7 +88,7 @@ namespace Lemon.ModuleNavigation.Core
             });
         }
 
-        public void NavigateToView(string regionName,
+        public void RequestViewNavigation(string regionName,
             string viewKey,
             NavigationParameters parameters,
             bool requestNew = false)

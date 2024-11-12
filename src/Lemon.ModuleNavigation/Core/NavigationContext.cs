@@ -9,7 +9,7 @@
             bool requestNew,
             NavigationParameters? navigationParameters)
         {
-            ViewName = viewName;
+            TargetViewName = viewName;
             Parameters = navigationParameters;
             RequestNew = requestNew;
             RegionName = regionName;
@@ -18,7 +18,7 @@
         }
         public static ViewNameComparer ViewNameComparer => new();
         public static StrictComparer StrictComparer => new();
-        public string ViewName 
+        public string TargetViewName 
         { 
             get; 
             private set; 
@@ -50,7 +50,7 @@
         }
         public override string ToString()
         {
-            return ViewName;
+            return TargetViewName;
         }
     }
     public class ViewNameComparer : IEqualityComparer<NavigationContext>
@@ -59,12 +59,12 @@
         {
             if (x == null && y == null) return true;
             if (x == null || y == null) return false;
-            return x.ViewName == y.ViewName;
+            return x.TargetViewName == y.TargetViewName;
         }
 
         public int GetHashCode(NavigationContext obj)
         {
-            return obj.ViewName.GetHashCode();
+            return obj.TargetViewName.GetHashCode();
         }
     }
     public class StrictComparer : IEqualityComparer<NavigationContext>

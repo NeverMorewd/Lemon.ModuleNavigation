@@ -10,9 +10,11 @@ namespace Lemon.ModuleNavigation.Avaloniaui.Regions
     public abstract class AvaloniauiRegion : IRegion
     {
         private readonly Dictionary<string, IView> _viewCache;
+        private readonly ConcurrentItem<(IView, INavigationAware)> _current;
         public AvaloniauiRegion()
         {
             _viewCache = [];
+            _current = new();
             RegionTemplate = GetDataTemplate();
         }
         public abstract string Name
@@ -41,24 +43,30 @@ namespace Lemon.ModuleNavigation.Avaloniaui.Regions
                 {
                     return default;
                 }
-                if (context.RequestNew || !_viewCache.TryGetValue(context.ViewName, out IView? view))
+                if (context.RequestNew || !_viewCache.TryGetValue(context.TargetViewName, out IView? view))
                 {
-                    view = context.ServiceProvider.GetRequiredKeyedService<IView>(context.ViewName);
+                    view = context.ServiceProvider.GetRequiredKeyedService<IView>(context.TargetViewName);
 
                     var viewFullName = view.GetType().FullName;
 
                     context.Uri = new Uri($"avares://{viewFullName}.axaml");
-                    var viewModel = context.ServiceProvider.GetRequiredKeyedService<INavigationAware>(context.ViewName);
-                    viewModel.OnNavigatedTo(context);
-                    if (viewModel.IsNavigationTarget(context))
+                    var navigationAware = context.ServiceProvider.GetRequiredKeyedService<INavigationAware>(context.TargetViewName);
+                    if (_current.TryTakeData(out (IView, INavigationAware) data))
                     {
-                        view.DataContext = viewModel;
+                        data.Item2.OnNavigatedFrom(context);
+                    }
+                    if (navigationAware.IsNavigationTarget(context))
+                    {
+                        view.DataContext = navigationAware;
+                        navigationAware.OnNavigatedTo(context);
+                        _current.SetData((view, navigationAware));
                     }
                     else
                     {
                         return default;
                     }
-                    _viewCache.TryAdd(context.ViewName, view);
+
+                    _viewCache.TryAdd(context.TargetViewName, view);
                 }
                 return view as Control;
             });

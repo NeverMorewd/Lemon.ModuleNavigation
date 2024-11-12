@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections;
 using System.ComponentModel;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace Lemon.ModuleNavigation.Parameters
 {
@@ -55,7 +51,7 @@ namespace Lemon.ModuleNavigation.Parameters
         }
         public bool TryGetValue<T>(string key, out T? value) where T : notnull
         {
-            return _entries.TryGetValue<T>(key, out value);
+            return _entries.TryGetValue(key, out value);
         }
         IEnumerator IEnumerable.GetEnumerator()
         {

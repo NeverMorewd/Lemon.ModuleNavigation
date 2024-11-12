@@ -30,7 +30,7 @@ public class MainViewModel : SampleViewModelBase, IServiceAware
         _dialogService = dialogService;
         _regionManager = regionManager;
         // default view
-        _navigationService.NavigateToView("ContentRegion", "ViewAlpha", false);
+        _navigationService.RequestViewNavigation("ContentRegion", "ViewAlpha", false);
         Modules = new ObservableCollection<IModule>(modules);
         ToViewCommand = ReactiveCommand.Create<string>(content => 
         {
@@ -42,10 +42,10 @@ public class MainViewModel : SampleViewModelBase, IServiceAware
                 requestNew = true;
 
             }
-            _navigationService.NavigateToView("ContentRegion", viewName, requestNew);
-            _navigationService.NavigateToView("TabRegion", viewName, requestNew);
-            _navigationService.NavigateToView("ItemsRegion", viewName, requestNew);
-            _navigationService.NavigateToView("TransitioningContentRegion", viewName, requestNew);
+            _navigationService.RequestViewNavigation("ContentRegion", viewName, requestNew);
+            _navigationService.RequestViewNavigation("TabRegion", viewName, requestNew);
+            _navigationService.RequestViewNavigation("ItemsRegion", viewName, requestNew);
+            _navigationService.RequestViewNavigation("TransitioningContentRegion", viewName, requestNew);
         });
         ToDialogCommand = ReactiveCommand.Create<string>(content =>
         {
@@ -78,7 +78,7 @@ public class MainViewModel : SampleViewModelBase, IServiceAware
         });
         _regionManager.Subscribe<NavigationContext>(n => 
         {
-            _logger.LogDebug($"Request to : {n.RegionName}.{n.ViewName}");
+            _logger.LogDebug($"Request to : {n.RegionName}.{n.TargetViewName}");
         });
         _regionManager.Subscribe<IRegion>(r => 
         {
