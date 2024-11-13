@@ -1,6 +1,7 @@
 ﻿using Lemon.ModuleNavigation.Abstracts;
 using Lemon.ModuleNavigation.Internals;
 using System.Collections.Concurrent;
+using System.Reflection.Metadata;
 
 namespace Lemon.ModuleNavigation.Core
 {
@@ -12,7 +13,7 @@ namespace Lemon.ModuleNavigation.Core
         // reserve only one for now.
         private readonly ConcurrentStack<(IModule module, NavigationParameters parameter)> _bufferModule = [];
         private readonly ConcurrentStack<(string moduleName, NavigationParameters parameter)> _bufferModuleName = [];
-        private readonly ConcurrentStack<(string regionName, string viewName, bool requestNew)> _bufferViewName = [];
+        private readonly ConcurrentStack<(string regionName, string viewName, NavigationParameters? parameter, bool requestNew)> _bufferViewName = [];
 
         public NavigationService()
         {
@@ -46,7 +47,18 @@ namespace Lemon.ModuleNavigation.Core
             {
                 handler.OnNavigateTo(regionName, viewKey, requestNew);
             }
-            _bufferViewName.Push((regionName, viewKey, requestNew));
+            _bufferViewName.Push((regionName, viewKey, null, requestNew));
+        }
+        public void RequestViewNavigation(string regionName,
+            string viewKey,
+            NavigationParameters parameters,
+            bool requestNew = false)
+        {
+            foreach (var handler in _viewHandlers)
+            {
+                handler.OnNavigateTo(regionName, viewKey, parameters, requestNew);
+            }
+            _bufferViewName.Push((regionName, viewKey, parameters, requestNew));
         }
         IDisposable IModuleNavigationService<IModule>.BindingNavigationHandler(IModuleNavigationHandler<IModule> moduleHandler)
         {
@@ -78,25 +90,21 @@ namespace Lemon.ModuleNavigation.Core
         IDisposable IViewNavigationService.BindingViewNavigationHandler(IViewNavigationHandler handler)
         {
             _viewHandlers.Add(handler);
-            foreach (var (regionName, viewName, requestNew) in _bufferViewName)
+            foreach (var (regionName, viewName, parameters, requestNew) in _bufferViewName)
             {
-                handler.OnNavigateTo(regionName, viewName, requestNew);
+                if (parameters == null)
+                {
+                    handler.OnNavigateTo(regionName, viewName, requestNew);
+                }
+                else
+                {
+                    handler.OnNavigateTo(regionName, viewName, parameters, requestNew);
+                }
             }
             return new DisposableAction(() =>
             {
                 _viewHandlers.Remove(handler);
             });
-        }
-
-        public void RequestViewNavigation(string regionName,
-            string viewKey,
-            NavigationParameters parameters,
-            bool requestNew = false)
-        {
-            foreach (var handler in _viewHandlers)
-            {
-                handler.OnNavigateTo(regionName, viewKey, requestNew);
-            }
         }
     }
 }
