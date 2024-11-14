@@ -17,7 +17,7 @@ namespace Lemon.ModuleNavigation.Avaloniaui.Dialogs
             IDialogParameters? parameters = null,
             Action<IDialogResult>? callback = null)
         {
-            ShowCore(name, null, false, parameters, callback);
+            ShowCore(name, null, false, parameters, callback).Wait();
         }
 
         public void Show(string name,
@@ -25,25 +25,25 @@ namespace Lemon.ModuleNavigation.Avaloniaui.Dialogs
             IDialogParameters? parameters = null, 
             Action<IDialogResult>? callback = null)
         {
-            ShowCore(name, windowName, false, parameters, callback);
+            ShowCore(name, windowName, false, parameters, callback).Wait();
         }
 
-        public void ShowDialog(string name,
+        public async Task ShowDialog(string name,
             IDialogParameters? parameters = null, 
             Action<IDialogResult>? callback = null)
         {
-            ShowCore(name, null, true, parameters, callback);
+            await ShowCore(name, null, true, parameters, callback);
         }
 
-        public void ShowDialog(string name, 
+        public async Task ShowDialog(string name, 
             string windowName,
             IDialogParameters? parameters = null,
             Action<IDialogResult>? callback = null)
         {
-            ShowCore(name, windowName, true, parameters, callback);
+            await ShowCore(name, windowName, true, parameters, callback);
         }
 
-        private void ShowCore(string name,
+        private async Task ShowCore(string name,
             string? windowName,
             bool showDialog,
             IDialogParameters? parameters = null,
@@ -66,8 +66,8 @@ namespace Lemon.ModuleNavigation.Avaloniaui.Dialogs
             dialogViewModel.OnDialogOpened(parameters);
             dialogViewModel.RequestClose += (result) =>
             {
-                dialogWindow.Close();
                 callback?.Invoke(result);
+                dialogWindow.Close();
             };
             dialogWindow.Closed += (s, e) =>
             {
@@ -78,8 +78,7 @@ namespace Lemon.ModuleNavigation.Avaloniaui.Dialogs
                 if (Application.Current!.ApplicationLifetime is IClassicDesktopStyleApplicationLifetime classicDesktop)
                 {
                     var owner = classicDesktop.MainWindow!;
-                    // todo
-                    dialogWindow.ShowDialog(owner);
+                    await dialogWindow.ShowDialog(owner);
                 }
             }
             else

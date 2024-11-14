@@ -11,11 +11,11 @@
             IDialogParameters? parameters = null,
             Action<IDialogResult>? callback = null);
 
-        void ShowDialog(string name,
+        Task ShowDialog(string name,
             IDialogParameters? parameters = null, 
             Action<IDialogResult>? callback = null);
 
-        void ShowDialog(string name,
+        Task ShowDialog(string name,
             string windowName,
             IDialogParameters? parameters = null,
             Action<IDialogResult>? callback = null);

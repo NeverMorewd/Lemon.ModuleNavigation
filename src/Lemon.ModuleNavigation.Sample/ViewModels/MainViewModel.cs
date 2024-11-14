@@ -47,7 +47,7 @@ public class MainViewModel : SampleViewModelBase, IServiceAware
             _navigationService.RequestViewNavigation("ItemsRegion", viewName, requestNew);
             _navigationService.RequestViewNavigation("TransitioningContentRegion", viewName, requestNew);
         });
-        ToDialogCommand = ReactiveCommand.Create<string>(content =>
+        ToDialogCommand = ReactiveCommand.Create<string>(async content =>
         {
             var viewName = content;
             var showDialog = false;
@@ -63,10 +63,11 @@ public class MainViewModel : SampleViewModelBase, IServiceAware
             };
             if (showDialog)
             {
-                _dialogService.ShowDialog(viewName, param, p =>
+                await _dialogService.ShowDialog(viewName, param, p =>
                 {
-                    _logger.LogDebug($"close call back:{p}");
+                    _logger.LogDebug($"Call back:{p}");
                 });
+                _logger.LogDebug($"ShowDialog over!");
             }
             else
             {
