@@ -49,13 +49,13 @@ namespace Lemon.ModuleNavigation.Avaloniaui
         {
             return serviceDescriptors.AddKeyedTransient<IAvaDialogWindow, TDialogWindow>(windowKey);
         }
-        public static IServiceCollection AddAvaDialog<TView, TViewModel>(this IServiceCollection serviceDescriptors, string viewKey) 
-            where TViewModel : class, IDialogAware
-            where TView : class, IView
-        {
-            return serviceDescriptors
-                .AddKeyedTransient<IDialogAware, TViewModel>(viewKey)
-                .AddKeyedTransient<IView, TView>(viewKey);
-        }
+        //public static IServiceCollection AddAvaDialog<TView, TViewModel>(this IServiceCollection serviceDescriptors, string viewKey) 
+        //    where TViewModel : class, IDialogAware
+        //    where TView : class, IView
+        //{
+        //    return serviceDescriptors
+        //        .AddKeyedTransient<IDialogAware, TViewModel>(viewKey)
+        //        .AddKeyedTransient<IView, TView>(viewKey);
+        //}
     }
 }

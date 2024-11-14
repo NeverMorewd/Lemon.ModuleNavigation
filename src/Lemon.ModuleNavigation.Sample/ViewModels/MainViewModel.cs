@@ -63,7 +63,7 @@ public class MainViewModel : SampleViewModelBase, IServiceAware
             };
             if (showDialog)
             {
-                await _dialogService.ShowDialog(viewName, param, p =>
+                await _dialogService.ShowDialog(viewName, nameof(CustomDialogWindow), param, p =>
                 {
                     _logger.LogDebug($"Call back:{p}");
                 });
