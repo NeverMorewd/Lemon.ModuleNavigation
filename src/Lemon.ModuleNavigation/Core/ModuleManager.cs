@@ -11,10 +11,12 @@ namespace Lemon.ModuleNavigation.Core
     public class ModuleManager : IModuleManager, INotifyPropertyChanged
     {
         private readonly ConcurrentDictionary<string, IModule> _modulesCache;
+        private readonly ConcurrentDictionary<(string, string), IView> _regionCache;
         private readonly IServiceProvider _serviceProvider;
         public ModuleManager(IEnumerable<IModule> modules, IServiceProvider serviceProvider) 
         {
             _serviceProvider = serviceProvider;
+            _regionCache = [];
             _modulesCache = new ConcurrentDictionary<string, IModule>(modules.ToDictionary(m => m.Key, m => m));
             Modules = _modulesCache.Values;
             ActiveModules = new ObservableCollection<IModule>(_modulesCache
@@ -96,6 +98,23 @@ namespace Lemon.ModuleNavigation.Core
             var viewmodel = _serviceProvider.GetRequiredKeyedService<IModuleNavigationAware>(module.Key);
             view.DataContext = viewmodel;
             return view;
+        }
+        public IView GetOrCreateView(IModule module, string regionName)
+        {
+            if (module.ForceNew)
+            {
+                return CreateView(module);
+            }
+            if (_regionCache.TryGetValue((regionName, module.Key), out IView? cache))
+            {
+                return cache;
+            }
+            else
+            {
+                var view = CreateView(module);
+                _regionCache.TryAdd((regionName, module.Key), view);
+                return view;
+            }
         }
     }
 }
