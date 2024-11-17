@@ -92,7 +92,7 @@ namespace Lemon.ModuleNavigation.Avaloniaui
                     {
                         var serviceProvider = navigationContextProvider.ServiceProvider;
                         var handler = serviceProvider.GetRequiredService<INavigationHandler>();
-                        SetBinding(control, handler);
+                        SetBinding(control, handler, currentValue);
                     }
                     control.Loaded -= LoadedHandler;
                 }
@@ -179,7 +179,9 @@ namespace Lemon.ModuleNavigation.Avaloniaui
             }
         }
 
-        private static void SetBinding(Control control, INavigationHandler navigationHandler)
+        private static void SetBinding(Control control, 
+            INavigationHandler navigationHandler, 
+            string regionName)
         {
             if (control is TabControl tabControl)
             {
@@ -253,7 +255,7 @@ namespace Lemon.ModuleNavigation.Avaloniaui
                     {
                         return null;
                     }
-                    return navigationHandler.ModuleManager.CreateView(m) as Control;
+                    return navigationHandler.ModuleManager.GetOrCreateView(m, regionName) as Control;
                 });
             }
         }
