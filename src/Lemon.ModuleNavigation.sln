@@ -18,6 +18,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Lemon.ModuleNavigation.Samp
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Lemon.ModuleNavigation.Sample.Desktop", "Lemon.ModuleNavigation.Sample.Desktop\Lemon.ModuleNavigation.Sample.Desktop.csproj", "{AF18E2B0-7ED3-4BDA-81BA-6A23B3C89F39}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lemon.ModuleNavigation.Wpf", "Lemon.ModuleNavigation.Wpf\Lemon.ModuleNavigation.Wpf.csproj", "{45C411BC-1DFE-4A9E-977E-8081B5E18656}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -44,6 +46,10 @@ Global
 		{AF18E2B0-7ED3-4BDA-81BA-6A23B3C89F39}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AF18E2B0-7ED3-4BDA-81BA-6A23B3C89F39}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AF18E2B0-7ED3-4BDA-81BA-6A23B3C89F39}.Release|Any CPU.Build.0 = Release|Any CPU
+		{45C411BC-1DFE-4A9E-977E-8081B5E18656}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{45C411BC-1DFE-4A9E-977E-8081B5E18656}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{45C411BC-1DFE-4A9E-977E-8081B5E18656}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{45C411BC-1DFE-4A9E-977E-8081B5E18656}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
