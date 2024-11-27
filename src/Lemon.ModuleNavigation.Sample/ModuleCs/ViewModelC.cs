@@ -21,8 +21,6 @@ namespace Lemon.ModuleNavigation.Sample.ModuleCs
             });
         }
 
-        public override string Greeting => $"{base.Greeting}:{Environment.NewLine}{DateTime.Now}";
-
         public ReactiveCommand<string, Unit> NavigateCommand
         {
             get;

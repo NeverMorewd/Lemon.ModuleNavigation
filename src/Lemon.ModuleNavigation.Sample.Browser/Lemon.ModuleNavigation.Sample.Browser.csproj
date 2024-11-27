@@ -1,0 +1,15 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.WebAssembly">
+  <PropertyGroup>
+	  <TargetFramework>net8.0-browser</TargetFramework>
+	  <OutputType>Exe</OutputType>
+	  <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Avalonia.Browser" Version="11.2.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Lemon.ModuleNavigation.Sample\Lemon.ModuleNavigation.Sample.csproj" />
+  </ItemGroup>
+</Project>
