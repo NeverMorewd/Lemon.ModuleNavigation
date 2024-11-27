@@ -22,6 +22,5 @@ namespace Lemon.ModuleNavigation.Sample.ModuleBs
         {
             get;
         }
-        public override string Greeting => $"{base.Greeting}:{Environment.NewLine}{DateTime.Now}";
     }
 }
