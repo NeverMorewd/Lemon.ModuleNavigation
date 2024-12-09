@@ -38,7 +38,8 @@ namespace Lemon.ModuleNavigation.Avaloniaui.Regions
         {
             if(Content is NavigationContext current)
             {
-                if (target.TargetViewName == current.TargetViewName)
+                if (target.TargetViewName == current.TargetViewName 
+                    && !target.RequestNew)
                 {
                     return;
                 }
