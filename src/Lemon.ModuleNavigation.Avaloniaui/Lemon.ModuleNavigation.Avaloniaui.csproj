@@ -11,6 +11,7 @@
 	<Description>Extending Lemon.ModuleNavigation, this package provides NavigationContainers specifically designed for AvaloniaUI.</Description>
 	<PackageIcon>lemon-100.png</PackageIcon>
 	<PackageReadmeFile>README.md</PackageReadmeFile>
+	<BaseOutputPath>../output</BaseOutputPath>
   </PropertyGroup>
 
   <ItemGroup>

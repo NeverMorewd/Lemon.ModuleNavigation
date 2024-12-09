@@ -111,6 +111,7 @@ namespace Lemon.ModuleNavigation.Avaloniaui
             control.SetValue(ModuleContainerNameProperty, value);
         }
         #endregion
+
         #region CanUnloadProperty
         public static readonly AttachedProperty<bool> CanUnloadProperty =
                AvaloniaProperty.RegisterAttached<NavigationExtension, Button, bool>("CanUnload",

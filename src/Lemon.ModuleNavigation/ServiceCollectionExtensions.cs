@@ -8,6 +8,45 @@ namespace Lemon.ModuleNavigation
 {
     public static class ServiceCollectionExtensions
     {
+        public static IServiceCollection AddView<TView, TViewModel>(this IServiceCollection serviceDescriptors, string viewKey)
+            where TView : class, IView
+            where TViewModel : class, INavigationAware
+        {
+            if (!ViewManager.InternalViewDiscriptions.TryAdd(key: viewKey, 
+                new ViewDiscription
+                {
+                   ViewKey = viewKey,
+                   ViewClassName = typeof(TView).Name,
+                   ViewModelType = typeof(TViewModel),
+                   ViewType = typeof(TView)
+                }))
+            {
+                throw new InvalidOperationException($"Duplicated key is not allowed:{viewKey}!");
+            }
+
+            serviceDescriptors
+                .AddTransient<TViewModel>()
+                .AddTransient<TView>()
+                .AddKeyedTransient<IView>(viewKey, (sp, key) =>
+                {
+                    var view = sp.GetRequiredService<TView>();
+                    return view;
+                })
+                .AddKeyedTransient<INavigationAware>(viewKey, (sp, key) =>
+                {
+                    var viewModel = sp.GetRequiredService<TViewModel>();
+                    return viewModel;
+                });
+            if (typeof(TViewModel).IsAssignableTo(typeof(IDialogAware)))
+            {
+                serviceDescriptors.AddKeyedTransient(viewKey, (sp, key) =>
+                {
+                    var viewModel = sp.GetRequiredService<TViewModel>();
+                    return (IDialogAware)viewModel;
+                });
+            }
+            return serviceDescriptors;
+        }
         public static IServiceCollection AddModule<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] TModule>(this IServiceCollection serviceDescriptors)
             where TModule : class, IModule
         {

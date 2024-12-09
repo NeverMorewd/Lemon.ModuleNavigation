@@ -11,6 +11,7 @@
 	<PackageIcon>lemon-100.png</PackageIcon>
 	<Description>A lightweight module navigation framework built on top of the Microsoft Dependency Injection (MSDI) for AvaloniaUI,WPF and Xaml-platform else. Support nativeAot</Description>
 	<PackageReadmeFile>README.md</PackageReadmeFile>
+	<BaseOutputPath>../output</BaseOutputPath>
   </PropertyGroup>
 
 	<ItemGroup>
