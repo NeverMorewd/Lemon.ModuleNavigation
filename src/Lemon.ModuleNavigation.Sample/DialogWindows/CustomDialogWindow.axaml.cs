@@ -1,6 +1,4 @@
-using Avalonia;
 using Avalonia.Controls;
-using Avalonia.Markup.Xaml;
 using Lemon.ModuleNavigation.Avaloniaui.Dialogs;
 
 namespace Lemon.ModuleNavigation.Sample;

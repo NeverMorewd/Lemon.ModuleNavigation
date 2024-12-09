@@ -2,7 +2,7 @@
 using Lemon.ModuleNavigation.Avaloniaui.Dialogs;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Lemon.ModuleNavigation.Avaloniaui
+namespace Lemon.ModuleNavigation.Avaloniaui.Extensions
 {
     public static class ServiceCollectionExtensions
     {
@@ -15,7 +15,7 @@ namespace Lemon.ModuleNavigation.Avaloniaui
                     .AddKeyedTransient<IAvaDialogWindow, DefaultDialogWindow>(DefaultDialogWindow.Key);
         }
 
-        public static IServiceCollection AddAvaDialogWindow<TDialogWindow>(this IServiceCollection serviceDescriptors, string windowKey) 
+        public static IServiceCollection AddAvaDialogWindow<TDialogWindow>(this IServiceCollection serviceDescriptors, string windowKey)
             where TDialogWindow : class, IAvaDialogWindow
         {
             return serviceDescriptors.AddKeyedTransient<IAvaDialogWindow, TDialogWindow>(windowKey);

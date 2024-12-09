@@ -1,5 +1,5 @@
 ﻿using System;
-using Lemon.ModuleNavigation.Avaloniaui;
+using Lemon.ModuleNavigation.Avaloniaui.Core;
 
 namespace Lemon.ModuleNavigation.Sample.ModuleBs
 {

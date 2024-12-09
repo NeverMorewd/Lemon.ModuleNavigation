@@ -1,4 +1,4 @@
-﻿namespace Lemon.ModuleNavigation
+﻿namespace Lemon.ModuleNavigation.Extensions
 {
     public static class ListKeyValuePairExtensions
     {

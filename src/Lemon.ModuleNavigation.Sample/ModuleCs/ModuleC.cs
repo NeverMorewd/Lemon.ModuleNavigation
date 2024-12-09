@@ -1,5 +1,6 @@
 ﻿using Lemon.ModuleNavigation.Abstracts;
-using Lemon.ModuleNavigation.Avaloniaui;
+using Lemon.ModuleNavigation.Avaloniaui.Core;
+using Lemon.ModuleNavigation.Avaloniaui.Extensions;
 using Lemon.ModuleNavigation.Sample.ModuleCs.SubModules;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;

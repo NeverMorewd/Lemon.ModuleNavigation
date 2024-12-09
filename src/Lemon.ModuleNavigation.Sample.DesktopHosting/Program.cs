@@ -1,7 +1,7 @@
 ﻿using Avalonia;
 using Avalonia.ReactiveUI;
 using Lemon.Hosting.AvaloniauiDesktop;
-using Lemon.ModuleNavigation.Avaloniaui;
+using Lemon.ModuleNavigation.Avaloniaui.Extensions;
 using Lemon.ModuleNavigation.Sample.ModuleAs;
 using Lemon.ModuleNavigation.Sample.ModuleBs;
 using Lemon.ModuleNavigation.Sample.ModuleCs;

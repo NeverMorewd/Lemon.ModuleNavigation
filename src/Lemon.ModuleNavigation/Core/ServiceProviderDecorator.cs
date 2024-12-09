@@ -1,6 +1,6 @@
 ﻿using Lemon.ModuleNavigation.Abstracts;
 
-namespace Lemon.ModuleNavigation
+namespace Lemon.ModuleNavigation.Core
 {
     public class ServiceProviderDecorator : IServiceProviderDecorator
     {

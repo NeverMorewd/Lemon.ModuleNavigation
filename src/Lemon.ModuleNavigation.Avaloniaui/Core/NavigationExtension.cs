@@ -12,7 +12,16 @@ using System.ComponentModel;
 using Lemon.ModuleNavigation.Avaloniaui.Regions;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Lemon.ModuleNavigation.Avaloniaui
+/* Unmerged change from project 'Lemon.ModuleNavigation.Avaloniaui (net8.0)'
+Added:
+using Lemon;
+using Lemon.ModuleNavigation;
+using Lemon.ModuleNavigation.Avaloniaui;
+using Lemon.ModuleNavigation.Avaloniaui.Extensions;
+using Lemon.ModuleNavigation.Avaloniaui.Core;
+*/
+
+namespace Lemon.ModuleNavigation.Avaloniaui.Core
 {
     public class NavigationExtension
     {
@@ -180,8 +189,8 @@ namespace Lemon.ModuleNavigation.Avaloniaui
             }
         }
 
-        private static void SetBinding(Control control, 
-            INavigationHandler navigationHandler, 
+        private static void SetBinding(Control control,
+            INavigationHandler navigationHandler,
             string regionName)
         {
             if (control is TabControl tabControl)

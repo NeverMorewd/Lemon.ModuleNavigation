@@ -1,4 +1,4 @@
-﻿using Lemon.ModuleNavigation.Avaloniaui;
+﻿using Lemon.ModuleNavigation.Avaloniaui.Core;
 using Lemon.ModuleNavigation.Sample.ModuleCs.ViewModels;
 using Lemon.ModuleNavigation.Sample.ModuleCs.Views;
 using System;

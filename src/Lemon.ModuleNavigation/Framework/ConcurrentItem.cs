@@ -1,6 +1,6 @@
 ﻿using System.Collections.Concurrent;
 
-namespace Lemon.ModuleNavigation
+namespace Lemon.ModuleNavigation.Framework
 {
     public class ConcurrentItem<T>
     {

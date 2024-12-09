@@ -1,7 +1,6 @@
 ﻿using Lemon.ModuleNavigation.Abstracts;
 using Lemon.ModuleNavigation.Internals;
 using System.Collections.Concurrent;
-using System.Reflection.Metadata;
 
 namespace Lemon.ModuleNavigation.Core
 {

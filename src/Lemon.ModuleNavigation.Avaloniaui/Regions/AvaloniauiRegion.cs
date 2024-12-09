@@ -2,6 +2,7 @@
 using Avalonia.Controls.Templates;
 using Lemon.ModuleNavigation.Abstracts;
 using Lemon.ModuleNavigation.Core;
+using Lemon.ModuleNavigation.Framework;
 using Microsoft.Extensions.DependencyInjection;
 using System.Collections.Concurrent;
 using System.Collections.ObjectModel;
