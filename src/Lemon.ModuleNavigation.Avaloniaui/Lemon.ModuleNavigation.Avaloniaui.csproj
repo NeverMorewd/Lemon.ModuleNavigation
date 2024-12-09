@@ -14,6 +14,13 @@
 	<BaseOutputPath>../output</BaseOutputPath>
   </PropertyGroup>
 
+	<ItemGroup>
+	  <AvaloniaXaml Remove="bin\**" />
+	  <Compile Remove="bin\**" />
+	  <EmbeddedResource Remove="bin\**" />
+	  <None Remove="bin\**" />
+	</ItemGroup>
+
   <ItemGroup>
     <None Remove="lemon-50.png" />
   </ItemGroup>

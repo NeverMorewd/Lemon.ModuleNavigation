@@ -93,6 +93,12 @@ namespace Lemon.ModuleNavigation
             return serviceDescriptors;
         }
 
+        /// <summary>
+        /// AddNavigationSupport
+        /// todo: auto generate with source generator
+        /// </summary>
+        /// <param name="serviceDescriptors"></param>
+        /// <returns></returns>
         public static IServiceCollection AddNavigationSupport(this IServiceCollection serviceDescriptors)
         {
             return serviceDescriptors
