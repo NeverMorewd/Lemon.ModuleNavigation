@@ -6,35 +6,6 @@ namespace Lemon.ModuleNavigation.Avaloniaui
 {
     public static class ServiceCollectionExtensions
     {
-        public static IServiceCollection AddView<TView, TViewModel>(this IServiceCollection serviceDescriptors, string viewKey)
-            where TView : class, IView
-            where TViewModel : class, INavigationAware
-        {
-
-            serviceDescriptors
-                .AddTransient<TViewModel>()
-                .AddTransient<TView>()
-                .AddKeyedTransient<IView>(viewKey, (sp, key) =>
-                {
-                    var view = sp.GetRequiredService<TView>();
-                    return view;
-                })
-                .AddKeyedTransient<INavigationAware>(viewKey, (sp, key) =>
-                {
-                    var viewModel = sp.GetRequiredService<TViewModel>();
-                    return viewModel;
-                });
-            if (typeof(TViewModel).IsAssignableTo(typeof(IDialogAware)))
-            {
-                serviceDescriptors.AddKeyedTransient(viewKey, (sp, key) =>
-                {
-                    var viewModel = sp.GetRequiredService<TViewModel>();
-                    return (IDialogAware)viewModel;
-                });
-            }
-            return serviceDescriptors;
-        }
-
         public static IServiceCollection AddAvaNavigationSupport(this IServiceCollection serviceDescriptors)
         {
             return serviceDescriptors

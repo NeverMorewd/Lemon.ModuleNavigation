@@ -77,11 +77,11 @@ public class MainViewModel : SampleViewModelBase, IServiceAware
                 });
             }
         });
-        _regionManager.Subscribe<NavigationContext>(n => 
+        _regionManager.NavigationSubscribe<NavigationContext>(n => 
         {
             _logger.LogDebug($"Request to : {n.RegionName}.{n.TargetViewName}");
         });
-        _regionManager.Subscribe<IRegion>(r => 
+        _regionManager.NavigationSubscribe<IRegion>(r => 
         {
             _logger.LogDebug($"New region : {r.Name}");
         });
