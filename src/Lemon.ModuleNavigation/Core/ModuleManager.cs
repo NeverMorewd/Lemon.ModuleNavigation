@@ -10,7 +10,7 @@ namespace Lemon.ModuleNavigation.Core
     public class ModuleManager : IModuleManager, INotifyPropertyChanged
     {
         private readonly ConcurrentDictionary<string, IModule> _modulesCache;
-        private readonly ConcurrentDictionary<(string, string), IView> _regionCache;
+        private readonly ConcurrentDictionary<(string RegionName, string ModuleKey), IView> _regionCache;
         private readonly IServiceProvider _serviceProvider;
         private readonly IRegionManager _regionManager;
         public ModuleManager(IEnumerable<IModule> modules,
@@ -113,10 +113,30 @@ namespace Lemon.ModuleNavigation.Core
             }
             else
             {
-                var view = CreateView(module);
+                IView view;
+                if (!IsRenderedOnAnyRegion(module.Key))
+                {
+                    view = module.View!;
+                }
+                else
+                {
+                    view = CreateView(module);
+                }
                 _regionCache.TryAdd((regionName, module.Key), view);
                 return view;
             }
+        }
+
+        private bool IsRenderedOnAnyRegion(string moduleKey)
+        {
+            if (!_regionCache.IsEmpty)
+            {
+                foreach (var item in _regionCache)
+                {
+                    return (item.Key.ModuleKey == moduleKey);
+                }
+            }
+            return false;
         }
     }
 }
