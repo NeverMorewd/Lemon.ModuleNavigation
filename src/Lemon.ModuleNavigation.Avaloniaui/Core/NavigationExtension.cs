@@ -213,7 +213,7 @@ namespace Lemon.ModuleNavigation.Avaloniaui.Core
                     {
                         return null;
                     }
-                    return navigationHandler.ModuleManager.CreateView(m) as Control;
+                    return navigationHandler.ModuleManager.GetOrCreateView(m, regionName) as Control;
                 });
             }
             else if (control is ItemsControl itemsControl)
@@ -248,7 +248,7 @@ namespace Lemon.ModuleNavigation.Avaloniaui.Core
                     {
                         return null;
                     }
-                    return navigationHandler.ModuleManager.CreateView(m) as Control;
+                    return navigationHandler.ModuleManager.GetOrCreateView(m, regionName) as Control;
                 });
             }
             else if (control is ContentControl contentControl)
