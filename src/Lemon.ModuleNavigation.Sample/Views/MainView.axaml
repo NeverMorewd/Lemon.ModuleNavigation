@@ -61,7 +61,7 @@
                     <Border Classes="HSeparator" />
                     <ContentControl lm:NavigationExtension.ModuleContainerName="NContentControl" />
                 </StackPanel>
-                <StackPanel Classes="ForContainerShow" Grid.Column="2">
+                <!--<StackPanel Classes="ForContainerShow" Grid.Column="2">
                     <Label Content="TabControl" />
                     <Border Classes="HSeparator" />
                     <TabControl lm:NavigationExtension.ModuleContainerName="NTabControl">
@@ -93,7 +93,7 @@
                         Margin="2"
                         MaxHeight="600"
                         lm:NavigationExtension.ModuleContainerName="NListBox">
-                        <!--  https://github.com/AvaloniaUI/Avalonia/issues/17349  -->
+                        --><!--  https://github.com/AvaloniaUI/Avalonia/issues/17349  --><!--
                         <ListBox.ItemsPanel>
                             <ItemsPanelTemplate>
                                 <StackPanel />
@@ -105,7 +105,7 @@
                     <Label Content="TransitioningContentControl" />
                     <Border Classes="HSeparator" />
                     <TransitioningContentControl lm:NavigationExtension.ModuleContainerName="NTransitioningContentControl" />
-                </StackPanel>
+                </StackPanel>-->
             </Grid>
         </TabItem>
         <TabItem Header="View">

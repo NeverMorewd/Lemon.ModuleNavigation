@@ -1,6 +1,5 @@
 ﻿using Lemon.ModuleNavigation.Abstracts;
 using Microsoft.Extensions.DependencyInjection;
-using System;
 using System.Collections.Concurrent;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -13,9 +12,13 @@ namespace Lemon.ModuleNavigation.Core
         private readonly ConcurrentDictionary<string, IModule> _modulesCache;
         private readonly ConcurrentDictionary<(string, string), IView> _regionCache;
         private readonly IServiceProvider _serviceProvider;
-        public ModuleManager(IEnumerable<IModule> modules, IServiceProvider serviceProvider) 
+        private readonly IRegionManager _regionManager;
+        public ModuleManager(IEnumerable<IModule> modules,
+            IRegionManager regionManager,
+            IServiceProvider serviceProvider) 
         {
             _serviceProvider = serviceProvider;
+            _regionManager = regionManager;
             _regionCache = [];
             _modulesCache = new ConcurrentDictionary<string, IModule>(modules.ToDictionary(m => m.Key, m => m));
             Modules = _modulesCache.Values;
@@ -85,7 +88,6 @@ namespace Lemon.ModuleNavigation.Core
                     ActiveModules.Add(module);
                 }
             }
-
             ///TODO:Consider an async implementation
             module.Initialize();
             module.IsActivated = true;
