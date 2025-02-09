@@ -1,6 +1,5 @@
 ﻿using Lemon.ModuleNavigation.Abstracts;
 using Microsoft.Extensions.DependencyInjection;
-using System;
 using System.Collections.Concurrent;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -11,11 +10,15 @@ namespace Lemon.ModuleNavigation.Core
     public class ModuleManager : IModuleManager, INotifyPropertyChanged
     {
         private readonly ConcurrentDictionary<string, IModule> _modulesCache;
-        private readonly ConcurrentDictionary<(string, string), IView> _regionCache;
+        private readonly ConcurrentDictionary<(string RegionName, string ModuleKey), IView> _regionCache;
         private readonly IServiceProvider _serviceProvider;
-        public ModuleManager(IEnumerable<IModule> modules, IServiceProvider serviceProvider) 
+        private readonly IRegionManager _regionManager;
+        public ModuleManager(IEnumerable<IModule> modules,
+            IRegionManager regionManager,
+            IServiceProvider serviceProvider) 
         {
             _serviceProvider = serviceProvider;
+            _regionManager = regionManager;
             _regionCache = [];
             _modulesCache = new ConcurrentDictionary<string, IModule>(modules.ToDictionary(m => m.Key, m => m));
             Modules = _modulesCache.Values;
@@ -85,7 +88,6 @@ namespace Lemon.ModuleNavigation.Core
                     ActiveModules.Add(module);
                 }
             }
-
             ///TODO:Consider an async implementation
             module.Initialize();
             module.IsActivated = true;
@@ -111,10 +113,30 @@ namespace Lemon.ModuleNavigation.Core
             }
             else
             {
-                var view = CreateView(module);
+                IView view;
+                if (!IsRenderedOnAnyRegion(module.Key))
+                {
+                    view = module.View!;
+                }
+                else
+                {
+                    view = CreateView(module);
+                }
                 _regionCache.TryAdd((regionName, module.Key), view);
                 return view;
             }
+        }
+
+        private bool IsRenderedOnAnyRegion(string moduleKey)
+        {
+            if (!_regionCache.IsEmpty)
+            {
+                foreach (var item in _regionCache)
+                {
+                    return (item.Key.ModuleKey == moduleKey);
+                }
+            }
+            return false;
         }
     }
 }

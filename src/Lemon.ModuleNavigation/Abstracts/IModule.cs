@@ -39,6 +39,14 @@
         {
             get;
         }
+        public IView? View
+        {
+            get;
+        }
+        public IModuleNavigationAware? ViewModel
+        {
+            get;
+        }
         public void Initialize();
     }
 }
