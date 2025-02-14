@@ -9,9 +9,9 @@ namespace Lemon.ModuleNavigation.Core
     {
         private readonly ConcurrentDictionary<string, IRegion> _regions = [];
         private readonly IServiceProvider _serviceProvider;
-        private readonly ConcurrentStack<NavigationContext> _buffer = [];
-        private readonly ConcurrentSet<IObserver<NavigationContext>> _navigationObservers = new();
-        private readonly ConcurrentSet<IObserver<IRegion>> _regionsObservers = new();
+        private readonly ConcurrentDictionary<string, ConcurrentStack<NavigationContext>> _buffer = [];
+        private readonly ConcurrentSet<IObserver<NavigationContext>> _navigationObservers = [];
+        private readonly ConcurrentSet<IObserver<IRegion>> _regionsObservers = [];
         public RegionManager(IServiceProvider serviceProvider)
         {
             _serviceProvider = serviceProvider;
@@ -27,7 +27,18 @@ namespace Lemon.ModuleNavigation.Core
             }
             else
             {
-                _buffer.Push(context);
+                _buffer.AddOrUpdate(regionName,
+                    key => 
+                    {
+                        var stack = new ConcurrentStack<NavigationContext>();
+                        stack.Push(context);
+                        return stack;
+                    }, 
+                    (key, value) =>
+                    {
+                        value.Push(context);
+                        return value;
+                    });
             }
         }
 
@@ -36,11 +47,14 @@ namespace Lemon.ModuleNavigation.Core
             if (_regions.TryAdd(regionName, region))
             {
                 ToRegionsObservers(region);
-                if (_buffer.TryPop(out var context))
+
+                if (_buffer.TryGetValue(regionName, out var navigationContexts))
                 {
-                    region.Activate(context);
-                    ToNavigationObservers(context);
-                    _buffer.Clear();
+                    if (navigationContexts.TryPop(out var context))
+                    {
+                        region.Activate(context);
+                        ToNavigationObservers(context);
+                    }
                 }
             }
             else
