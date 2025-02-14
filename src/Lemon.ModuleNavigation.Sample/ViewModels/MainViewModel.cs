@@ -30,8 +30,9 @@ public class MainViewModel : SampleViewModelBase, IServiceAware
         _serviceProvider = serviceProvider;
         _dialogService = dialogService;
         _regionManager = regionManager;
-        // default view
+        // default views for different regions
         _navigationService.RequestViewNavigation("ContentRegion", "ViewAlpha", false);
+        _navigationService.RequestViewNavigation("TransitioningContentRegion", "ViewAlpha", false);
         Modules = new ObservableCollection<IModule>(modules);
         ToViewCommand = ReactiveCommand.Create<string>(content => 
         {
