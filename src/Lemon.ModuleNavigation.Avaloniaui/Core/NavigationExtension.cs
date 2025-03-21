@@ -12,15 +12,6 @@ using System.ComponentModel;
 using Lemon.ModuleNavigation.Avaloniaui.Regions;
 using Microsoft.Extensions.DependencyInjection;
 
-/* Unmerged change from project 'Lemon.ModuleNavigation.Avaloniaui (net8.0)'
-Added:
-using Lemon;
-using Lemon.ModuleNavigation;
-using Lemon.ModuleNavigation.Avaloniaui;
-using Lemon.ModuleNavigation.Avaloniaui.Extensions;
-using Lemon.ModuleNavigation.Avaloniaui.Core;
-*/
-
 namespace Lemon.ModuleNavigation.Avaloniaui.Core
 {
     public class NavigationExtension

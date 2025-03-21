@@ -131,10 +131,7 @@ namespace Lemon.ModuleNavigation.Core
         {
             if (!_regionCache.IsEmpty)
             {
-                foreach (var item in _regionCache)
-                {
-                    return (item.Key.ModuleKey == moduleKey);
-                }
+                return _regionCache.Select(r => r.Key.ModuleKey).Contains(moduleKey);
             }
             return false;
         }
