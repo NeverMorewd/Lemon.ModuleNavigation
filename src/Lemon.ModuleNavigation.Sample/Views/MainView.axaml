@@ -1,15 +1,15 @@
 <UserControl
-    d:DesignHeight="550"
-    d:DesignWidth="800"
-    mc:Ignorable="d"
     x:Class="Lemon.ModuleNavigation.Sample.Views.MainView"
-    x:DataType="vm:MainViewModel"
     xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:lm="https://github.com/NeverMorewd/Lemon.ModuleNavigation"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:vm="clr-namespace:Lemon.ModuleNavigation.Sample.ViewModels"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    d:DesignHeight="550"
+    d:DesignWidth="800"
+    x:DataType="vm:MainViewModel"
+    mc:Ignorable="d">
     <UserControl.Styles>
         <Style Selector="StackPanel.ForContainerShow">
             <Setter Property="Spacing" Value="5" />
@@ -28,13 +28,27 @@
             <Setter Property="CommandParameter" Value="{Binding $self.Content}" />
             <Setter Property="VerticalContentAlignment" Value="Center" />
         </Style>
-        <Style Selector="Button.DialogNavigation">
+        <Style Selector="Button.DialogShow">
             <Setter Property="Height" Value="30" />
             <Setter Property="Width" Value="300" />
-            <Setter Property="Command" Value="{Binding ToDialogCommand}" />
-            <Setter Property="CommandParameter" Value="{Binding $self.Content}" />
+            <Setter Property="Command" Value="{Binding ShowCommand}" />
+            <Setter Property="CommandParameter" Value="{Binding $self.Tag}" />
             <Setter Property="VerticalContentAlignment" Value="Center" />
         </Style>
+        <Style Selector="Button.DialogShowDialog">
+            <Setter Property="Height" Value="30" />
+            <Setter Property="Width" Value="300" />
+            <Setter Property="Command" Value="{Binding ShowDialogCommand}" />
+            <Setter Property="CommandParameter" Value="{Binding $self.Tag}" />
+            <Setter Property="VerticalContentAlignment" Value="Center" />
+        </Style>
+		<Style Selector="Button.DialogShowDialogSync">
+			<Setter Property="Height" Value="30" />
+			<Setter Property="Width" Value="300" />
+			<Setter Property="Command" Value="{Binding ShowDialogSyncCommand}" />
+			<Setter Property="CommandParameter" Value="{Binding $self.Tag}" />
+			<Setter Property="VerticalContentAlignment" Value="Center" />
+		</Style>
     </UserControl.Styles>
     <TabControl>
         <TabItem Header="Module">
@@ -45,9 +59,9 @@
                     Spacing="5">
                     <Label Content="Modules" Target="{Binding ElementName=ModuleLists}" />
                     <ListBox
+                        Name="ModuleLists"
                         Grid.Column="0"
                         ItemsSource="{Binding Modules}"
-                        Name="ModuleLists"
                         SelectedItem="{Binding SelectedModule, Mode=TwoWay}">
                         <ListBox.ItemTemplate>
                             <DataTemplate>
@@ -56,12 +70,12 @@
                         </ListBox.ItemTemplate>
                     </ListBox>
                 </StackPanel>
-                <StackPanel Classes="ForContainerShow" Grid.Column="1">
+                <StackPanel Grid.Column="1" Classes="ForContainerShow">
                     <Label Content="ContentControl" />
                     <Border Classes="HSeparator" />
                     <ContentControl lm:NavigationExtension.ModuleContainerName="NContentControl" />
                 </StackPanel>
-                <StackPanel Classes="ForContainerShow" Grid.Column="2">
+                <StackPanel Grid.Column="2" Classes="ForContainerShow">
                     <Label Content="TabControl" />
                     <Border Classes="HSeparator" />
                     <TabControl lm:NavigationExtension.ModuleContainerName="NTabControl">
@@ -70,29 +84,29 @@
                                 <StackPanel Orientation="Horizontal" Spacing="2">
                                     <TextBlock Text="{Binding Alias}" />
                                     <Button
-                                        Content="X"
-                                        FontSize="11"
-                                        Height="20"
-                                        HorizontalContentAlignment="Center"
-                                        Padding="-1,0,0,0"
-                                        VerticalContentAlignment="Center"
                                         Width="20"
-                                        lm:NavigationExtension.CanUnload="{Binding CanUnload}" />
+                                        Height="20"
+                                        Padding="-1,0,0,0"
+                                        HorizontalContentAlignment="Center"
+                                        VerticalContentAlignment="Center"
+                                        lm:NavigationExtension.CanUnload="{Binding CanUnload}"
+                                        Content="X"
+                                        FontSize="11" />
                                 </StackPanel>
                             </DataTemplate>
                         </TabControl.ItemTemplate>
                     </TabControl>
                 </StackPanel>
-                <StackPanel Classes="ForContainerShow" Grid.Column="3">
+                <StackPanel Grid.Column="3" Classes="ForContainerShow">
                     <Label Content="ListBox" />
                     <Border Classes="HSeparator" />
                     <ListBox
+                        MaxHeight="600"
+                        Margin="2"
+                        lm:NavigationExtension.ModuleContainerName="NListBox"
                         Background="Transparent"
                         BorderBrush="Blue"
-                        BorderThickness="1"
-                        Margin="2"
-                        MaxHeight="600"
-                        lm:NavigationExtension.ModuleContainerName="NListBox">
+                        BorderThickness="1">
                         <!--  https://github.com/AvaloniaUI/Avalonia/issues/17349  -->
                         <ListBox.ItemsPanel>
                             <ItemsPanelTemplate>
@@ -101,7 +115,7 @@
                         </ListBox.ItemsPanel>
                     </ListBox>
                 </StackPanel>
-                <StackPanel Classes="ForContainerShow" Grid.Column="4">
+                <StackPanel Grid.Column="4" Classes="ForContainerShow">
                     <Label Content="TransitioningContentControl" />
                     <Border Classes="HSeparator" />
                     <TransitioningContentControl lm:NavigationExtension.ModuleContainerName="NTransitioningContentControl" />
@@ -117,12 +131,12 @@
                     <Button Classes="ViewNavigation" Content="ViewAlpha.RequestNew" />
                     <Button Classes="ViewNavigation" Content="ViewBeta.RequestNew" />
                 </StackPanel>
-                <StackPanel Classes="ForContainerShow" Grid.Column="1">
+                <StackPanel Grid.Column="1" Classes="ForContainerShow">
                     <Label Content="ContentControl" />
                     <Border Classes="HSeparator" />
                     <ContentControl lm:NavigationExtension.RegionName="ContentRegion" />
                 </StackPanel>
-                <StackPanel Classes="ForContainerShow" Grid.Column="2">
+                <StackPanel Grid.Column="2" Classes="ForContainerShow">
                     <Label Content="TabControl" />
                     <Border Classes="HSeparator" />
                     <TabControl lm:NavigationExtension.RegionName="TabRegion">
@@ -135,18 +149,18 @@
                         </TabControl.ItemTemplate>
                     </TabControl>
                 </StackPanel>
-                <StackPanel Classes="ForContainerShow" Grid.Column="3">
+                <StackPanel Grid.Column="3" Classes="ForContainerShow">
                     <Label Content="ItemsControl" />
                     <Border Classes="HSeparator" />
                     <ListBox
+                        MaxHeight="600"
+                        Margin="2"
+                        lm:NavigationExtension.RegionName="ItemsRegion"
                         Background="Transparent"
                         BorderBrush="Blue"
-                        BorderThickness="1"
-                        Margin="2"
-                        MaxHeight="600"
-                        lm:NavigationExtension.RegionName="ItemsRegion" />
+                        BorderThickness="1" />
                 </StackPanel>
-                <StackPanel Classes="ForContainerShow" Grid.Column="4">
+                <StackPanel Grid.Column="4" Classes="ForContainerShow">
                     <Label Content="TransitioningContentControl" />
                     <Border Classes="HSeparator" />
                     <TransitioningContentControl lm:NavigationExtension.RegionName="TransitioningContentRegion" />
@@ -155,14 +169,34 @@
         </TabItem>
         <TabItem Header="Dialog">
             <StackPanel
+                Width="300"
                 Orientation="Vertical"
-                Spacing="5"
-                Width="300">
+                Spacing="5">
                 <Label Content="Dialogs" />
-                <Button Classes="DialogNavigation" Content="ViewAlpha" />
-                <Button Classes="DialogNavigation" Content="ViewBeta" />
-                <Button Classes="DialogNavigation" Content="ViewAlpha.ShowDialog" />
-                <Button Classes="DialogNavigation" Content="ViewBeta.ShowDialog" />
+                <Button
+                    Classes="DialogShow"
+                    Content="ViewAlpha.Show"
+                    Tag="ViewAlpha" />
+                <Button
+                    Classes="DialogShow"
+                    Content="ViewBeta.Show"
+                    Tag="ViewBeta" />
+                <Button
+                    Classes="DialogShowDialog"
+                    Content="ViewAlpha.ShowDialog"
+                    Tag="ViewAlpha" />
+                <Button
+                    Classes="DialogShowDialog"
+                    Content="ViewBeta.ShowDialog"
+                    Tag="ViewBeta" />
+                <Button
+                    Classes="DialogShowDialogSync"
+                    Content="ViewAlpha.ShowDialogSync"
+                    Tag="ViewAlpha" />
+                <Button
+                    Classes="DialogShowDialogSync"
+                    Content="ViewBeta.ShowDialogSync"
+                    Tag="ViewBeta" />
             </StackPanel>
         </TabItem>
         <TabItem Header="Practice">
@@ -175,9 +209,9 @@
                     <ContentControl Content="11" />
                 </ItemsControl>
                 <!--</ContentControl>-->
-                <ContentControl DockPanel.Dock="Left" lm:NavigationExtension.RegionName="LeftRegion" />
-                <ContentControl DockPanel.Dock="Top" lm:NavigationExtension.RegionName="TopRegion" />
-                <ContentControl DockPanel.Dock="Bottom" lm:NavigationExtension.RegionName="BottomRegion" />
+                <ContentControl lm:NavigationExtension.RegionName="LeftRegion" DockPanel.Dock="Left" />
+                <ContentControl lm:NavigationExtension.RegionName="TopRegion" DockPanel.Dock="Top" />
+                <ContentControl lm:NavigationExtension.RegionName="BottomRegion" DockPanel.Dock="Bottom" />
                 <TransitioningContentControl lm:NavigationExtension.RegionName="MainRegion" />
             </DockPanel>
         </TabItem>

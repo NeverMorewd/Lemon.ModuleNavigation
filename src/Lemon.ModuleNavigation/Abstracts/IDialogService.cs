@@ -3,20 +3,17 @@
     public interface IDialogService
     {
         void Show(string name, 
-            IDialogParameters? parameters = null, 
-            Action<IDialogResult>? callback = null);
-
-        void Show(string name, 
-            string windowName,
+            string? windowName = null,
             IDialogParameters? parameters = null,
             Action<IDialogResult>? callback = null);
 
         Task ShowDialog(string name,
-            IDialogParameters? parameters = null, 
+            string? windowName = null,
+            IDialogParameters? parameters = null,
             Action<IDialogResult>? callback = null);
 
-        Task ShowDialog(string name,
-            string windowName,
+        IDialogResult WaitShowDialog(string name,
+            string? windowName = null,
             IDialogParameters? parameters = null,
             Action<IDialogResult>? callback = null);
     }
