@@ -39,21 +39,16 @@ namespace Lemon.ModuleNavigation.Avaloniaui.Regions
 
                 if (needNewView)
                 {
-                    // Create new view and navigation aware instance
                     view = context.ServiceProvider.GetRequiredKeyedService<IView>(context.TargetViewName);
                     var navigationAware = context.ServiceProvider.GetRequiredKeyedService<INavigationAware>(context.TargetViewName);
 
-                    // Handle previous navigation
                     if (_current.TryTakeData(out var previousData))
                     {
                         previousData.NavigationAware.OnNavigatedFrom(context);
                     }
-
-                    // Validate navigation target
                     if (!navigationAware.IsNavigationTarget(context))
                         return null;
 
-                    // Setup new view
                     view.DataContext = navigationAware;
                     navigationAware.OnNavigatedTo(context);
                     _current.SetData((view, navigationAware));

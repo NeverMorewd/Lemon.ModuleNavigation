@@ -1,10 +1,9 @@
-﻿namespace Lemon.ModuleNavigation.Abstracts
+﻿namespace Lemon.ModuleNavigation.Abstracts;
+
+public interface IDialogAware
 {
-    public interface IDialogAware
-    {
-        string Title { get; }
-        event Action<IDialogResult>? RequestClose;
-        void OnDialogClosed();
-        void OnDialogOpened(IDialogParameters? parameters);
-    }
+    string Title { get; }
+    event Action<IDialogResult>? RequestClose;
+    void OnDialogClosed();
+    void OnDialogOpened(IDialogParameters? parameters);
 }

@@ -1,14 +1,11 @@
-﻿using System.ComponentModel;
+﻿namespace Lemon.ModuleNavigation.Abstracts;
 
-namespace Lemon.ModuleNavigation.Abstracts
+public interface IDialogWindowBase
 {
-    public interface IDialogWindow
-    {
-        string? Title { get; set; }
-        object? Content { get; set; }
-        object? DataContext { get; set; }
-        event EventHandler Closed;
-        void Close();
-        void Show();
-    }
+    string? Title { get; set; }
+    object? Content { get; set; }
+    object? DataContext { get; set; }
+    event EventHandler Closed;
+    void Close();
+    void Show();
 }

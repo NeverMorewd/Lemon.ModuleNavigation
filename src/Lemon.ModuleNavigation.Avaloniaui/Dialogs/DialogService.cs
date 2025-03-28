@@ -7,19 +7,12 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace Lemon.ModuleNavigation.Avaloniaui.Dialogs;
 
-public class AvaDialogService : IDialogService
+public class DialogService : IDialogService
 {
     private readonly IServiceProvider _serviceProvider;
-    public AvaDialogService(IServiceProvider serviceProvider)
+    public DialogService(IServiceProvider serviceProvider)
     {
         _serviceProvider = serviceProvider;
-    }
-
-    public void Show(string name,
-        IDialogParameters? parameters = null,
-        Action<IDialogResult>? callback = null)
-    {
-        ShowCore(name, null, false, parameters, callback).Wait();
     }
 
     public void Show(string name,
@@ -71,14 +64,14 @@ public class AvaDialogService : IDialogService
         IDialogParameters? parameters = null,
         Action<IDialogResult>? callback = null)
     {
-        IAvaDialogWindow dialogWindow;
+        IDialogWindow dialogWindow;
         if (string.IsNullOrEmpty(windowName))
         {
-            dialogWindow = _serviceProvider.GetRequiredKeyedService<IAvaDialogWindow>(DefaultDialogWindow.Key);
+            dialogWindow = _serviceProvider.GetRequiredKeyedService<IDialogWindow>(DefaultDialogWindow.Key);
         }
         else
         {
-            dialogWindow = _serviceProvider.GetRequiredKeyedService<IAvaDialogWindow>(windowName);
+            dialogWindow = _serviceProvider.GetRequiredKeyedService<IDialogWindow>(windowName);
         }
         
         var dialogViewModel = _serviceProvider.GetRequiredKeyedService<IDialogAware>(name);

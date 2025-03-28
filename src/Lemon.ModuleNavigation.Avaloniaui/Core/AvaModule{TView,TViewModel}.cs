@@ -4,6 +4,7 @@ using System.Diagnostics.CodeAnalysis;
 
 namespace Lemon.ModuleNavigation.Avaloniaui.Core;
 
+[Obsolete($"Use Module instead, they are equivalent.")]
 public abstract class AvaModule<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] TView,
     [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] TViewModel>
     : Module<TView, TViewModel>
