@@ -1,9 +1,8 @@
-﻿using Lemon.ModuleNavigation.Parameters;
+﻿using Lemon.ModuleNavigation.Abstractions;
 
-namespace Lemon.ModuleNavigation.Core
+namespace Lemon.ModuleNavigation.Core;
+
+public class NavigationParameters : BaseParameters
 {
-    public class NavigationParameters : BaseParameters
-    {
 
-    }
 }

@@ -105,7 +105,7 @@
                         Margin="2"
                         lm:NavigationExtension.ModuleContainerName="NListBox"
                         Background="Transparent"
-                        BorderBrush="Blue"
+                        BorderBrush="LemonChiffon"
                         BorderThickness="1">
                         <!--  https://github.com/AvaloniaUI/Avalonia/issues/17349  -->
                         <ListBox.ItemsPanel>
