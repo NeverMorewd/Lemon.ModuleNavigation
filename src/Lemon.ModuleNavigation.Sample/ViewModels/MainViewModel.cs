@@ -1,4 +1,4 @@
-﻿using Lemon.ModuleNavigation.Abstracts;
+﻿using Lemon.ModuleNavigation.Abstractions;
 using Lemon.ModuleNavigation.Core;
 using Lemon.ModuleNavigation.Dialogs;
 using Lemon.ModuleNavigation.Extensions;
@@ -49,36 +49,51 @@ public class MainViewModel : SampleViewModelBase, IServiceAware
             _navigationService.RequestViewNavigation("ItemsRegion", viewName, requestNew);
             _navigationService.RequestViewNavigation("TransitioningContentRegion", viewName, requestNew);
         });
-        ToDialogCommand = ReactiveCommand.Create<string>(async content =>
+        ShowCommand = ReactiveCommand.Create<string>(content =>
         {
-            var viewName = content;
-            var showDialog = false;
-            if (content.EndsWith(".ShowDialog"))
-            {
-                viewName = content.Replace(".ShowDialog", string.Empty);
-                showDialog = true;
-
-            }
             var param = new DialogParameters
             {
-                { "start", nameof(MainViewModel) }
+                { "parent", nameof(MainViewModel) }
             };
-            if (showDialog)
+            _dialogService.Show(content, null, param, result =>
             {
-                await _dialogService.ShowDialog(viewName, nameof(CustomDialogWindow), param, p =>
-                {
-                    _logger.LogDebug($"Call back:{p}");
-                });
-                _logger.LogDebug($"ShowDialog over!");
-            }
-            else
-            {
-                _dialogService.Show(viewName, param, p =>
-                {
-                    _logger.LogDebug($"close call back:{p}");
-                });
-            }
+                _logger.LogDebug($"Call back:{result}");
+            });
+            _logger.LogDebug($"Show over!");
         });
+
+        ShowDialogCommand = ReactiveCommand.CreateFromTask<string>(async content =>
+        {
+            var param = new DialogParameters
+            {
+                { "parent", nameof(MainViewModel) }
+            };
+            await _dialogService.ShowDialog(content, 
+                nameof(CustomDialogWindow), 
+                param,
+                result =>
+                {
+                    _logger.LogDebug($"Call back:{result}");
+                });
+            _logger.LogDebug($"ShowDialog over!");
+        });
+
+        ShowDialogSyncCommand = ReactiveCommand.Create<string>(content => 
+        {
+            var param = new DialogParameters
+            {
+                { "parent", nameof(MainViewModel) }
+            };
+            var result = _dialogService.WaitShowDialog(content, 
+                nameof(CustomDialogWindow), 
+                param,
+                result =>
+                {
+                    _logger.LogDebug($"Call back:{result}");
+                });
+            _logger.LogDebug($"ShowDialog over:{result}");
+        });
+
         _regionManager.NavigationSubscribe<NavigationContext>(n => 
         {
             _logger.LogDebug($"Request to : {n.RegionName}.{n.TargetViewName}");
@@ -93,7 +108,17 @@ public class MainViewModel : SampleViewModelBase, IServiceAware
         get;
         set;
     }
-    public ReactiveCommand<string, Unit> ToDialogCommand
+    public ReactiveCommand<string, Unit> ShowCommand
+    {
+        get;
+        set;
+    }
+    public ReactiveCommand<string, Unit> ShowDialogCommand
+    {
+        get;
+        set;
+    }
+    public ReactiveCommand<string, Unit> ShowDialogSyncCommand
     {
         get;
         set;

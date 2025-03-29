@@ -1,0 +1,31 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <Import Project="../Package.props" />
+  <PropertyGroup>
+	<TargetFrameworks>net8.0-windows;net6.0-windows</TargetFrameworks>
+    <Nullable>enable</Nullable>
+    <UseWPF>true</UseWPF>
+	<LangVersion>latest</LangVersion>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+	<Title>Lemon.ModuleNavigation.Wpf</Title>
+	<Description>Extending Lemon.ModuleNavigation, this package provides NavigationContainers specifically designed for Wpf.</Description>
+	<PackageIcon>lemon-100.png</PackageIcon>
+	<PackageReadmeFile>README.md</PackageReadmeFile>
+	<BaseOutputPath>../output</BaseOutputPath>
+  </PropertyGroup>
+  <ItemGroup>
+    <None Include="..\..\README.md">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+    <None Include="..\lemon-100.png">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Lemon.ModuleNavigation\Lemon.ModuleNavigation.csproj" />
+  </ItemGroup>
+
+</Project>

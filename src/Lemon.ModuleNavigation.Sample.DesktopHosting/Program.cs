@@ -1,12 +1,12 @@
 ﻿using Avalonia;
 using Avalonia.ReactiveUI;
 using Lemon.Hosting.AvaloniauiDesktop;
-using Lemon.ModuleNavigation.Avaloniaui.Extensions;
 using Lemon.ModuleNavigation.Sample.ModuleAs;
 using Lemon.ModuleNavigation.Sample.ModuleBs;
 using Lemon.ModuleNavigation.Sample.ModuleCs;
 using Lemon.ModuleNavigation.Sample.ViewModels;
 using Lemon.ModuleNavigation.Sample.Views;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using System;
@@ -44,7 +44,6 @@ internal static class Program
         appHost.RunAvaloniauiApplication<MainWindow>(args);
     }
 
-    // Avalonia configuration, don't remove; also used by visual designer.
     private static AppBuilder BuildAvaloniaApp(AppBuilder appBuilder)
     {
         return appBuilder

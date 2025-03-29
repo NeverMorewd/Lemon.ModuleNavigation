@@ -1,7 +1,6 @@
 using Avalonia;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Markup.Xaml;
-using Lemon.ModuleNavigation.Avaloniaui.Extensions;
 using Lemon.ModuleNavigation.Sample.ModuleAs;
 using Lemon.ModuleNavigation.Sample.ModuleBs;
 using Lemon.ModuleNavigation.Sample.ModuleCs;

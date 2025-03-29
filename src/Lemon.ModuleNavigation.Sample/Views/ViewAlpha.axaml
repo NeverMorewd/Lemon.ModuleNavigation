@@ -7,13 +7,15 @@
     d:DesignHeight="450"
     d:DesignWidth="800"
     mc:Ignorable="d">
-    <StackPanel>
-        <TextBlock Text="{Binding Greeting}" />
-		<Button
-			IsVisible="{Binding IsDialog}"
-            Width="200"
-            Height="50"
-            Command="{Binding CloseCommand}"
-            Content="CloseDialog" />
-    </StackPanel>
+    <Border BorderBrush="LemonChiffon" BorderThickness="2">
+        <StackPanel>
+            <TextBlock Text="{Binding Greeting}" />
+            <Button
+                Width="200"
+                Height="50"
+                Command="{Binding CloseCommand}"
+                Content="CloseDialog"
+                IsVisible="{Binding IsDialog}" />
+        </StackPanel>
+    </Border>
 </UserControl>
