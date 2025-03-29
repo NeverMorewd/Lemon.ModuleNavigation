@@ -24,6 +24,7 @@ public abstract class Region : IRegion
     public DataTemplate? RegionTemplate { get; set; }
 
     public abstract void Activate(NavigationContext target);
+    public abstract void DeActivate(string viewName);
     public abstract void DeActivate(NavigationContext target);
 
     private DataTemplate CreateRegionDataTemplate()

@@ -2,6 +2,8 @@
 using Microsoft.Extensions.DependencyInjection;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Diagnostics;
+using System.Windows.Media;
 
 namespace Lemon.ModuleNavigation.Wpf;
 
@@ -54,11 +56,11 @@ public class NavigationExtension
     }
     #endregion
 
-    #region CanUnload -- ongoing
+    #region CanUnload -- ongoing support tabcontrol only for now
     public static readonly DependencyProperty CanUnloadProperty =
         DependencyProperty.RegisterAttached(
             "CanUnload", typeof(bool), typeof(NavigationExtension),
-            new PropertyMetadata(true, OnCanUnloadChanged));
+            new PropertyMetadata(false, OnCanUnloadChanged));
 
     public static bool GetCanUnload(DependencyObject obj) => (bool)obj.GetValue(CanUnloadProperty);
     public static void SetCanUnload(DependencyObject obj, bool value) => obj.SetValue(CanUnloadProperty, value);
@@ -109,13 +111,15 @@ public class NavigationExtension
                           throw new InvalidOperationException($"No 'TabItem' found in parents of {button}");
 
             var tabContainer = FindAncestor<TabControl>(tabItem);
-            if (tabContainer != null)
+             if (tabContainer != null) 
             {
-                if (tabItem.DataContext is INavigationAware item)
+                if (tabItem.DataContext is NavigationContext context)
                 {
                     if (tabContainer.DataContext is IServiceAware serviceAware)
                     {
-                        var handler = serviceAware.ServiceProvider.GetRequiredService<INavigationHandler>();
+                        var regionManager = serviceAware.ServiceProvider.GetRequiredService<IRegionManager>();
+                        //regionManager.RequestUnload(context.RegionName, context.TargetViewName);
+                        regionManager.RequestUnload(context);
                     }
                 }
             }
@@ -128,7 +132,7 @@ public class NavigationExtension
         {
             if (current is T ancestor)
                 return ancestor;
-            current = LogicalTreeHelper.GetParent(current);
+            current = VisualTreeHelper.GetParent(current);
         }
         return null;
     }

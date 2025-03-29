@@ -40,26 +40,35 @@ public class NavigationService : INavigationService
         _bufferModuleName.Push((moduleName, parameters));
     }
     public void RequestViewNavigation(string regionName,
-        string viewKey,
+        string viewName,
         bool requestNew = false)
     {
         foreach (var handler in _viewHandlers)
         {
-            handler.OnNavigateTo(regionName, viewKey, requestNew);
+            handler.OnNavigateTo(regionName, viewName, requestNew);
         }
-        _bufferViewName.Push((regionName, viewKey, null, requestNew));
+        _bufferViewName.Push((regionName, viewName, null, requestNew));
     }
     public void RequestViewNavigation(string regionName,
-        string viewKey,
+        string viewName,
         NavigationParameters parameters,
         bool requestNew = false)
     {
         foreach (var handler in _viewHandlers)
         {
-            handler.OnNavigateTo(regionName, viewKey, parameters, requestNew);
+            handler.OnNavigateTo(regionName, viewName, parameters, requestNew);
         }
-        _bufferViewName.Push((regionName, viewKey, parameters, requestNew));
+        _bufferViewName.Push((regionName, viewName, parameters, requestNew));
     }
+
+    public void RequestViewUnload(string regionName, string viewName)
+    {
+        foreach (var handler in _viewHandlers)
+        {
+            handler.OnViewUnload(regionName, viewName);
+        }
+    }
+
     IDisposable IModuleNavigationService<IModule>.BindingNavigationHandler(IModuleNavigationHandler<IModule> moduleHandler)
     {
         _handlers.Add(moduleHandler);

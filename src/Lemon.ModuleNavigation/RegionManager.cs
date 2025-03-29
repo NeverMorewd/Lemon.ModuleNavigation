@@ -68,6 +68,29 @@ public class RegionManager : IRegionManager
         return region;
     }
 
+    public void RequestUnload(string regionName, string viewName)
+    {
+        if (_regions.TryGetValue(regionName, out var region))
+        {
+             region.DeActivate(viewName);
+        }
+        else
+        {
+            throw new RegionNameNotFoundException(nameof(regionName));
+        }
+    }
+    public void RequestUnload(NavigationContext navigationContext)
+    {
+        if (_regions.TryGetValue(navigationContext.RegionName, out var region))
+        {
+            region.DeActivate(navigationContext);
+        }
+        else
+        {
+            throw new RegionNameNotFoundException(nameof(navigationContext.RegionName));
+        }
+    }
+
     public IDisposable Subscribe(IObserver<NavigationContext> observer)
     {
         if (!_navigationObservers.Add(observer))
@@ -116,4 +139,5 @@ public class RegionManager : IRegionManager
             });
         }
     }
+
 }

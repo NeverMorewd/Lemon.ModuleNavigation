@@ -5,7 +5,7 @@ namespace Lemon.ModuleNavigation.Avaloniaui;
 
 public static class RegionsExtension
 {
-    public static IRegion ToContainer(this Control control, string name) 
+    public static IRegion ToRegion(this Control control, string name) 
     {
         return control switch
         {

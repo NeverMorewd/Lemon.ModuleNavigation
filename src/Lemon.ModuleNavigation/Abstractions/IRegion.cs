@@ -12,5 +12,8 @@ namespace Lemon.ModuleNavigation.Abstractions
         }
         void Activate(NavigationContext target);
         void DeActivate(NavigationContext target);
+        void DeActivate(string viewName);
+
+        ///ongoing: last view
     }
 }

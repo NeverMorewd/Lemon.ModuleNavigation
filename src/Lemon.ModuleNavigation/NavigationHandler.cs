@@ -46,6 +46,11 @@ public class NavigationHandler : INavigationHandler, IDisposable
         RegionManager.RequestNavigate(regionName, viewName, requestNew, navigationParameters);
     }
 
+    public void OnViewUnload(string regionName, string viewName)
+    {
+        RegionManager.RequestUnload(regionName, viewName);
+    }
+
     void IDisposable.Dispose()
     {
         _cleanup1?.Dispose();

@@ -1,40 +1,64 @@
 ﻿using Avalonia.Controls;
+using Avalonia.Controls.Primitives;
+using Avalonia.Data;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
 
 namespace Lemon.ModuleNavigation.Avaloniaui;
 
-public class TabRegion : AvaloniauiRegion
+public class TabRegion : Region, INotifyPropertyChanged
 {
     private readonly TabControl _tabControl;
-    public TabRegion(TabControl tabControl, string name)
+     public TabRegion(TabControl tabControl, string name)
     {
         _tabControl = tabControl;
-        _tabControl.ContentTemplate = RegionTemplate;
         Contexts = [];
-        Contexts.CollectionChanged += ViewContents_CollectionChanged;
+        //Contexts.CollectionChanged += ViewContents_CollectionChanged;
+
+
+        _tabControl.Bind(SelectingItemsControl.SelectedItemProperty,
+                               new Binding(nameof(SelectedItem))
+                               {
+                                   Mode = BindingMode.TwoWay,
+                                   Source = this
+                               });
+        _tabControl.Bind(ItemsControl.ItemsSourceProperty,
+                            new Binding(nameof(Contexts))
+                            {
+                                Source = this
+                            });
+        _tabControl.ContentTemplate = RegionTemplate;
+
         Name = name;
     }
     public override string Name
     {
         get;
     }
-    public object? SelectedItem
+    private NavigationContext? _selectItem;
+    public NavigationContext? SelectedItem
     {
         get
         {
-            return _tabControl.SelectedItem;
+            return _selectItem;
         }
         set
         {
-            _tabControl.SelectedItem = value;
+            _selectItem = value;
+            OnPropertyChanged();
         }
     }
     public override ObservableCollection<NavigationContext> Contexts
     {
         get;
     }
-
+    public event PropertyChangedEventHandler? PropertyChanged;
+    protected void OnPropertyChanged([CallerMemberName] string? propertyName = null)
+    {
+        PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+    }
     public override void Activate(NavigationContext target)
     {
         if (!target.RequestNew)
@@ -63,9 +87,13 @@ public class TabRegion : AvaloniauiRegion
             SelectedItem = target;
         }
     }
-    public override void DeActivate(NavigationContext target)
+    public override void DeActivate(string viewName)
     {
-        Contexts.Remove(target);
+        Contexts.Remove(Contexts.Last(c => c.TargetViewName == viewName));
+    }
+    public override void DeActivate(NavigationContext navigationContext)
+    {
+        Contexts.Remove(navigationContext);
     }
     public void Add(NavigationContext item)
     {
@@ -89,7 +117,7 @@ public class TabRegion : AvaloniauiRegion
             {
                 foreach (var item in e.OldItems)
                 {
-                    _tabControl.Items.Remove(e.OldItems);
+                    _tabControl.Items.Remove(item);
                 }
             }
         }

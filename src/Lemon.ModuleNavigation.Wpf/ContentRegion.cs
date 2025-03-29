@@ -44,11 +44,30 @@ namespace Lemon.ModuleNavigation.Wpf
                 }
             }
             Content = target;
+            Contexts.Add(target);
         }
 
-        public override void DeActivate(NavigationContext target)
+        public override void DeActivate(string regionName)
         {
-            Content = null;
+            if (Content is NavigationContext current)
+            {
+                if (current.TargetViewName == regionName)
+                {
+                    Contexts.Remove(current);
+                    Content = null;
+                }
+            }
+        }
+        public override void DeActivate(NavigationContext navigationContext)
+        {
+            if (Content is NavigationContext current)
+            {
+                if (current == navigationContext)
+                {
+                    Contexts.Remove(current);
+                    Content = null;
+                }
+            }
         }
         private void ViewContents_CollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
         {

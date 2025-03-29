@@ -57,6 +57,7 @@
                                     <StackPanel Orientation="Horizontal">
                                         <TextBlock Text="{Binding}" />
                                         <Button
+                                            lm:NavigationExtension.CanUnload="True"
                                             Width="20"
                                             Height="20"
                                             Padding="-1,0,0,0"

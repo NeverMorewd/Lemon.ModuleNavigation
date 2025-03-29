@@ -6,10 +6,12 @@ public interface IViewNavigationService
 {
     IDisposable BindingViewNavigationHandler(IViewNavigationHandler handler);
     void RequestViewNavigation(string regionName, 
-        string viewKey, 
+        string viewName, 
         bool requestNew = false);
     void RequestViewNavigation(string regionName,
-        string viewKey,
+        string viewName,
         NavigationParameters parameters,
         bool requestNew = false);
+    void RequestViewUnload(string regionName,
+       string viewName);
 }

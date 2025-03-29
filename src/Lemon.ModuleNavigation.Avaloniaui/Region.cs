@@ -8,12 +8,12 @@ using System.Collections.ObjectModel;
 
 namespace Lemon.ModuleNavigation.Avaloniaui;
 
-public abstract class AvaloniauiRegion : IRegion
+public abstract class Region : IRegion
 {
     private readonly ConcurrentDictionary<string, IView> _viewCache = new();
     private readonly ConcurrentItem<(IView View, INavigationAware NavigationAware)> _current = new();
 
-    public AvaloniauiRegion()
+    public Region()
     {
         RegionTemplate = CreateRegionDataTemplate();
     }
@@ -24,6 +24,7 @@ public abstract class AvaloniauiRegion : IRegion
     public IDataTemplate? RegionTemplate { get; set; }
 
     public abstract void Activate(NavigationContext target);
+    public abstract void DeActivate(string viewName);
     public abstract void DeActivate(NavigationContext target);
 
     private IDataTemplate CreateRegionDataTemplate()

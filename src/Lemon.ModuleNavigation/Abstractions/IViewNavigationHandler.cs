@@ -11,4 +11,6 @@ public interface IViewNavigationHandler
         string viewName,
         NavigationParameters parameters,
         bool requestNew);
+    void OnViewUnload(string regionName,
+        string viewName);
 }

@@ -8,5 +8,7 @@ namespace Lemon.ModuleNavigation.Abstractions
         void AddRegion(string regionName, IRegion region);
         IRegion? GetRegion(string regionName);
         void RequestNavigate(string regionName, string viewName, bool requestNae, NavigationParameters? parameters = null);
+        void RequestUnload(string regionName, string viewName);
+        void RequestUnload(NavigationContext context);
     }
 }

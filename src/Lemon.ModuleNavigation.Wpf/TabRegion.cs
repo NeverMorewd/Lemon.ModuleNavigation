@@ -1,6 +1,7 @@
 ﻿using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.Windows.Controls;
+using System.Windows.Data;
 
 namespace Lemon.ModuleNavigation.Wpf;
 
@@ -9,6 +10,8 @@ public class TabRegion : Region
     private readonly TabControl _tabControl;
     public TabRegion(TabControl tabControl, string name)
     {
+
+
         _tabControl = tabControl;
         _tabControl.ContentTemplate = RegionTemplate;
         Contexts = [];
@@ -63,9 +66,13 @@ public class TabRegion : Region
             SelectedItem = target;
         }
     }
-    public override void DeActivate(NavigationContext target)
+    public override void DeActivate(string viewName)
     {
-        Contexts.Remove(target);
+        Contexts.Remove(Contexts.Last(c => c.TargetViewName == viewName));
+    }
+    public override void DeActivate(NavigationContext navigationContext)
+    {
+        Contexts.Remove(navigationContext);
     }
     public void Add(NavigationContext item)
     {

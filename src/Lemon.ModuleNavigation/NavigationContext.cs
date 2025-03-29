@@ -52,7 +52,7 @@ public class NavigationContext
     }
     public override string ToString()
     {
-        return TargetViewName;
+        return $"{RegionName}.{TargetViewName}";
     }
 }
 public class ViewNameComparer : IEqualityComparer<NavigationContext>

@@ -83,9 +83,13 @@ public class ItemsRegion : Region
             SelectedItem = target;
         }
     }
-    public override void DeActivate(NavigationContext target)
+    public override void DeActivate(string viewName)
     {
-        Contexts.Remove(target);
+        Contexts.Remove(Contexts.Last(c => c.TargetViewName == viewName));
+    }
+    public override void DeActivate(NavigationContext navigationContext)
+    {
+        Contexts.Remove(navigationContext);
     }
     public void Add(NavigationContext item)
     {
@@ -109,7 +113,7 @@ public class ItemsRegion : Region
             {
                 foreach (var item in e.OldItems)
                 {
-                    _itemsControl.Items.Remove(e.OldItems);
+                    _itemsControl.Items.Remove(item);
                 }
             }
         }
