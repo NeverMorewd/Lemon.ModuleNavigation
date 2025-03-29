@@ -1,6 +1,5 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 	<Import Project="../Package.props" />
-
 	<PropertyGroup>
     <TargetFrameworks>net8.0;net6.0</TargetFrameworks>
     <ImplicitUsings>enable</ImplicitUsings>
@@ -34,7 +33,6 @@
       <Pack>True</Pack>
       <PackagePath>\</PackagePath>
     </None>
-    <None Include="IDialogWindow.cs" />
   </ItemGroup>
 
   <ItemGroup>
