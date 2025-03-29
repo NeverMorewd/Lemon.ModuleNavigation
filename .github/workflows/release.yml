@@ -75,7 +75,7 @@ jobs:
       - name: Publish WPF NuGet package
         run: |
           if (Test-Path "./nugets/*.nupkg") {
-            dotnet nuget push "./nugets/*.nupkg" --api-key ${{ secrets.NUGET_API_KEY }} --source https://api.nuget.org/v3/index.json --skip-duplicate
+            dotnet nuget push ".\nugets\*.nupkg" --api-key ${{ secrets.NUGET_API_KEY }} --source https://api.nuget.org/v3/index.json --skip-duplicate
           }
 
       - name: Upload WPF NuGet Artifact
