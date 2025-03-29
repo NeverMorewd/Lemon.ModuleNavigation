@@ -7,7 +7,7 @@ namespace Lemon.ModuleNavigation.WpfSample;
 public class BaseViewModel : ReactiveObject, INavigationAware
 {
     public virtual string Greeting => $"Welcome to {GetType().Name}[{Environment.ProcessId}][{Environment.CurrentManagedThreadId}]{Environment.NewLine}{DateTime.Now:yyyy-MM-dd HH-mm-ss.ffff}";
-    public bool IsNavigationTarget(NavigationContext navigationContext)
+    public virtual bool IsNavigationTarget(NavigationContext navigationContext)
     {
         return true;
     }

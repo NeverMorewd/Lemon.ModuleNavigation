@@ -1,13 +1,18 @@
-﻿using System.Collections.ObjectModel;
+﻿using Lemon.ModuleNavigation.Abstractions;
+using Lemon.ModuleNavigation.Core;
+using Microsoft.Extensions.DependencyInjection;
+using System.Collections.Concurrent;
+using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.Windows.Controls;
-using System.Windows.Data;
 
 namespace Lemon.ModuleNavigation.Wpf;
 
 public class TabRegion : Region
 {
     private readonly TabControl _tabControl;
+    private readonly ConcurrentDictionary<Guid, IView> _viewCache = new();
+    private readonly ConcurrentItem<(IView View, INavigationAware NavigationAware)> _current = new();
     public TabRegion(TabControl tabControl, string name)
     {
 
@@ -100,5 +105,38 @@ public class TabRegion : Region
                 }
             }
         }
+    }
+
+
+    protected override IView? ResolveView(NavigationContext context)
+    {
+        bool needNewView = !_viewCache.TryGetValue(context.Guid, out IView? view);
+
+        if (!needNewView)
+        {
+            var navigationAware = view!.DataContext as INavigationAware;
+            if (navigationAware != null && !navigationAware.IsNavigationTarget(context))
+            {
+                needNewView = true;
+            }
+        }
+
+        if (needNewView)
+        {
+            view = context.ServiceProvider.GetRequiredKeyedService<IView>(context.TargetViewName);
+            var navigationAware = context.ServiceProvider.GetRequiredKeyedService<INavigationAware>(context.TargetViewName);
+
+            if (_current.TryTakeData(out var previousData))
+            {
+                previousData.NavigationAware.OnNavigatedFrom(context);
+            }
+
+            view.DataContext = navigationAware;
+            navigationAware.OnNavigatedTo(context);
+            _current.SetData((view, navigationAware));
+            _viewCache[context.Guid] = view;
+        }
+
+        return view;
     }
 }

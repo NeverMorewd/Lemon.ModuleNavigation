@@ -39,7 +39,39 @@ public abstract class Region : IRegion
         return dataTemplate;
     }
 
-    public class NavigationContextToViewConverter : System.Windows.Data.IValueConverter
+    protected virtual IView? ResolveView(NavigationContext context)
+    {
+        bool needNewView = !_viewCache.TryGetValue(context.TargetViewName, out IView? view);
+
+        if (!needNewView)
+        {
+            var navigationAware = view!.DataContext as INavigationAware;
+            if (navigationAware != null && !navigationAware.IsNavigationTarget(context))
+            {
+                needNewView = true; 
+            }
+        }
+
+        if (needNewView)
+        {
+            view = context.ServiceProvider.GetRequiredKeyedService<IView>(context.TargetViewName);
+            var navigationAware = context.ServiceProvider.GetRequiredKeyedService<INavigationAware>(context.TargetViewName);
+
+            if (_current.TryTakeData(out var previousData))
+            {
+                previousData.NavigationAware.OnNavigatedFrom(context);
+            }
+
+            view.DataContext = navigationAware;
+            navigationAware.OnNavigatedTo(context);
+            _current.SetData((view, navigationAware));
+            _viewCache[context.TargetViewName] = view;
+        }
+
+        return view;
+    }
+
+    private class NavigationContextToViewConverter : System.Windows.Data.IValueConverter
     {
         private readonly Region _region;
         public NavigationContextToViewConverter(Region region)
@@ -49,36 +81,7 @@ public abstract class Region : IRegion
 
         public object? Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {
-            if (value is not NavigationContext context)
-                return null;
-
-            bool needNewView = context.RequestNew ||
-                !_region._viewCache.TryGetValue(context.TargetViewName, out IView? view);
-
-            if (needNewView)
-            {
-                view = context.ServiceProvider.GetRequiredKeyedService<IView>(context.TargetViewName);
-                var navigationAware = context.ServiceProvider.GetRequiredKeyedService<INavigationAware>(context.TargetViewName);
-
-                if (_region._current.TryTakeData(out var previousData))
-                {
-                    previousData.NavigationAware.OnNavigatedFrom(context);
-                }
-
-                if (!navigationAware.IsNavigationTarget(context))
-                    return null;
-
-                view.DataContext = navigationAware;
-                navigationAware.OnNavigatedTo(context);
-                _region._current.SetData((view, navigationAware));
-                _region._viewCache.TryAdd(context.TargetViewName, view);
-            }
-            else
-            {
-                view = _region._viewCache[context.TargetViewName];
-            }
-
-            return view as Control;
+            return value is NavigationContext context ? _region.ResolveView(context) as Control : null;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
@@ -87,5 +90,3 @@ public abstract class Region : IRegion
         }
     }
 }
-
-

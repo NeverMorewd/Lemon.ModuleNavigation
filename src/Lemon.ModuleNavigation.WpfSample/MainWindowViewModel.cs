@@ -1,4 +1,5 @@
 ﻿using Lemon.ModuleNavigation.Abstractions;
+using Lemon.ModuleNavigation.Core;
 using Lemon.ModuleNavigation.Dialogs;
 using ReactiveUI;
 using Splat;
@@ -29,9 +30,9 @@ public class MainWindowViewModel : BaseViewModel, IServiceAware
                 requestNew = true;
 
             }
-            _navigationService.RequestViewNavigation("ContentRegion", viewName, requestNew);
-            _navigationService.RequestViewNavigation("TabRegion", viewName, requestNew);
-            _navigationService.RequestViewNavigation("ItemsRegion", viewName, requestNew);
+            _navigationService.RequestViewNavigation("ContentRegion", viewName, new NavigationParameters { { "requestNew", requestNew } }, requestNew);
+            _navigationService.RequestViewNavigation("TabRegion", viewName, new NavigationParameters { { "requestNew", requestNew } }, requestNew);
+            _navigationService.RequestViewNavigation("ItemsRegion", viewName, new NavigationParameters { { "requestNew", requestNew } }, requestNew);
         });
 
         ShowCommand = ReactiveCommand.Create<string>(content =>
