@@ -7,26 +7,79 @@ on:
     branches: [ "action/release" ]
 
 jobs:
-  nuget:
+  nuget-abstraction:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v4.1.1
-        
+
       - name: Build the Project
-        run: dotnet build ./src/Lemon.ModuleNavigation.Avaloniaui --configuration Release
-        
-      - name: Pack Nuget
-        run: dotnet pack ./src/Lemon.ModuleNavigation -o ./nugets
+        run: dotnet build ./src/Lemon.ModuleNavigation --configuration Release
 
       - name: Pack Nuget
-        run: dotnet pack ./src/Lemon.ModuleNavigation.Avaloniaui -o ./nugets
+        run: dotnet pack ./src/Lemon.ModuleNavigation --configuration Release --no-build -o ./nugets
 
       - name: Publish NuGet package
-        run: dotnet nuget push "./nugets/*.nupkg" --api-key ${{ secrets.NUGET_API_KEY }} --source https://api.nuget.org/v3/index.json --skip-duplicate
+        run: |
+          if [ -n "$(find ./nugets -name '*.nupkg')" ]; then
+            dotnet nuget push "./nugets/*.nupkg" --api-key ${{ secrets.NUGET_API_KEY }} --source https://api.nuget.org/v3/index.json --skip-duplicate
+          fi
 
       - name: Upload a Build Artifact
         uses: actions/upload-artifact@v4.3.1
         with:
-          name: nugets
+          name: nugets-abstraction
+          path: ./nugets
+
+  nuget-avaloniaui:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4.1.1
+
+      - name: Build the Project
+        run: dotnet build ./src/Lemon.ModuleNavigation.Avaloniaui --configuration Release
+
+      - name: Pack Nuget
+        run: dotnet pack ./src/Lemon.ModuleNavigation.Avaloniaui --configuration Release --no-build -o ./nugets
+
+      - name: Publish NuGet package
+        run: |
+          if [ -n "$(find ./nugets -name '*.nupkg')" ]; then
+            dotnet nuget push "./nugets/*.nupkg" --api-key ${{ secrets.NUGET_API_KEY }} --source https://api.nuget.org/v3/index.json --skip-duplicate
+          fi
+
+      - name: Upload a Build Artifact
+        uses: actions/upload-artifact@v4.3.1
+        with:
+          name: nugets-avaloniaui
+          path: ./nugets
+
+  nuget-wpf:
+    runs-on: windows-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4.1.1
+
+      - name: Setup .NET 8
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: 8.0.x
+
+      - name: Build the WPF Project
+        run: dotnet build ./src/Lemon.ModuleNavigation.Wpf --configuration Release
+
+      - name: Pack WPF Nuget
+        run: dotnet pack ./src/Lemon.ModuleNavigation.Wpf --configuration Release --no-build -o ./nugets
+
+      - name: Publish WPF NuGet package
+        run: |
+          if (Test-Path "./nugets/*.nupkg") {
+            dotnet nuget push "./nugets/*.nupkg" --api-key ${{ secrets.NUGET_API_KEY }} --source https://api.nuget.org/v3/index.json --skip-duplicate
+          }
+
+      - name: Upload WPF NuGet Artifact
+        uses: actions/upload-artifact@v4.3.1
+        with:
+          name: nugets-wpf
           path: ./nugets
