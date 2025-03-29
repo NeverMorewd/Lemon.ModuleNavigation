@@ -1,8 +1,7 @@
-﻿using Lemon.ModuleNavigation.Abstracts;
-using Lemon.ModuleNavigation.Wpf.Dialogs;
-using Microsoft.Extensions.DependencyInjection;
+﻿using Lemon.ModuleNavigation.Abstractions;
+using Lemon.ModuleNavigation.Wpf;
 
-namespace Lemon.ModuleNavigation.Wpf.Extensions;
+namespace Microsoft.Extensions.DependencyInjection;
 
 public static class ServiceCollectionExtensions
 {

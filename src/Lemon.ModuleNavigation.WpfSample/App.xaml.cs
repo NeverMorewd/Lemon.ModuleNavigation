@@ -1,9 +1,6 @@
-﻿using Lemon.ModuleNavigation.Wpf.Extensions;
-using Lemon.ModuleNavigation.WpfSample.ViewModels;
+﻿using Lemon.ModuleNavigation.WpfSample.ViewModels;
 using Lemon.ModuleNavigation.WpfSample.Views;
 using Microsoft.Extensions.DependencyInjection;
-using System.Configuration;
-using System.Data;
 using System.Windows;
 
 namespace Lemon.ModuleNavigation.WpfSample;

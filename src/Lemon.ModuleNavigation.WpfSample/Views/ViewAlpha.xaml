@@ -6,13 +6,15 @@
              xmlns:local="clr-namespace:Lemon.ModuleNavigation.WpfSample.Views"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-    <StackPanel>
-        <TextBlock Text="{Binding Greeting}" />
-        <Button
+    <Border BorderThickness="1" BorderBrush="LemonChiffon">
+        <StackPanel>
+            <TextBlock Text="{Binding Greeting}" />
+            <Button
 			IsEnabled="{Binding IsDialog}"
             Width="200"
             Height="50"
             Command="{Binding CloseCommand}"
             Content="CloseDialog" />
-    </StackPanel>
+        </StackPanel>
+    </Border>
 </UserControl>

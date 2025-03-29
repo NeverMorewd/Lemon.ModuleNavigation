@@ -1,4 +1,4 @@
-﻿using Lemon.ModuleNavigation.Abstracts;
+﻿using Lemon.ModuleNavigation.Abstractions;
 using Lemon.ModuleNavigation.Core;
 using ReactiveUI;
 

@@ -1,4 +1,4 @@
-﻿using Lemon.ModuleNavigation.Abstracts;
+﻿using Lemon.ModuleNavigation.Abstractions;
 using Lemon.ModuleNavigation.Dialogs;
 using ReactiveUI;
 using System.Reactive;

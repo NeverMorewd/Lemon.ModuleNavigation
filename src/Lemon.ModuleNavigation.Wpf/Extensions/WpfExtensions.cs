@@ -1,7 +1,9 @@
-﻿using System.Windows;
+﻿using Lemon.ModuleNavigation.Abstractions;
+using Lemon.ModuleNavigation.Wpf;
+using System.Windows.Controls;
 using System.Windows.Threading;
 
-namespace Lemon.ModuleNavigation.Wpf.Extensions
+namespace System.Windows
 {
     public static class WpfExtensions
     {
@@ -34,6 +36,17 @@ namespace Lemon.ModuleNavigation.Wpf.Extensions
             }
 
             return null;
+        }
+
+        public static IRegion ToContainer(this Control control, string name)
+        {
+            return control switch
+            {
+                TabControl tabControl => new TabRegion(tabControl, name),
+                ItemsControl itemsControl => new ItemsRegion(itemsControl, name),
+                ContentControl contentControl => new ContentRegion(contentControl, name),
+                _ => throw new NotSupportedException($"Unsupported control:{control.GetType()}"),
+            };
         }
     }
 }

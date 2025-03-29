@@ -1,4 +1,4 @@
-﻿using Lemon.ModuleNavigation.Abstracts;
+﻿using Lemon.ModuleNavigation.Abstractions;
 using System;
 using System.Collections.Generic;
 using System.Linq;

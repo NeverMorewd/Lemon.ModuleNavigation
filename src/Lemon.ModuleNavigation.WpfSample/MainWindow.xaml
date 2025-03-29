@@ -77,7 +77,7 @@
                             Margin="2"
                             lm:NavigationExtension.RegionName="ItemsRegion"
                             Background="Transparent"
-                            BorderBrush="Blue"
+                            BorderBrush="LemonChiffon"
                             BorderThickness="1" />
                     </StackPanel>
                 </Grid>

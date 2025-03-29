@@ -1,4 +1,4 @@
-﻿using Lemon.ModuleNavigation.Abstracts;
+﻿using Lemon.ModuleNavigation.Abstractions;
 using System.Windows.Controls;
 
 namespace Lemon.ModuleNavigation.WpfSample.Views
