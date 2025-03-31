@@ -4,38 +4,51 @@ using Microsoft.Extensions.DependencyInjection;
 using System.Collections.Concurrent;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
+using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
+using System.Windows.Data;
 
 namespace Lemon.ModuleNavigation.Wpf;
 
 public class TabRegion : Region
 {
     private readonly TabControl _tabControl;
-    private readonly ConcurrentDictionary<Guid, IView> _viewCache = new();
-    private readonly ConcurrentItem<(IView View, INavigationAware NavigationAware)> _current = new();
     public TabRegion(TabControl tabControl, string name)
     {
-
-
         _tabControl = tabControl;
         _tabControl.ContentTemplate = RegionTemplate;
         Contexts = [];
         Contexts.CollectionChanged += ViewContents_CollectionChanged;
         Name = name;
+        BindingOperations.SetBinding(_tabControl, Selector.SelectedItemProperty, new Binding
+        {
+            Source = this,
+            Path = new PropertyPath(nameof(SelectedItem)),
+            Mode = BindingMode.TwoWay
+        });
+        BindingOperations.SetBinding(_tabControl, ItemsControl.ItemsSourceProperty, new Binding
+        {
+            Source = this,
+            Path = new PropertyPath(nameof(SelectedItem)),
+            Mode = BindingMode.TwoWay
+        });
     }
     public override string Name
     {
         get;
     }
+    private object? _selectItem;
     public object? SelectedItem
     {
         get
         {
-            return _tabControl.SelectedItem;
+            return _selectItem;
         }
         set
         {
-            _tabControl.SelectedItem = value;
+            _selectItem = value;
+            OnPropertyChanged();
         }
     }
     public override ObservableCollection<NavigationContext> Contexts
@@ -110,7 +123,7 @@ public class TabRegion : Region
 
     protected override IView? ResolveView(NavigationContext context)
     {
-        bool needNewView = !_viewCache.TryGetValue(context.Guid, out IView? view);
+        bool needNewView = !ViewCache.TryGetValue(context.Guid, out IView? view);
 
         if (!needNewView)
         {
@@ -126,15 +139,15 @@ public class TabRegion : Region
             view = context.ServiceProvider.GetRequiredKeyedService<IView>(context.TargetViewName);
             var navigationAware = context.ServiceProvider.GetRequiredKeyedService<INavigationAware>(context.TargetViewName);
 
-            if (_current.TryTakeData(out var previousData))
+            if (Current.TryTakeData(out var previousData))
             {
                 previousData.NavigationAware.OnNavigatedFrom(context);
             }
 
             view.DataContext = navigationAware;
             navigationAware.OnNavigatedTo(context);
-            _current.SetData((view, navigationAware));
-            _viewCache[context.Guid] = view;
+            Current.SetData((view, navigationAware));
+            ViewCache[context.Guid] = view;
         }
 
         return view;

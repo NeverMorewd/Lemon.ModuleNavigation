@@ -3,26 +3,65 @@ using Lemon.ModuleNavigation.Core;
 using Microsoft.Extensions.DependencyInjection;
 using System.Collections.Concurrent;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Controls;
 
 namespace Lemon.ModuleNavigation.Wpf;
 
-public abstract class Region : IRegion
+public abstract class Region : IRegion, INotifyPropertyChanged
 {
-    private readonly ConcurrentDictionary<string, IView> _viewCache = new();
-    private readonly ConcurrentItem<(IView View, INavigationAware NavigationAware)> _current = new();
-
     public Region()
     {
+        Current = new();
+        ViewCache = [];
+        ViewNameCache = [];
         RegionTemplate = CreateRegionDataTemplate();
     }
 
-    public abstract string Name { get; }
-    public abstract ObservableCollection<NavigationContext> Contexts { get; }
+    protected ConcurrentDictionary<Guid, IView> ViewCache
+    {
+        get;
+    }
+    protected ConcurrentDictionary<string, IView> ViewNameCache
+    {
+        get;
+    }
+    protected ConcurrentItem<(IView View, INavigationAware NavigationAware)> Current
+    {
+        get;
+    }
+    public abstract string Name
+    {
+        get;
+    }
 
-    public DataTemplate? RegionTemplate { get; set; }
+    public abstract ObservableCollection<NavigationContext> Contexts
+    {
+        get;
+    }
 
+    public DataTemplate? RegionTemplate
+    {
+        get;
+        private set;
+    }
+
+    public event PropertyChangedEventHandler? PropertyChanged;
+    protected void OnPropertyChanged([CallerMemberName] string? propertyName = null)
+    {
+        PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+    }
+
+    public virtual void ScrollIntoView(int index)
+    {
+        throw new NotImplementedException();
+    }
+    public virtual void ScrollIntoView(NavigationContext item)
+    {
+        throw new NotImplementedException();
+    }
     public abstract void Activate(NavigationContext target);
     public abstract void DeActivate(string viewName);
     public abstract void DeActivate(NavigationContext target);
@@ -41,14 +80,14 @@ public abstract class Region : IRegion
 
     protected virtual IView? ResolveView(NavigationContext context)
     {
-        bool needNewView = !_viewCache.TryGetValue(context.TargetViewName, out IView? view);
+        bool needNewView = !ViewNameCache.TryGetValue(context.TargetViewName, out IView? view);
 
         if (!needNewView)
         {
-            var navigationAware = view!.DataContext as INavigationAware;
-            if (navigationAware != null && !navigationAware.IsNavigationTarget(context))
+            if (view!.DataContext is INavigationAware navigationAware
+                && !navigationAware.IsNavigationTarget(context))
             {
-                needNewView = true; 
+                needNewView = true;
             }
         }
 
@@ -57,15 +96,15 @@ public abstract class Region : IRegion
             view = context.ServiceProvider.GetRequiredKeyedService<IView>(context.TargetViewName);
             var navigationAware = context.ServiceProvider.GetRequiredKeyedService<INavigationAware>(context.TargetViewName);
 
-            if (_current.TryTakeData(out var previousData))
+            if (Current.TryTakeData(out var previousData))
             {
                 previousData.NavigationAware.OnNavigatedFrom(context);
             }
 
             view.DataContext = navigationAware;
             navigationAware.OnNavigatedTo(context);
-            _current.SetData((view, navigationAware));
-            _viewCache[context.TargetViewName] = view;
+            Current.SetData((view, navigationAware));
+            ViewNameCache[context.TargetViewName] = view;
         }
 
         return view;
@@ -81,7 +120,13 @@ public abstract class Region : IRegion
 
         public object? Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {
-            return value is NavigationContext context ? _region.ResolveView(context) as Control : null;
+            if (value is NavigationContext context)
+            {
+                var view = _region.ResolveView(context);
+                _region.ViewCache.AddOrUpdate(context.Guid, view!, (key, oldValue) => view!);
+                return view;
+            }
+            return null;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)

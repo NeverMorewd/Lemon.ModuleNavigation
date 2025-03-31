@@ -48,5 +48,41 @@ namespace System.Windows
                 _ => throw new NotSupportedException($"Unsupported control:{control.GetType()}"),
             };
         }
+
+        public static void ScrollIntoView(this ItemsControl itemsControl, object item)
+        {
+            if (itemsControl == null || item == null)
+                return;
+            if (itemsControl is ListBox listBox)
+            {
+                listBox.Dispatcher.InvokeAsync(() => listBox.ScrollIntoView(item));
+            }
+            else
+            {
+                var container = itemsControl.ItemContainerGenerator.ContainerFromItem(item) as FrameworkElement;
+                if (container != null)
+                {
+                    container.BringIntoView();
+                    return;
+                }
+                itemsControl.ItemContainerGenerator.StatusChanged += (s, e) =>
+                {
+                    if (itemsControl.ItemContainerGenerator.Status == System.Windows.Controls.Primitives.GeneratorStatus.ContainersGenerated)
+                    {
+                        container = itemsControl.ItemContainerGenerator.ContainerFromItem(item) as FrameworkElement;
+                        container?.BringIntoView();
+                    }
+                };
+            }
+        }
+
+        public static void ScrollIntoView(this ItemsControl itemsControl, int index)
+        {
+            if (itemsControl == null || index < 0 || index >= itemsControl.Items.Count)
+                return;
+
+            var item = itemsControl.Items[index];
+            itemsControl.ScrollIntoView(item);
+        }
     }
 }

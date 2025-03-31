@@ -1,5 +1,9 @@
-﻿using System.Collections.ObjectModel;
+﻿using Lemon.ModuleNavigation.Abstractions;
+using Microsoft.Extensions.DependencyInjection;
+using System;
+using System.Collections.ObjectModel;
 using System.Collections.Specialized;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 
@@ -47,13 +51,13 @@ public class ItemsRegion : Region
         get;
     }
 
-    public void ScrollIntoView(int index)
+    public override void ScrollIntoView(int index)
     {
-        throw new NotImplementedException();
+        _itemsControl.ScrollIntoView(index);
     }
-    public void ScrollIntoView(NavigationContext item)
+    public override void ScrollIntoView(NavigationContext item)
     {
-        throw new NotImplementedException();
+        _itemsControl.ScrollIntoView(item);
     }
     public override void Activate(NavigationContext target)
     {
@@ -82,6 +86,7 @@ public class ItemsRegion : Region
             Contexts.Add(target);
             SelectedItem = target;
         }
+        ScrollIntoView((SelectedItem as NavigationContext)!);
     }
     public override void DeActivate(string viewName)
     {
@@ -117,5 +122,37 @@ public class ItemsRegion : Region
                 }
             }
         }
+    }
+
+    protected override IView? ResolveView(NavigationContext context)
+    {
+        bool needNewView = !ViewCache.TryGetValue(context.Guid, out IView? view);
+
+        if (!needNewView)
+        {
+            if (view!.DataContext is INavigationAware navigationAware 
+                && !navigationAware.IsNavigationTarget(context))
+            {
+                needNewView = true;
+            }
+        }
+
+        if (needNewView)
+        {
+            view = context.ServiceProvider.GetRequiredKeyedService<IView>(context.TargetViewName);
+            var navigationAware = context.ServiceProvider.GetRequiredKeyedService<INavigationAware>(context.TargetViewName);
+
+            if (Current.TryTakeData(out var previousData))
+            {
+                previousData.NavigationAware.OnNavigatedFrom(context);
+            }
+
+            view.DataContext = navigationAware;
+            navigationAware.OnNavigatedTo(context);
+            Current.SetData((view, navigationAware));
+            ViewCache[context.Guid] = view;
+        }
+
+        return view;
     }
 }
