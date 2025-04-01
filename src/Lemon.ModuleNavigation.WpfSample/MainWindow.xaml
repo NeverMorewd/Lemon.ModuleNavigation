@@ -57,14 +57,14 @@
                                     <StackPanel Orientation="Horizontal">
                                         <TextBlock Text="{Binding}" />
                                         <Button
-                                            lm:NavigationExtension.CanUnload="True"
+                                            Content="x"
+                                            ToolTip="UnloadView"
                                             Width="20"
                                             Height="20"
-                                            Padding="-1,0,0,0"
                                             HorizontalContentAlignment="Center"
                                             VerticalContentAlignment="Center"
-                                            Content="X"
-                                            FontSize="11" />
+                                            Command="{Binding DataContext.UnloadViewCommand, RelativeSource={RelativeSource AncestorType=TabControl}}"
+                                            CommandParameter="{Binding}" />
                                     </StackPanel>
                                 </DataTemplate>
                             </TabControl.ItemTemplate>

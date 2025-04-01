@@ -1,22 +1,23 @@
 ﻿using Lemon.ModuleNavigation.Abstractions;
 using Lemon.ModuleNavigation.Core;
-using Lemon.ModuleNavigation.Dialogs;
 using ReactiveUI;
-using Splat;
 using System.Diagnostics;
 using System.Reactive;
 
 namespace Lemon.ModuleNavigation.WpfSample;
 
-public class MainWindowViewModel : BaseViewModel, IServiceAware
+public class MainWindowViewModel : ReactiveObject, IServiceAware
 {
     private readonly INavigationService _navigationService;
     private readonly IDialogService _dialogService;
+    private readonly IRegionManager _regionManager;
     public MainWindowViewModel(INavigationService navigationService, 
-        IDialogService dialogService, 
+        IDialogService dialogService,
+        IRegionManager regionManager,
         IServiceProvider serviceProvider)
     {
         _dialogService = dialogService;
+        _regionManager = regionManager;
         _navigationService = navigationService;
         _navigationService.RequestViewNavigation("ContentRegion", "ViewAlpha", false);
         ServiceProvider = serviceProvider;
@@ -79,6 +80,10 @@ public class MainWindowViewModel : BaseViewModel, IServiceAware
                 });
             Debug.WriteLine($"ShowDialog over:{result}");
         });
+        UnloadViewCommand = ReactiveCommand.Create<NavigationContext>((context) =>
+        {
+            _regionManager.RequestUnload(context);
+        });
 
     }
 
@@ -86,7 +91,10 @@ public class MainWindowViewModel : BaseViewModel, IServiceAware
     {
         get;
     }
-
+    public ReactiveCommand<NavigationContext, Unit> UnloadViewCommand
+    {
+        get;
+    }
     public ReactiveCommand<string, Unit> NavigateToViewCommand
     {
         get;

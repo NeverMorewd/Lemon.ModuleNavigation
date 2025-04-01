@@ -35,12 +35,12 @@ public abstract class Region : IRegion
                 return null;
 
             bool needNewView = context.RequestNew ||
-                !_viewCache.TryGetValue(context.TargetViewName, out IView? view);
+                !_viewCache.TryGetValue(context.ViewName, out IView? view);
 
             if (needNewView)
             {
-                view = context.ServiceProvider.GetRequiredKeyedService<IView>(context.TargetViewName);
-                var navigationAware = context.ServiceProvider.GetRequiredKeyedService<INavigationAware>(context.TargetViewName);
+                view = context.ServiceProvider.GetRequiredKeyedService<IView>(context.ViewName);
+                var navigationAware = context.ServiceProvider.GetRequiredKeyedService<INavigationAware>(context.ViewName);
 
                 if (_current.TryTakeData(out var previousData))
                 {
@@ -52,11 +52,11 @@ public abstract class Region : IRegion
                 view.DataContext = navigationAware;
                 navigationAware.OnNavigatedTo(context);
                 _current.SetData((view, navigationAware));
-                _viewCache.TryAdd(context.TargetViewName, view);
+                _viewCache.TryAdd(context.ViewName, view);
             }
             else
             {
-                view = _viewCache[context.TargetViewName];
+                view = _viewCache[context.ViewName];
             }
 
             return view as Control;

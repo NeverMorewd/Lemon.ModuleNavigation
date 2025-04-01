@@ -43,7 +43,7 @@ public class ContentRegion : Region
     {
         if(Content is NavigationContext current)
         {
-            if (target.TargetViewName == current.TargetViewName 
+            if (target.ViewName == current.ViewName 
                 && !target.RequestNew)
             {
                 return;
@@ -57,7 +57,7 @@ public class ContentRegion : Region
     {
         if (Content is NavigationContext current)
         {
-            if (current.TargetViewName == regionName)
+            if (current.ViewName == regionName)
             {
                 Contexts.Remove(current);
                 Content = null;

@@ -96,7 +96,7 @@ public class MainViewModel : SampleViewModelBase, IServiceAware
 
         _regionManager.NavigationSubscribe<NavigationContext>(n => 
         {
-            _logger.LogDebug($"Request to : {n.RegionName}.{n.TargetViewName}");
+            _logger.LogDebug($"Request to : {n.RegionName}.{n.ViewName}");
         });
         _regionManager.NavigationSubscribe<IRegion>(r => 
         {

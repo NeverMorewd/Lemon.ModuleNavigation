@@ -1,23 +1,24 @@
 ﻿using Lemon.ModuleNavigation.Abstractions;
 using Lemon.ModuleNavigation.Core;
-using Microsoft.Extensions.DependencyInjection;
 using System.Collections.Concurrent;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
-using System.Runtime.CompilerServices;
+using System.Collections.Specialized;
 using System.Windows;
 using System.Windows.Controls;
 
-namespace Lemon.ModuleNavigation.Wpf;
+namespace Lemon.ModuleNavigation.Wpf.Regions;
 
-public abstract class Region : IRegion, INotifyPropertyChanged
+public abstract class Region : IRegion
 {
-    public Region()
+    public Region(string name)
     {
+        Name = name;
         Current = new();
         ViewCache = [];
         ViewNameCache = [];
+        Contexts = [];
         RegionTemplate = CreateRegionDataTemplate();
+        Contexts.CollectionChanged += Contexts_CollectionChanged;
     }
 
     protected ConcurrentDictionary<Guid, IView> ViewCache
@@ -32,12 +33,12 @@ public abstract class Region : IRegion, INotifyPropertyChanged
     {
         get;
     }
-    public abstract string Name
+    public string Name
     {
         get;
     }
 
-    public abstract ObservableCollection<NavigationContext> Contexts
+    public ObservableCollection<NavigationContext> Contexts
     {
         get;
     }
@@ -45,13 +46,6 @@ public abstract class Region : IRegion, INotifyPropertyChanged
     public DataTemplate? RegionTemplate
     {
         get;
-        private set;
-    }
-
-    public event PropertyChangedEventHandler? PropertyChanged;
-    protected void OnPropertyChanged([CallerMemberName] string? propertyName = null)
-    {
-        PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
     }
 
     public virtual void ScrollIntoView(int index)
@@ -66,6 +60,33 @@ public abstract class Region : IRegion, INotifyPropertyChanged
     public abstract void DeActivate(string viewName);
     public abstract void DeActivate(NavigationContext target);
 
+    protected abstract IView? ResolveView(NavigationContext context);
+
+    protected virtual void WhenContextsAdded(IEnumerable<NavigationContext> contexts)
+    {
+
+    }
+    protected virtual void WhenContextsRemoved(IEnumerable<NavigationContext> contexts)
+    {
+
+    }
+    private void Contexts_CollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
+    {
+        if (e.Action == NotifyCollectionChangedAction.Add)
+        {
+            if (e.NewItems is not null)
+            {
+                WhenContextsAdded(e.NewItems.Cast<NavigationContext>());
+            }
+        }
+        if (e.Action == NotifyCollectionChangedAction.Remove)
+        {
+            if (e.OldItems is not null)
+            {
+                WhenContextsRemoved(e.OldItems.Cast<NavigationContext>());
+            }
+        }
+    }
     private DataTemplate CreateRegionDataTemplate()
     {
         var dataTemplate = new DataTemplate(typeof(NavigationContext));
@@ -76,38 +97,6 @@ public abstract class Region : IRegion, INotifyPropertyChanged
         });
         dataTemplate.VisualTree = factory;
         return dataTemplate;
-    }
-
-    protected virtual IView? ResolveView(NavigationContext context)
-    {
-        bool needNewView = !ViewNameCache.TryGetValue(context.TargetViewName, out IView? view);
-
-        if (!needNewView)
-        {
-            if (view!.DataContext is INavigationAware navigationAware
-                && !navigationAware.IsNavigationTarget(context))
-            {
-                needNewView = true;
-            }
-        }
-
-        if (needNewView)
-        {
-            view = context.ServiceProvider.GetRequiredKeyedService<IView>(context.TargetViewName);
-            var navigationAware = context.ServiceProvider.GetRequiredKeyedService<INavigationAware>(context.TargetViewName);
-
-            if (Current.TryTakeData(out var previousData))
-            {
-                previousData.NavigationAware.OnNavigatedFrom(context);
-            }
-
-            view.DataContext = navigationAware;
-            navigationAware.OnNavigatedTo(context);
-            Current.SetData((view, navigationAware));
-            ViewNameCache[context.TargetViewName] = view;
-        }
-
-        return view;
     }
 
     private class NavigationContextToViewConverter : System.Windows.Data.IValueConverter

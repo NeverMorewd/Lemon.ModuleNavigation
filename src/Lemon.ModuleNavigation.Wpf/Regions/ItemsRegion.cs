@@ -1,55 +1,49 @@
 ﻿using Lemon.ModuleNavigation.Abstractions;
 using Microsoft.Extensions.DependencyInjection;
-using System;
-using System.Collections.ObjectModel;
-using System.Collections.Specialized;
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
+using System.Windows.Data;
 
-namespace Lemon.ModuleNavigation.Wpf;
+namespace Lemon.ModuleNavigation.Wpf.Regions;
 
-public class ItemsRegion : Region
+public class ItemsRegion : Region, IItemsRegionDataContext<DataTemplate>
 {
     private readonly ItemsControl _itemsControl;
-    public ItemsRegion(ItemsControl itemsControl, string name)
+    public ItemsRegion(string name, ItemsControl itemsControl) : base(name)
     {
         _itemsControl = itemsControl;
-        _itemsControl.ItemTemplate = RegionTemplate;
-        Contexts = [];
-        Contexts.CollectionChanged += ViewContents_CollectionChanged;
-        Name = name;
+        SetBindingItemTemplate();
+        SetBindingSelectedItem();
+        SetBindingItemsSource();
     }
-    public override string Name
-    {
-        get;
-    }
+    private object? _selectItem;
     public object? SelectedItem
     {
         get
         {
-            if (_itemsControl is Selector selecting)
-            {
-                return selecting.SelectedItem;
-            }
-            return null;
+            return _selectItem;
         }
         set
         {
-            if (value != null)
-            {
-                if (_itemsControl is Selector selecting)
-                {
-                    selecting.SelectedItem = value;
-                }
-            }
+            _selectItem = value;
+            OnPropertyChanged();
         }
     }
 
-    public override ObservableCollection<NavigationContext> Contexts
+    private DataTemplate? _itemsTemplate;
+    public DataTemplate? ItemTemplate
     {
-        get;
+        get => _itemsTemplate;
+        set
+        {
+            _itemsTemplate = value;
+            OnPropertyChanged();
+        }
     }
+    public event PropertyChangedEventHandler? PropertyChanged;
 
     public override void ScrollIntoView(int index)
     {
@@ -90,7 +84,7 @@ public class ItemsRegion : Region
     }
     public override void DeActivate(string viewName)
     {
-        Contexts.Remove(Contexts.Last(c => c.TargetViewName == viewName));
+        Contexts.Remove(Contexts.Last(c => c.ViewName == viewName));
     }
     public override void DeActivate(NavigationContext navigationContext)
     {
@@ -100,29 +94,6 @@ public class ItemsRegion : Region
     {
         Contexts.Add(item);
     }
-    private void ViewContents_CollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
-    {
-        if (e.Action == NotifyCollectionChangedAction.Add)
-        {
-            if (e.NewItems != null)
-            {
-                foreach (var item in e.NewItems)
-                {
-                    _itemsControl.Items.Add(item);
-                }
-            }
-        }
-        if (e.Action == NotifyCollectionChangedAction.Remove)
-        {
-            if (e.OldItems != null)
-            {
-                foreach (var item in e.OldItems)
-                {
-                    _itemsControl.Items.Remove(item);
-                }
-            }
-        }
-    }
 
     protected override IView? ResolveView(NavigationContext context)
     {
@@ -130,7 +101,7 @@ public class ItemsRegion : Region
 
         if (!needNewView)
         {
-            if (view!.DataContext is INavigationAware navigationAware 
+            if (view!.DataContext is INavigationAware navigationAware
                 && !navigationAware.IsNavigationTarget(context))
             {
                 needNewView = true;
@@ -139,8 +110,8 @@ public class ItemsRegion : Region
 
         if (needNewView)
         {
-            view = context.ServiceProvider.GetRequiredKeyedService<IView>(context.TargetViewName);
-            var navigationAware = context.ServiceProvider.GetRequiredKeyedService<INavigationAware>(context.TargetViewName);
+            view = context.ServiceProvider.GetRequiredKeyedService<IView>(context.ViewName);
+            var navigationAware = context.ServiceProvider.GetRequiredKeyedService<INavigationAware>(context.ViewName);
 
             if (Current.TryTakeData(out var previousData))
             {
@@ -149,10 +120,48 @@ public class ItemsRegion : Region
 
             view.DataContext = navigationAware;
             navigationAware.OnNavigatedTo(context);
+            navigationAware.RequestUnload += () =>
+            {
+                DeActivate(context);
+            };
             Current.SetData((view, navigationAware));
             ViewCache[context.Guid] = view;
         }
 
         return view;
+    }
+
+    protected virtual void SetBindingItemsSource()
+    {
+        BindingOperations.SetBinding(_itemsControl, ItemsControl.ItemsSourceProperty, new Binding
+        {
+            Source = this,
+            Path = new PropertyPath(nameof(Contexts)),
+        });
+    }
+    protected virtual void SetBindingItemTemplate()
+    {
+        ItemTemplate = RegionTemplate;
+        BindingOperations.SetBinding(_itemsControl, ItemsControl.ItemTemplateProperty, new Binding
+        {
+            Source = this,
+            Path = new PropertyPath(nameof(ItemTemplate)),
+        });
+    }
+    protected virtual void SetBindingSelectedItem()
+    {
+        if (_itemsControl is Selector selector)
+        {
+            BindingOperations.SetBinding(selector, Selector.SelectedItemProperty, new Binding
+            {
+                Source = this,
+                Path = new PropertyPath(nameof(SelectedItem)),
+                Mode = BindingMode.TwoWay
+            });
+        }
+    }
+    protected void OnPropertyChanged([CallerMemberName] string? propertyName = null)
+    {
+        PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
     }
 }

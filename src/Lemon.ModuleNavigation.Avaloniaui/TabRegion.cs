@@ -89,7 +89,7 @@ public class TabRegion : Region, INotifyPropertyChanged
     }
     public override void DeActivate(string viewName)
     {
-        Contexts.Remove(Contexts.Last(c => c.TargetViewName == viewName));
+        Contexts.Remove(Contexts.Last(c => c.ViewName == viewName));
     }
     public override void DeActivate(NavigationContext navigationContext)
     {

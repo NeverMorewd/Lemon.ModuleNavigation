@@ -2,8 +2,6 @@
 using Microsoft.Extensions.DependencyInjection;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Diagnostics;
-using System.Windows.Media;
 
 namespace Lemon.ModuleNavigation.Wpf;
 
@@ -32,7 +30,7 @@ public class NavigationExtension
                         var serviceProvider = navigationProvider!.ServiceProvider;
                         var handler = serviceProvider.GetRequiredService<INavigationHandler>();
                         var value = GetRegionName(control);
-                        handler.RegionManager.AddRegion(value, control.ToContainer(value));
+                        handler.RegionManager.AddRegion(value, control.ToRegion(value));
                     }
                     control.Loaded -= LoadedHandler;
                 }
@@ -53,88 +51,6 @@ public class NavigationExtension
     public static string GetRegionName(Control element)
     {
         return (string)element.GetValue(RegionNameProperty);
-    }
-    #endregion
-
-    #region CanUnload -- ongoing support tabcontrol only for now
-    public static readonly DependencyProperty CanUnloadProperty =
-        DependencyProperty.RegisterAttached(
-            "CanUnload", typeof(bool), typeof(NavigationExtension),
-            new PropertyMetadata(false, OnCanUnloadChanged));
-
-    public static bool GetCanUnload(DependencyObject obj) => (bool)obj.GetValue(CanUnloadProperty);
-    public static void SetCanUnload(DependencyObject obj, bool value) => obj.SetValue(CanUnloadProperty, value);
-
-    private static void OnCanUnloadChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-    {
-        if (d is Button button)
-        {
-            bool newValue = (bool)e.NewValue;
-            button.Visibility = newValue ? Visibility.Visible : Visibility.Collapsed;
-
-            if (newValue)
-            {
-                if (!_targets.Contains(button))
-                {
-                    _targets.Add(button);
-                    button.Unloaded += Button_Unloaded;
-                    button.Click += UnloadModule;
-                }
-            }
-            else
-            {
-                if (_targets.Contains(button))
-                {
-                    button.Unloaded -= Button_Unloaded;
-                    button.Click -= UnloadModule;
-                    _targets.Remove(button);
-                }
-            }
-        }
-    }
-
-    private static void Button_Unloaded(object sender, RoutedEventArgs e)
-    {
-        if (sender is Button button && _targets.Contains(button))
-        {
-            button.Unloaded -= Button_Unloaded;
-            button.Click -= UnloadModule;
-            _targets.Remove(button);
-        }
-    }
-
-    private static void UnloadModule(object sender, RoutedEventArgs e)
-    {
-        if (sender is Button button)
-        {
-            var tabItem = FindAncestor<TabItem>(button) ??
-                          throw new InvalidOperationException($"No 'TabItem' found in parents of {button}");
-
-            var tabContainer = FindAncestor<TabControl>(tabItem);
-             if (tabContainer != null) 
-            {
-                if (tabItem.DataContext is NavigationContext context)
-                {
-                    if (tabContainer.DataContext is IServiceAware serviceAware)
-                    {
-                        var regionManager = serviceAware.ServiceProvider.GetRequiredService<IRegionManager>();
-                        //regionManager.RequestUnload(context.RegionName, context.TargetViewName);
-                        regionManager.RequestUnload(context);
-                    }
-                }
-            }
-        }
-    }
-
-    private static T? FindAncestor<T>(DependencyObject current) where T : DependencyObject
-    {
-        while (current != null)
-        {
-            if (current is T ancestor)
-                return ancestor;
-            current = VisualTreeHelper.GetParent(current);
-        }
-        return null;
     }
     #endregion
 

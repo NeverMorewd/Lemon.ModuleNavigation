@@ -1,6 +1,5 @@
 ﻿using Lemon.ModuleNavigation.Abstractions;
 using Lemon.ModuleNavigation.Core;
-using Lemon.ModuleNavigation.Dialogs;
 using Microsoft.Extensions.Logging;
 using ReactiveUI;
 using System;
