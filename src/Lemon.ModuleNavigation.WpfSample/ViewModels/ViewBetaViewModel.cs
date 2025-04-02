@@ -40,6 +40,13 @@ public class ViewBetaViewModel : BaseNavigationViewModel, IDialogAware
     }
     public override bool IsNavigationTarget(NavigationContext navigationContext)
     {
-        return !navigationContext.RequestNew;
+        if (navigationContext.Parameters is not null)
+        {
+            if (navigationContext.Parameters.TryGetValue("requestNew", out bool requestNew))
+            {
+                return !requestNew;
+            }
+        }
+        return true;
     }
 }

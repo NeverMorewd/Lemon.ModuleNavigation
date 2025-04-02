@@ -33,17 +33,15 @@ public class NavigationHandler : INavigationHandler, IDisposable
         _moduleManager.RequestNavigate(moduleKey, parameters);
     }
     public void OnNavigateTo(string regionName,
-         string viewName,
-         bool requestNew = false)
+         string viewName)
     {
-        RegionManager.RequestNavigate(regionName, viewName, requestNew, null);
+        RegionManager.RequestNavigate(regionName, viewName, null);
     }
     public void OnNavigateTo(string regionName,
         string viewName,
-        NavigationParameters navigationParameters,
-        bool requestNew = false)
+        NavigationParameters navigationParameters)
     {
-        RegionManager.RequestNavigate(regionName, viewName, requestNew, navigationParameters);
+        RegionManager.RequestNavigate(regionName, viewName, navigationParameters);
     }
 
     public void OnViewUnload(string regionName, string viewName)

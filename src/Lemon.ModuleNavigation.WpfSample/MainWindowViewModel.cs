@@ -11,7 +11,7 @@ public class MainWindowViewModel : ReactiveObject, IServiceAware
     private readonly INavigationService _navigationService;
     private readonly IDialogService _dialogService;
     private readonly IRegionManager _regionManager;
-    public MainWindowViewModel(INavigationService navigationService, 
+    public MainWindowViewModel(INavigationService navigationService,
         IDialogService dialogService,
         IRegionManager regionManager,
         IServiceProvider serviceProvider)
@@ -19,9 +19,9 @@ public class MainWindowViewModel : ReactiveObject, IServiceAware
         _dialogService = dialogService;
         _regionManager = regionManager;
         _navigationService = navigationService;
-        _navigationService.RequestViewNavigation("ContentRegion", "ViewAlpha", false);
+        _navigationService.RequestViewNavigation("ContentRegion", "ViewAlpha");
         ServiceProvider = serviceProvider;
-        NavigateToViewCommand = ReactiveCommand.Create<string>(content => 
+        NavigateToViewCommand = ReactiveCommand.Create<string>(content =>
         {
             var viewName = content;
             var requestNew = false;
@@ -31,9 +31,9 @@ public class MainWindowViewModel : ReactiveObject, IServiceAware
                 requestNew = true;
 
             }
-            _navigationService.RequestViewNavigation("ContentRegion", viewName, new NavigationParameters { { "requestNew", requestNew } }, requestNew);
-            _navigationService.RequestViewNavigation("TabRegion", viewName, new NavigationParameters { { "requestNew", requestNew } }, requestNew);
-            _navigationService.RequestViewNavigation("ItemsRegion", viewName, new NavigationParameters { { "requestNew", requestNew } }, requestNew);
+            _navigationService.RequestViewNavigation("ContentRegion", viewName, new NavigationParameters { { "requestNew", requestNew } });
+            _navigationService.RequestViewNavigation("TabRegion", viewName, new NavigationParameters { { "requestNew", requestNew } });
+            _navigationService.RequestViewNavigation("ItemsRegion", viewName, new NavigationParameters { { "requestNew", requestNew } });
         });
 
         ShowCommand = ReactiveCommand.Create<string>(content =>
@@ -84,7 +84,6 @@ public class MainWindowViewModel : ReactiveObject, IServiceAware
         {
             _regionManager.RequestUnload(context);
         });
-
     }
 
     public IServiceProvider ServiceProvider

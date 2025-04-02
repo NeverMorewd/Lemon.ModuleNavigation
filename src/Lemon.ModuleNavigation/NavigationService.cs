@@ -13,7 +13,7 @@ public class NavigationService : INavigationService
     // reserve only one for now.
     private readonly ConcurrentStack<(IModule module, NavigationParameters parameter)> _bufferModule = [];
     private readonly ConcurrentStack<(string moduleName, NavigationParameters parameter)> _bufferModuleName = [];
-    private readonly ConcurrentStack<(string regionName, string viewName, NavigationParameters? parameter, bool requestNew)> _bufferViewName = [];
+    private readonly ConcurrentStack<(string regionName, string viewName, NavigationParameters? parameter)> _bufferViewName = [];
 
     public NavigationService()
     {
@@ -40,25 +40,46 @@ public class NavigationService : INavigationService
         _bufferModuleName.Push((moduleName, parameters));
     }
     public void RequestViewNavigation(string regionName,
-        string viewName,
-        bool requestNew = false)
+       string viewName)
     {
         foreach (var handler in _viewHandlers)
         {
-            handler.OnNavigateTo(regionName, viewName, requestNew);
+            handler.OnNavigateTo(regionName, viewName);
         }
-        _bufferViewName.Push((regionName, viewName, null, requestNew));
+        _bufferViewName.Push((regionName, viewName, null));
     }
     public void RequestViewNavigation(string regionName,
         string viewName,
-        NavigationParameters parameters,
-        bool requestNew = false)
+        NavigationParameters parameters)
     {
         foreach (var handler in _viewHandlers)
         {
-            handler.OnNavigateTo(regionName, viewName, parameters, requestNew);
+            handler.OnNavigateTo(regionName, viewName, parameters);
         }
-        _bufferViewName.Push((regionName, viewName, parameters, requestNew));
+        _bufferViewName.Push((regionName, viewName, parameters));
+    }
+    [Obsolete("requestNew was obsolete.Consider IsNavigationTarget() in INavigationAware instead.")]
+    public void RequestViewNavigation(string regionName,
+        string viewName,
+        bool requestNew)
+    {
+        foreach (var handler in _viewHandlers)
+        {
+            handler.OnNavigateTo(regionName, viewName);
+        }
+        _bufferViewName.Push((regionName, viewName, null));
+    }
+    [Obsolete("requestNew was obsolete.Consider IsNavigationTarget() in INavigationAware instead.")]
+    public void RequestViewNavigation(string regionName,
+        string viewName,
+        NavigationParameters parameters,
+        bool requestNew)
+    {
+        foreach (var handler in _viewHandlers)
+        {
+            handler.OnNavigateTo(regionName, viewName, parameters);
+        }
+        _bufferViewName.Push((regionName, viewName, parameters));
     }
 
     public void RequestViewUnload(string regionName, string viewName)
@@ -99,15 +120,15 @@ public class NavigationService : INavigationService
     IDisposable IViewNavigationService.BindingViewNavigationHandler(IViewNavigationHandler handler)
     {
         _viewHandlers.Add(handler);
-        foreach (var (regionName, viewName, parameters, requestNew) in _bufferViewName)
+        foreach (var (regionName, viewName, parameters) in _bufferViewName)
         {
             if (parameters == null)
             {
-                handler.OnNavigateTo(regionName, viewName, requestNew);
+                handler.OnNavigateTo(regionName, viewName);
             }
             else
             {
-                handler.OnNavigateTo(regionName, viewName, parameters, requestNew);
+                handler.OnNavigateTo(regionName, viewName, parameters);
             }
         }
         return new DisposableAction(() =>

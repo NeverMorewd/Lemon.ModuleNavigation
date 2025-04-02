@@ -6,7 +6,9 @@ public interface IRegionManager: IObservable<NavigationContext>, IObservable<IRe
 {
     void AddRegion(string regionName, IRegion region);
     IRegion? GetRegion(string regionName);
-    void RequestNavigate(string regionName, string viewName, bool requestNae, NavigationParameters? parameters = null);
+    void RequestNavigate(string regionName, string viewName, NavigationParameters? parameters = null);
+    [Obsolete("requestNew was obsolete.Consider IsNavigationTarget() in INavigationAware instead.")]
+    void RequestNavigate(string regionName, string viewName, bool requestNew, NavigationParameters? parameters = null);
     void RequestUnload(string regionName, string viewName);
     void RequestUnload(NavigationContext context);
 }

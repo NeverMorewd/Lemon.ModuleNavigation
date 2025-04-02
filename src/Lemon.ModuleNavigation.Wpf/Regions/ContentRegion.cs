@@ -1,5 +1,4 @@
 ﻿using Lemon.ModuleNavigation.Abstractions;
-using Microsoft.Extensions.DependencyInjection;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Windows;
@@ -42,10 +41,30 @@ public class ContentRegion : Region, IContentRegionContext<DataTemplate>
 
     public event PropertyChangedEventHandler? PropertyChanged;
 
+    /// <summary>
+    /// When Views with same ViewName were found, the latest one will be picked.
+    /// </summary>
+    /// <param name="target"></param>
     public override void Activate(NavigationContext target)
     {
-        Content = target;
-        Contexts.Add(target);
+        if (ViewCache.TryGetValue(target, out IView? accurateView))
+        {
+            target.View = accurateView;
+            Content = target;
+        }
+        else if (ViewNameCache.TryGetValue(target.ViewName, out IView? view)
+            && view.DataContext is INavigationAware navigationAware
+            && navigationAware.IsNavigationTarget(target))
+        {
+            var context = Contexts.First(c => c.ViewName == target.ViewName);
+            context.View = view;
+            Content = context;
+        }
+        else
+        {
+            Contexts.Add(target);
+            Content = target;
+        }
     }
 
     public override void DeActivate(string regionName)
@@ -70,45 +89,10 @@ public class ContentRegion : Region, IContentRegionContext<DataTemplate>
             }
         }
     }
-
-    protected override IView? ResolveView(NavigationContext context)
-    {
-        bool needNewView = !ViewNameCache.TryGetValue(context.ViewName, out IView? view);
-
-        if (!needNewView)
-        {
-            if (view!.DataContext is INavigationAware navigationAware
-                && !navigationAware.IsNavigationTarget(context))
-            {
-                needNewView = true;
-            }
-        }
-
-        if (needNewView)
-        {
-            view = context.ServiceProvider.GetRequiredKeyedService<IView>(context.ViewName);
-            var navigationAware = context.ServiceProvider.GetRequiredKeyedService<INavigationAware>(context.ViewName);
-
-            if (Current.TryTakeData(out var previousData))
-            {
-                previousData.NavigationAware.OnNavigatedFrom(context);
-            }
-
-            view.DataContext = navigationAware;
-            navigationAware.OnNavigatedTo(context);
-            navigationAware.RequestUnload += () =>
-            {
-                DeActivate(context);
-            };
-            Current.SetData((view, navigationAware));
-            ViewNameCache[context.ViewName] = view;
-        }
-
-        return view;
-    }
+    
     protected virtual void SetBindingContentTemplate()
     {
-        ContentTemplate = RegionTemplate;
+        ContentTemplate = RegionContentTemplate;
         BindingOperations.SetBinding(_contentControl,
             ContentControl.ContentTemplateProperty,
             new Binding

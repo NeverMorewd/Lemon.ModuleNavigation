@@ -1,5 +1,6 @@
 ﻿using Lemon.ModuleNavigation.Abstractions;
 using Lemon.ModuleNavigation.Core;
+using Microsoft.Extensions.DependencyInjection;
 using System.Collections.Concurrent;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
@@ -15,19 +16,9 @@ public abstract class Region : IRegion
         Name = name;
         Current = new();
         ViewCache = [];
-        ViewNameCache = [];
         Contexts = [];
-        RegionTemplate = CreateRegionDataTemplate();
+        RegionContentTemplate = CreateRegionDataTemplate();
         Contexts.CollectionChanged += Contexts_CollectionChanged;
-    }
-
-    protected ConcurrentDictionary<Guid, IView> ViewCache
-    {
-        get;
-    }
-    protected ConcurrentDictionary<string, IView> ViewNameCache
-    {
-        get;
     }
     protected ConcurrentItem<(IView View, INavigationAware NavigationAware)> Current
     {
@@ -37,17 +28,31 @@ public abstract class Region : IRegion
     {
         get;
     }
+    protected ConcurrentDictionary<NavigationContext, IView> ViewCache
+    {
+        get;
+    }
 
+    protected ConcurrentDictionary<string, IView> ViewNameCache
+    {
+        get
+        {
+            return new(Contexts
+                    .GroupBy(kv => kv.ViewName)
+                    .Select(group => new KeyValuePair<string, IView>(
+                        group.Key,
+                        group.Last().View!)));
+        }
+    }
     public ObservableCollection<NavigationContext> Contexts
     {
         get;
     }
 
-    public DataTemplate? RegionTemplate
+    public DataTemplate? RegionContentTemplate
     {
         get;
     }
-
     public virtual void ScrollIntoView(int index)
     {
         throw new NotImplementedException();
@@ -60,7 +65,31 @@ public abstract class Region : IRegion
     public abstract void DeActivate(string viewName);
     public abstract void DeActivate(NavigationContext target);
 
-    protected abstract IView? ResolveView(NavigationContext context);
+    protected IView? ResolveView(NavigationContext context)
+    {
+        var view = context.View;
+        if (view is null)
+        {
+            view = context.ServiceProvider.GetRequiredKeyedService<IView>(context.ViewName);
+            var navigationAware = context.ServiceProvider.GetRequiredKeyedService<INavigationAware>(context.ViewName);
+
+            if (Current.TryTakeData(out var previousData))
+            {
+                previousData.NavigationAware.OnNavigatedFrom(context);
+            }
+
+            view.DataContext = navigationAware;
+            navigationAware.OnNavigatedTo(context);
+            navigationAware.RequestUnload += () =>
+            {
+                DeActivate(context);
+            };
+            Current.SetData((view, navigationAware));
+            context.View = view;
+            ViewCache.AddOrUpdate(context, view, (key, value) => view);
+        }
+        return view;
+    }
 
     protected virtual void WhenContextsAdded(IEnumerable<NavigationContext> contexts)
     {
@@ -111,9 +140,7 @@ public abstract class Region : IRegion
         {
             if (value is NavigationContext context)
             {
-                var view = _region.ResolveView(context);
-                _region.ViewCache.AddOrUpdate(context.Guid, view!, (key, oldValue) => view!);
-                return view;
+                return _region.ResolveView(context);
             }
             return null;
         }

@@ -16,6 +16,7 @@ public class RegionManager : IRegionManager
         _serviceProvider = serviceProvider;
     }
 
+    [Obsolete("requestNew was obsolete.Consider IsNavigationTarget() in INavigationAware instead.")]
     public void RequestNavigate(string regionName, string viewName, bool requestNew, NavigationParameters? parameters = null)
     {
         var context = new NavigationContext(viewName, regionName, _serviceProvider, requestNew, parameters);
@@ -33,6 +34,30 @@ public class RegionManager : IRegionManager
                     stack.Push(context);
                     return stack;
                 }, 
+                (key, value) =>
+                {
+                    value.Push(context);
+                    return value;
+                });
+        }
+    }
+    public void RequestNavigate(string regionName, string viewName, NavigationParameters? parameters = null)
+    {
+        var context = new NavigationContext(viewName, regionName, _serviceProvider, parameters);
+        if (_regions.TryGetValue(regionName, out var region))
+        {
+            region.Activate(context);
+            ToNavigationObservers(context);
+        }
+        else
+        {
+            _buffer.AddOrUpdate(regionName,
+                key =>
+                {
+                    var stack = new ConcurrentStack<NavigationContext>();
+                    stack.Push(context);
+                    return stack;
+                },
                 (key, value) =>
                 {
                     value.Push(context);

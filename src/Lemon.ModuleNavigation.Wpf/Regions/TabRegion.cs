@@ -11,13 +11,14 @@ public class TabRegion : ItemsRegion, IContentRegionContext<DataTemplate>
     public TabRegion(string name, TabControl tabControl) : base(name, tabControl)
     {
         _tabControl = tabControl;
-        ContentTemplate = RegionTemplate;
+        ContentTemplate = RegionContentTemplate;
         SetBindingContentTemplate();
     }
+
     public object? Content
     {
-        get;
-        set;
+        get => throw new NotImplementedException();
+        set => throw new NotImplementedException();
     }
 
     private DataTemplate? _contentTemplate;
@@ -32,9 +33,8 @@ public class TabRegion : ItemsRegion, IContentRegionContext<DataTemplate>
     }
     protected override void SetBindingItemTemplate()
     {
-        //
+        //base.SetBindingItemTemplate();
     }
-
     protected virtual void SetBindingContentTemplate()
     {
         BindingOperations.SetBinding(_tabControl,

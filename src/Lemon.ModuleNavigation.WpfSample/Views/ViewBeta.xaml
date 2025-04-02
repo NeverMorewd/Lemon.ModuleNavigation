@@ -14,6 +14,7 @@
         <default:BoolToVisibilityConverter x:Key="BoolToVisibilityConverterInverse" Inverse="True" />
     </UserControl.Resources>
     <Border
+        HorizontalAlignment="Stretch"
         Background="CadetBlue"
         BorderBrush="LemonChiffon"
         BorderThickness="1">

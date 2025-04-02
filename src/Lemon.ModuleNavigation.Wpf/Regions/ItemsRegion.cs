@@ -1,5 +1,4 @@
 ﻿using Lemon.ModuleNavigation.Abstractions;
-using Microsoft.Extensions.DependencyInjection;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Windows;
@@ -53,34 +52,37 @@ public class ItemsRegion : Region, IItemsRegionDataContext<DataTemplate>
     {
         _itemsControl.ScrollIntoView(item);
     }
+
+    /// <summary>
+    /// When Views with same ViewName were found, the earliest one will be picked.
+    /// </summary>
+    /// <param name="target"></param>
     public override void Activate(NavigationContext target)
     {
-        if (!target.RequestNew)
+        try
         {
-            var targetContext = Contexts.FirstOrDefault(context =>
+            if (ViewCache.TryGetValue(target, out IView? accurateView))
             {
-                if (NavigationContext.ViewNameComparer.Equals(target, context))
-                {
-                    return true;
-                }
-                return false;
-            });
-            if (targetContext == null)
-            {
-                Contexts.Add(target);
+                target.View = accurateView;
                 SelectedItem = target;
+                return;
             }
-            else
+            var context = Contexts.FirstOrDefault(c => c.ViewName == target.ViewName);
+            if (context is not null
+                && context.View is not null
+                && context.View.DataContext is INavigationAware navigationAware
+                && navigationAware.IsNavigationTarget(target))
             {
-                SelectedItem = targetContext;
+                SelectedItem = context;
+                return;
             }
-        }
-        else
-        {
             Contexts.Add(target);
             SelectedItem = target;
         }
-        ScrollIntoView((SelectedItem as NavigationContext)!);
+        finally
+        {
+            ScrollIntoView((SelectedItem as NavigationContext)!);
+        }
     }
     public override void DeActivate(string viewName)
     {
@@ -93,43 +95,7 @@ public class ItemsRegion : Region, IItemsRegionDataContext<DataTemplate>
     public void Add(NavigationContext item)
     {
         Contexts.Add(item);
-    }
-
-    protected override IView? ResolveView(NavigationContext context)
-    {
-        bool needNewView = !ViewCache.TryGetValue(context.Guid, out IView? view);
-
-        if (!needNewView)
-        {
-            if (view!.DataContext is INavigationAware navigationAware
-                && !navigationAware.IsNavigationTarget(context))
-            {
-                needNewView = true;
-            }
-        }
-
-        if (needNewView)
-        {
-            view = context.ServiceProvider.GetRequiredKeyedService<IView>(context.ViewName);
-            var navigationAware = context.ServiceProvider.GetRequiredKeyedService<INavigationAware>(context.ViewName);
-
-            if (Current.TryTakeData(out var previousData))
-            {
-                previousData.NavigationAware.OnNavigatedFrom(context);
-            }
-
-            view.DataContext = navigationAware;
-            navigationAware.OnNavigatedTo(context);
-            navigationAware.RequestUnload += () =>
-            {
-                DeActivate(context);
-            };
-            Current.SetData((view, navigationAware));
-            ViewCache[context.Guid] = view;
-        }
-
-        return view;
-    }
+    }   
 
     protected virtual void SetBindingItemsSource()
     {
@@ -141,7 +107,7 @@ public class ItemsRegion : Region, IItemsRegionDataContext<DataTemplate>
     }
     protected virtual void SetBindingItemTemplate()
     {
-        ItemTemplate = RegionTemplate;
+        ItemTemplate = RegionContentTemplate;
         BindingOperations.SetBinding(_itemsControl, ItemsControl.ItemTemplateProperty, new Binding
         {
             Source = this,

@@ -13,11 +13,14 @@ public interface IViewNavigationService
     /// <param name="requestNew">
     /// requestNew can not decide wether to get a new instance of View,
     /// It is controlled by IsNavigationTarget() in INavigationAware.
-    /// We can handle the value of requestNew in IsNavigationTarget() by NavigationContext.
     /// </param>
+    [Obsolete("requestNew was obsolete.Consider IsNavigationTarget() in INavigationAware instead.")]
     void RequestViewNavigation(string regionName, 
-        string viewName, 
-        bool requestNew = false);
+        string viewName,
+        bool requestNew);
+
+    void RequestViewNavigation(string regionName,
+        string viewName);
 
     /// <summary>
     /// RequestViewNavigation
@@ -28,12 +31,16 @@ public interface IViewNavigationService
     /// <param name="requestNew">
     /// requestNew can not decide wether to get a new instance of View,
     /// It is controlled by IsNavigationTarget() in INavigationAware.
-    /// We can handle the value of requestNew in IsNavigationTarget() by NavigationContext.
     /// </param>
+    [Obsolete("requestNew was obsolete.Consider IsNavigationTarget() in INavigationAware instead.")]
     void RequestViewNavigation(string regionName,
         string viewName,
         NavigationParameters parameters,
-        bool requestNew = false);
+        bool requestNew);
+
+    void RequestViewNavigation(string regionName,
+        string viewName,
+        NavigationParameters parameters);
 
     /// <summary>
     /// RequestViewUnload
