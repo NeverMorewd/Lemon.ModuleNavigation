@@ -104,7 +104,7 @@ public class MainViewModel : ReactiveObject, IServiceAware
 
         UnloadViewCommand = ReactiveCommand.Create<NavigationContext>((context) =>
         {
-            _regionManager.RequestUnload(context);
+            _regionManager.RequestViewUnload(context);
         });
 
         _regionManager.NavigationSubscribe<NavigationContext>(n => 

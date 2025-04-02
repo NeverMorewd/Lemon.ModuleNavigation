@@ -35,18 +35,18 @@ public class NavigationHandler : INavigationHandler, IDisposable
     public void OnNavigateTo(string regionName,
          string viewName)
     {
-        RegionManager.RequestNavigate(regionName, viewName, null);
+        RegionManager.RequestViewNavigate(regionName, viewName, null);
     }
     public void OnNavigateTo(string regionName,
         string viewName,
         NavigationParameters navigationParameters)
     {
-        RegionManager.RequestNavigate(regionName, viewName, navigationParameters);
+        RegionManager.RequestViewNavigate(regionName, viewName, navigationParameters);
     }
 
     public void OnViewUnload(string regionName, string viewName)
     {
-        RegionManager.RequestUnload(regionName, viewName);
+        RegionManager.RequestViewUnload(regionName, viewName);
     }
 
     void IDisposable.Dispose()

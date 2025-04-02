@@ -41,7 +41,7 @@ public class RegionManager : IRegionManager
                 });
         }
     }
-    public void RequestNavigate(string regionName, string viewName, NavigationParameters? parameters = null)
+    public void RequestViewNavigate(string regionName, string viewName, NavigationParameters? parameters = null)
     {
         var context = new NavigationContext(viewName, regionName, _serviceProvider, parameters);
         if (_regions.TryGetValue(regionName, out var region))
@@ -93,7 +93,7 @@ public class RegionManager : IRegionManager
         return region;
     }
 
-    public void RequestUnload(string regionName, string viewName)
+    public void RequestViewUnload(string regionName, string viewName)
     {
         if (_regions.TryGetValue(regionName, out var region))
         {
@@ -104,7 +104,7 @@ public class RegionManager : IRegionManager
             throw new RegionNameNotFoundException(nameof(regionName));
         }
     }
-    public void RequestUnload(NavigationContext navigationContext)
+    public void RequestViewUnload(NavigationContext navigationContext)
     {
         if (_regions.TryGetValue(navigationContext.RegionName, out var region))
         {
@@ -165,4 +165,23 @@ public class RegionManager : IRegionManager
         }
     }
 
+    public void RequestModuleNavigate(string regionName, string moduleName, NavigationParameters? parameters)
+    {
+        throw new NotImplementedException();
+    }
+
+    public void RequestModuleNavigate(string regionName, IModule module, NavigationParameters? parameters)
+    {
+        throw new NotImplementedException();
+    }
+
+    public void RequestModuleUnload(string moduleName, string viewName)
+    {
+        throw new NotImplementedException();
+    }
+
+    public void RequestModuleUnload(IModule module)
+    {
+        throw new NotImplementedException();
+    }
 }

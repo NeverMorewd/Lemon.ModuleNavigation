@@ -82,7 +82,7 @@ public class MainWindowViewModel : ReactiveObject, IServiceAware
         });
         UnloadViewCommand = ReactiveCommand.Create<NavigationContext>((context) =>
         {
-            _regionManager.RequestUnload(context);
+            _regionManager.RequestViewUnload(context);
         });
     }
 

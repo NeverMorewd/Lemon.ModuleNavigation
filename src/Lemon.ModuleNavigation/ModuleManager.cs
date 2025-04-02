@@ -23,7 +23,7 @@ public class ModuleManager : IModuleManager, INotifyPropertyChanged
         _regionCache = [];
         _modulesCache = new ConcurrentDictionary<string, IModule>(modules.ToDictionary(m => m.Key, m => m));
         Modules = _modulesCache.Values;
-        ActiveModules = new ObservableCollection<IModule>(_modulesCache
+        ActiveModules = [.. _modulesCache
         .Where(m =>
         {
             return !m.Value.LoadOnDemand;
@@ -32,7 +32,7 @@ public class ModuleManager : IModuleManager, INotifyPropertyChanged
         {
             m.Value.Initialize();
             return m.Value;
-        }));
+        })];
     }
     public ObservableCollection<IModule> ActiveModules 
     { 
