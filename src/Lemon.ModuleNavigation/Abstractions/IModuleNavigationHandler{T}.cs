@@ -1,9 +1,8 @@
 ﻿using Lemon.ModuleNavigation.Core;
 
-namespace Lemon.ModuleNavigation.Abstractions
+namespace Lemon.ModuleNavigation.Abstractions;
+
+public interface IModuleNavigationHandler<in T> :IModuleNavigationHandler where T : IModule
 {
-    public interface IModuleNavigationHandler<in T> :IModuleNavigationHandler where T : IModule
-    {
-        void OnNavigateTo(T module, NavigationParameters parameter);
-    }
+    void OnNavigateTo(T module, NavigationParameters? parameter);
 }

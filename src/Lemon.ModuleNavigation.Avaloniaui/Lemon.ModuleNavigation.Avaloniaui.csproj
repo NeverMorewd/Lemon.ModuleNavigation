@@ -15,9 +15,13 @@
 
 	<ItemGroup>
 	  <AvaloniaXaml Remove="bin\**" />
+	  <AvaloniaXaml Remove="RegionsOld\**" />
 	  <Compile Remove="bin\**" />
+	  <Compile Remove="RegionsOld\**" />
 	  <EmbeddedResource Remove="bin\**" />
+	  <EmbeddedResource Remove="RegionsOld\**" />
 	  <None Remove="bin\**" />
+	  <None Remove="RegionsOld\**" />
 	</ItemGroup>
 
   <ItemGroup>

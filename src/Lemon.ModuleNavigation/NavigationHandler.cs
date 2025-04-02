@@ -24,26 +24,29 @@ public class NavigationHandler : INavigationHandler, IDisposable
     public IModuleManager ModuleManager => _moduleManager;
 
 
-    public void OnNavigateTo(IModule module, NavigationParameters parameter)
+    public void OnNavigateTo(IModule module, NavigationParameters? parameter)
     {
         _moduleManager.RequestNavigate(module, parameter);
     }
-    public void OnNavigateTo(string moduleKey, NavigationParameters parameters)
+    public void OnNavigateTo(string moduleKey, NavigationParameters? parameters)
     {
         _moduleManager.RequestNavigate(moduleKey, parameters);
     }
     public void OnNavigateTo(string regionName,
-         string viewName,
-         bool requestNew = false)
+         string viewName)
     {
-        RegionManager.RequestNavigate(regionName, viewName, requestNew, null);
+        RegionManager.RequestViewNavigate(regionName, viewName, null);
     }
     public void OnNavigateTo(string regionName,
         string viewName,
-        NavigationParameters navigationParameters,
-        bool requestNew = false)
+        NavigationParameters navigationParameters)
     {
-        RegionManager.RequestNavigate(regionName, viewName, requestNew, navigationParameters);
+        RegionManager.RequestViewNavigate(regionName, viewName, navigationParameters);
+    }
+
+    public void OnViewUnload(string regionName, string viewName)
+    {
+        RegionManager.RequestViewUnload(regionName, viewName);
     }
 
     void IDisposable.Dispose()

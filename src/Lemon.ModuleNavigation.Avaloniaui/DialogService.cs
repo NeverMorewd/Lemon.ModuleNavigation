@@ -1,7 +1,7 @@
 ﻿using Avalonia;
 using Avalonia.Controls.ApplicationLifetimes;
 using Lemon.ModuleNavigation.Abstractions;
-using Lemon.ModuleNavigation.Dialogs;
+using Lemon.ModuleNavigation.Core;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Lemon.ModuleNavigation.Avaloniaui;

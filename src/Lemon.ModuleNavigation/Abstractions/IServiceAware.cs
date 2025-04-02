@@ -1,7 +1,6 @@
-﻿namespace Lemon.ModuleNavigation.Abstractions
+﻿namespace Lemon.ModuleNavigation.Abstractions;
+
+public interface IServiceAware
 {
-    public interface IServiceAware
-    {
-        IServiceProvider ServiceProvider { get; }
-    }
+    IServiceProvider ServiceProvider { get; }
 }

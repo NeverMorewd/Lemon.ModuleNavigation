@@ -36,7 +36,7 @@ public class NavigationExtension
                     {
                         var serviceProvider = navigationProvider!.ServiceProvider;
                         var handler = serviceProvider.GetRequiredService<INavigationHandler>();
-                        handler.RegionManager.AddRegion(currentValue, control.ToContainer(currentValue));
+                        handler.RegionManager.AddRegion(currentValue, control.ToRegion(currentValue));
                     }
                     control.Loaded -= LoadedHandler;
                 }
@@ -112,7 +112,7 @@ public class NavigationExtension
     #region CanUnloadProperty
     public static readonly AttachedProperty<bool> CanUnloadProperty =
            AvaloniaProperty.RegisterAttached<NavigationExtension, Button, bool>("CanUnload",
-               defaultValue: true,
+               defaultValue: false,
                coerce: CoerceCanUnload);
 
     private static bool CoerceCanUnload(AvaloniaObject targetObject, bool currentValue)
@@ -160,17 +160,23 @@ public class NavigationExtension
     {
         if (sender is Button button)
         {
+            var view = button.FindLogicalAncestorOfType<IView>(includeSelf: false);
+            if (view != null)
+            {
+            }
             var tabItem = button.FindLogicalAncestorOfType<TabItem>(includeSelf: false) ?? throw new InvalidOperationException($"There is no 'TabItem' found in parents of {button}");
             var tabContainer = tabItem.FindLogicalAncestorOfType<TabControl>(includeSelf: false);
             if (tabContainer != null)
             {
-                IModule item = tabItem.DataContext as IModule ?? throw new InvalidOperationException($"The DataContext of tabItem is not derived from IModule");
-                if (item.CanUnload)
+                if (tabItem.DataContext is IModule item)
                 {
-                    if (tabContainer.DataContext is IServiceAware serviceAware)
+                    if (item.CanUnload)
                     {
-                        var handler = serviceAware.ServiceProvider.GetRequiredService<INavigationHandler>();
-                        handler.ModuleManager.ActiveModules.Remove(item);
+                        if (tabContainer.DataContext is IServiceAware serviceAware)
+                        {
+                            var handler = serviceAware.ServiceProvider.GetRequiredService<INavigationHandler>();
+                            handler.ModuleManager.ActiveModules.Remove(item);
+                        }
                     }
                 }
             }

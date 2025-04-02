@@ -15,12 +15,8 @@ public partial class App : Application
     {
         var services = new ServiceCollection();
         services.AddWpfNavigationSupport()
-                //.AddModule<ModuleA>()
-                //.AddModule<ModuleB>()
-                //.AddModule<ModuleC>()
                 .AddSingleton<MainWindow>()
                 .AddSingleton<MainWindowViewModel>()
-                //.AddDialogWindow<CustomDialogWindow>(nameof(CustomDialogWindow))
                 .AddView<ViewAlpha, ViewAlphaViewModel>(nameof(ViewAlpha))
                 .AddView<ViewBeta, ViewBetaViewModel>(nameof(ViewBeta));
 

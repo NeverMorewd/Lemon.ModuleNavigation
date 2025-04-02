@@ -6,14 +6,14 @@ using Microsoft.Extensions.DependencyInjection;
 using System.Collections.Concurrent;
 using System.Collections.ObjectModel;
 
-namespace Lemon.ModuleNavigation.Avaloniaui;
+namespace Lemon.ModuleNavigation.Avaloniaui.RegionsOld;
 
-public abstract class AvaloniauiRegion : IRegion
+public abstract class RegionBak : IRegion
 {
     private readonly ConcurrentDictionary<string, IView> _viewCache = new();
     private readonly ConcurrentItem<(IView View, INavigationAware NavigationAware)> _current = new();
 
-    public AvaloniauiRegion()
+    public RegionBak()
     {
         RegionTemplate = CreateRegionDataTemplate();
     }
@@ -24,6 +24,7 @@ public abstract class AvaloniauiRegion : IRegion
     public IDataTemplate? RegionTemplate { get; set; }
 
     public abstract void Activate(NavigationContext target);
+    public abstract void DeActivate(string viewName);
     public abstract void DeActivate(NavigationContext target);
 
     private IDataTemplate CreateRegionDataTemplate()
@@ -34,12 +35,12 @@ public abstract class AvaloniauiRegion : IRegion
                 return null;
 
             bool needNewView = context.RequestNew ||
-                !_viewCache.TryGetValue(context.TargetViewName, out IView? view);
+                !_viewCache.TryGetValue(context.ViewName, out IView? view);
 
             if (needNewView)
             {
-                view = context.ServiceProvider.GetRequiredKeyedService<IView>(context.TargetViewName);
-                var navigationAware = context.ServiceProvider.GetRequiredKeyedService<INavigationAware>(context.TargetViewName);
+                view = context.ServiceProvider.GetRequiredKeyedService<IView>(context.ViewName);
+                var navigationAware = context.ServiceProvider.GetRequiredKeyedService<INavigationAware>(context.ViewName);
 
                 if (_current.TryTakeData(out var previousData))
                 {
@@ -51,11 +52,11 @@ public abstract class AvaloniauiRegion : IRegion
                 view.DataContext = navigationAware;
                 navigationAware.OnNavigatedTo(context);
                 _current.SetData((view, navigationAware));
-                _viewCache.TryAdd(context.TargetViewName, view);
+                _viewCache.TryAdd(context.ViewName, view);
             }
             else
             {
-                view = _viewCache[context.TargetViewName];
+                view = _viewCache[context.ViewName];
             }
 
             return view as Control;

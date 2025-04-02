@@ -6,7 +6,7 @@ using System;
 
 namespace Lemon.ModuleNavigation.Sample.ModuleCs.ViewModels;
 
-public class SubViewModel01 : SampleViewModelBase, IModuleNavigationAware
+public class SubViewModel01 : BaseNavigationViewModel, IModuleNavigationAware
 {
     private readonly ILogger _logger;
     public SubViewModel01(IServiceProvider serviceProvider, IServiceProviderDecorator appServiceProvider)

@@ -1,5 +1,5 @@
 ﻿using Lemon.ModuleNavigation.Abstractions;
-using Lemon.ModuleNavigation.Dialogs;
+using Lemon.ModuleNavigation.Core;
 using Microsoft.Extensions.DependencyInjection;
 using System.Windows;
 

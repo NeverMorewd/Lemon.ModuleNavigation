@@ -3,9 +3,9 @@ using Avalonia.Controls.Primitives;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 
-namespace Lemon.ModuleNavigation.Avaloniaui;
+namespace Lemon.ModuleNavigation.Avaloniaui.RegionsOld;
 
-public class ItemsRegion : AvaloniauiRegion
+public class ItemsRegion : RegionBak
 {
     private readonly ItemsControl _itemsControl;
     public ItemsRegion(ItemsControl itemsControl, string name)
@@ -84,9 +84,13 @@ public class ItemsRegion : AvaloniauiRegion
             SelectedItem = target;
         }
     }
-    public override void DeActivate(NavigationContext target)
+    public override void DeActivate(string viewName)
     {
-        Contexts.Remove(target);
+        Contexts.Remove(Contexts.Last(c => c.ViewName == viewName));
+    }
+    public override void DeActivate(NavigationContext navigationContext)
+    {
+        Contexts.Remove(navigationContext);
     }
     public void Add(NavigationContext item)
     {
@@ -110,7 +114,7 @@ public class ItemsRegion : AvaloniauiRegion
             {
                 foreach (var item in e.OldItems)
                 {
-                    _itemsControl.Items.Remove(e.OldItems);
+                    _itemsControl.Items.Remove(item);
                 }
             }
         }
