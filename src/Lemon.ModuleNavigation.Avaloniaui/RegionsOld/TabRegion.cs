@@ -6,9 +6,9 @@ using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 
-namespace Lemon.ModuleNavigation.Avaloniaui;
+namespace Lemon.ModuleNavigation.Avaloniaui.RegionsOld;
 
-public class TabRegion : Region, INotifyPropertyChanged
+public class TabRegion : RegionBak, INotifyPropertyChanged
 {
     private readonly TabControl _tabControl;
      public TabRegion(TabControl tabControl, string name)

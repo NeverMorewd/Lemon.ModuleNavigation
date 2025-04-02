@@ -63,7 +63,7 @@ public class ModuleManager : IModuleManager, INotifyPropertyChanged
         PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
     }
 
-    public void RequestNavigate(string moduleName, NavigationParameters parameters)
+    public void RequestNavigate(string moduleName, NavigationParameters? parameters)
     {
         if (_modulesCache.TryGetValue(moduleName, out var module))
         {
@@ -75,7 +75,7 @@ public class ModuleManager : IModuleManager, INotifyPropertyChanged
         }
     }
 
-    public void RequestNavigate(IModule module, NavigationParameters parameters)
+    public void RequestNavigate(IModule module, NavigationParameters? parameters)
     {
         if (module.ForceNew)
         {

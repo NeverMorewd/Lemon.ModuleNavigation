@@ -3,9 +3,9 @@ using Avalonia.Controls.Primitives;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 
-namespace Lemon.ModuleNavigation.Avaloniaui;
+namespace Lemon.ModuleNavigation.Avaloniaui.RegionsOld;
 
-public class ItemsRegion : Region
+public class ItemsRegion : RegionBak
 {
     private readonly ItemsControl _itemsControl;
     public ItemsRegion(ItemsControl itemsControl, string name)

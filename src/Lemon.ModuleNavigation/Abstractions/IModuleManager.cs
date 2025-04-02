@@ -16,6 +16,6 @@ public interface IModuleManager
     }
     IView CreateView(IModule module);
     IView GetOrCreateView(IModule module, string regionName);
-    void RequestNavigate(string moduleName, NavigationParameters parameters);
-    void RequestNavigate(IModule module, NavigationParameters parameters);
+    void RequestNavigate(string moduleName, NavigationParameters? parameters);
+    void RequestNavigate(IModule module, NavigationParameters? parameters);
 }

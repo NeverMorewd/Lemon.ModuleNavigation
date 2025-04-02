@@ -24,11 +24,11 @@ public class NavigationHandler : INavigationHandler, IDisposable
     public IModuleManager ModuleManager => _moduleManager;
 
 
-    public void OnNavigateTo(IModule module, NavigationParameters parameter)
+    public void OnNavigateTo(IModule module, NavigationParameters? parameter)
     {
         _moduleManager.RequestNavigate(module, parameter);
     }
-    public void OnNavigateTo(string moduleKey, NavigationParameters parameters)
+    public void OnNavigateTo(string moduleKey, NavigationParameters? parameters)
     {
         _moduleManager.RequestNavigate(moduleKey, parameters);
     }

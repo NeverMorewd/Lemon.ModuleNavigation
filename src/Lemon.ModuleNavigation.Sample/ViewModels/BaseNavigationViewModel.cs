@@ -1,12 +1,29 @@
 ﻿using Lemon.ModuleNavigation.Abstractions;
 using ReactiveUI;
 using System;
+using System.Diagnostics;
+using System.Reactive;
 
 namespace Lemon.ModuleNavigation.Sample.ViewModels;
 
 public class BaseNavigationViewModel : ReactiveObject, INavigationAware, IDisposable
 {
     public virtual string Greeting => $"Welcome to {GetType().Name}[{Environment.ProcessId}][{Environment.CurrentManagedThreadId}]{Environment.NewLine}{DateTime.Now:yyyy-MM-dd HH-mm-ss.ffff}";
+
+
+    public BaseNavigationViewModel()
+    {
+        UnloadViewCommand = ReactiveCommand.Create(() =>
+        {
+            var code = this.GetHashCode();
+            Debug.WriteLine(code);
+            RequestUnload?.Invoke();
+        });
+    }
+    public ReactiveCommand<Unit, Unit> UnloadViewCommand
+    {
+        get;
+    }
 
     public event Action? RequestUnload;
 
@@ -17,7 +34,14 @@ public class BaseNavigationViewModel : ReactiveObject, INavigationAware, IDispos
 
     public virtual bool IsNavigationTarget(NavigationContext navigationContext)
     {
-        return !navigationContext.RequestNew;
+        if (navigationContext.Parameters is not null)
+        {
+            if (navigationContext.Parameters.TryGetValue("requestNew", out bool requestNew))
+            {
+                return !requestNew;
+            }
+        }
+        return true;
     }
 
     public virtual void OnNavigatedFrom(NavigationContext navigationContext)

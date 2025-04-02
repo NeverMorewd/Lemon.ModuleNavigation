@@ -11,8 +11,8 @@ public class NavigationService : INavigationService
     private readonly List<IViewNavigationHandler> _viewHandlers = [];
 
     // reserve only one for now.
-    private readonly ConcurrentStack<(IModule module, NavigationParameters parameter)> _bufferModule = [];
-    private readonly ConcurrentStack<(string moduleName, NavigationParameters parameter)> _bufferModuleName = [];
+    private readonly ConcurrentStack<(IModule module, NavigationParameters? parameter)> _bufferModule = [];
+    private readonly ConcurrentStack<(string moduleName, NavigationParameters? parameter)> _bufferModuleName = [];
     private readonly ConcurrentStack<(string regionName, string viewName, NavigationParameters? parameter)> _bufferViewName = [];
 
     public NavigationService()
@@ -20,7 +20,7 @@ public class NavigationService : INavigationService
 
     }
 
-    public void RequestModuleNavigate(IModule module, NavigationParameters parameters)
+    public void RequestModuleNavigate(IModule module, NavigationParameters? parameters)
     {
         foreach (var handler in _handlers)
         {
@@ -31,7 +31,7 @@ public class NavigationService : INavigationService
         }
         _bufferModule.Push((module, parameters));
     }
-    public void RequestModuleNavigate(string moduleName, NavigationParameters parameters)
+    public void RequestModuleNavigate(string moduleName, NavigationParameters? parameters)
     {
         foreach (var handler in _handlers)
         {

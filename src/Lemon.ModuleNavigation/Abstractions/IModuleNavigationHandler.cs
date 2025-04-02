@@ -4,5 +4,5 @@ namespace Lemon.ModuleNavigation.Abstractions;
 
 public interface IModuleNavigationHandler
 {
-    void OnNavigateTo(string moduleKey, NavigationParameters parameters);
+    void OnNavigateTo(string moduleKey, NavigationParameters? parameters);
 }

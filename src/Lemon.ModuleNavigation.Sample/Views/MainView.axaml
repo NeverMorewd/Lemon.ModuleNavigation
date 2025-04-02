@@ -152,7 +152,8 @@
                                         Padding="-1,0,0,0"
                                         VerticalContentAlignment="Center"
                                         Width="20"
-                                        lm:NavigationExtension.CanUnload="True" />
+                                        Command="{Binding DataContext.UnloadViewCommand, RelativeSource={RelativeSource AncestorType=TabControl}}"
+                                        CommandParameter="{Binding}" />
                                 </StackPanel>
                             </DataTemplate>
                         </TabControl.ItemTemplate>

@@ -45,19 +45,4 @@ public class ViewBetaViewModel : BaseNavigationViewModel, IDialogAware
         _logger.LogInformation($"OnDialogOpened:{parameters?.ToString()}");
         IsDialog = true;
     }
-
-    public void OnNavigatedTo(NavigationContext navigationContext)
-    {
-
-    }
-
-    public bool IsNavigationTarget(NavigationContext navigationContext)
-    {
-        return true;
-    }
-
-    public void OnNavigatedFrom(NavigationContext navigationContext)
-    {
-
-    }
 }

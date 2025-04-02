@@ -6,14 +6,14 @@ using Microsoft.Extensions.DependencyInjection;
 using System.Collections.Concurrent;
 using System.Collections.ObjectModel;
 
-namespace Lemon.ModuleNavigation.Avaloniaui;
+namespace Lemon.ModuleNavigation.Avaloniaui.RegionsOld;
 
-public abstract class Region : IRegion
+public abstract class RegionBak : IRegion
 {
     private readonly ConcurrentDictionary<string, IView> _viewCache = new();
     private readonly ConcurrentItem<(IView View, INavigationAware NavigationAware)> _current = new();
 
-    public Region()
+    public RegionBak()
     {
         RegionTemplate = CreateRegionDataTemplate();
     }

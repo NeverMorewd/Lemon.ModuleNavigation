@@ -1,14 +1,13 @@
 ﻿using Avalonia.Controls;
 using Lemon.ModuleNavigation.Abstractions;
 using Lemon.ModuleNavigation.Core;
-using Microsoft.Extensions.DependencyInjection;
 using System.Collections.Concurrent;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 
-namespace Lemon.ModuleNavigation.Avaloniaui;
+namespace Lemon.ModuleNavigation.Avaloniaui.RegionsOld;
 
-public class ContentRegion : Region
+public class ContentRegion : RegionBak
 {
     private readonly ConcurrentDictionary<string, IView> _viewCache = new();
     private readonly ConcurrentItem<(IView View, INavigationAware NavigationAware)> _current = new();

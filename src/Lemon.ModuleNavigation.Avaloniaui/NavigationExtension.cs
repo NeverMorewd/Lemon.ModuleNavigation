@@ -179,14 +179,6 @@ public class NavigationExtension
                         }
                     }
                 }
-                else if (tabItem.DataContext is NavigationContext navigationContext)
-                {
-                    if (tabContainer.DataContext is IServiceAware serviceAware)
-                    {
-                        var regionManager = serviceAware.ServiceProvider.GetRequiredService<IRegionManager>();
-                        regionManager.RequestUnload(navigationContext);
-                    }
-                }
             }
         }
     }
