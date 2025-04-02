@@ -1,11 +1,9 @@
-﻿using Lemon.ModuleNavigation.Core;
+﻿namespace Lemon.ModuleNavigation.Abstractions;
 
-namespace Lemon.ModuleNavigation.Abstractions
+public interface INavigationAware
 {
-    public interface INavigationAware
-    {
-        void OnNavigatedTo(NavigationContext navigationContext);
-        bool IsNavigationTarget(NavigationContext navigationContext);
-        void OnNavigatedFrom(NavigationContext navigationContext);
-    }
+    event Action? RequestUnload;
+    void OnNavigatedTo(NavigationContext navigationContext);
+    bool IsNavigationTarget(NavigationContext navigationContext);
+    void OnNavigatedFrom(NavigationContext navigationContext);
 }

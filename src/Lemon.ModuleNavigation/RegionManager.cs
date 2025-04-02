@@ -16,6 +16,7 @@ public class RegionManager : IRegionManager
         _serviceProvider = serviceProvider;
     }
 
+    [Obsolete("requestNew was obsolete.Consider IsNavigationTarget() in INavigationAware instead.")]
     public void RequestNavigate(string regionName, string viewName, bool requestNew, NavigationParameters? parameters = null)
     {
         var context = new NavigationContext(viewName, regionName, _serviceProvider, requestNew, parameters);
@@ -33,6 +34,30 @@ public class RegionManager : IRegionManager
                     stack.Push(context);
                     return stack;
                 }, 
+                (key, value) =>
+                {
+                    value.Push(context);
+                    return value;
+                });
+        }
+    }
+    public void RequestViewNavigate(string regionName, string viewName, NavigationParameters? parameters = null)
+    {
+        var context = new NavigationContext(viewName, regionName, _serviceProvider, parameters);
+        if (_regions.TryGetValue(regionName, out var region))
+        {
+            region.Activate(context);
+            ToNavigationObservers(context);
+        }
+        else
+        {
+            _buffer.AddOrUpdate(regionName,
+                key =>
+                {
+                    var stack = new ConcurrentStack<NavigationContext>();
+                    stack.Push(context);
+                    return stack;
+                },
                 (key, value) =>
                 {
                     value.Push(context);
@@ -66,6 +91,29 @@ public class RegionManager : IRegionManager
     {
         _regions.TryGetValue(regionName, out var region);
         return region;
+    }
+
+    public void RequestViewUnload(string regionName, string viewName)
+    {
+        if (_regions.TryGetValue(regionName, out var region))
+        {
+             region.DeActivate(viewName);
+        }
+        else
+        {
+            throw new RegionNameNotFoundException(nameof(regionName));
+        }
+    }
+    public void RequestViewUnload(NavigationContext navigationContext)
+    {
+        if (_regions.TryGetValue(navigationContext.RegionName, out var region))
+        {
+            region.DeActivate(navigationContext);
+        }
+        else
+        {
+            throw new RegionNameNotFoundException(nameof(navigationContext.RegionName));
+        }
     }
 
     public IDisposable Subscribe(IObserver<NavigationContext> observer)
@@ -115,5 +163,25 @@ public class RegionManager : IRegionManager
                 }
             });
         }
+    }
+
+    public void RequestModuleNavigate(string regionName, string moduleName, NavigationParameters? parameters)
+    {
+        throw new NotImplementedException();
+    }
+
+    public void RequestModuleNavigate(string regionName, IModule module, NavigationParameters? parameters)
+    {
+        throw new NotImplementedException();
+    }
+
+    public void RequestModuleUnload(string moduleName, string viewName)
+    {
+        throw new NotImplementedException();
+    }
+
+    public void RequestModuleUnload(IModule module)
+    {
+        throw new NotImplementedException();
     }
 }

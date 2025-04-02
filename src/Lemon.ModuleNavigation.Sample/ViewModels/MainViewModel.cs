@@ -1,6 +1,5 @@
 ﻿using Lemon.ModuleNavigation.Abstractions;
 using Lemon.ModuleNavigation.Core;
-using Lemon.ModuleNavigation.Dialogs;
 using Lemon.ModuleNavigation.Extensions;
 using Microsoft.Extensions.Logging;
 using ReactiveUI;
@@ -11,7 +10,7 @@ using System.Reactive;
 
 namespace Lemon.ModuleNavigation.Sample.ViewModels;
 
-public class MainViewModel : SampleViewModelBase, IServiceAware
+public class MainViewModel : ReactiveObject, IServiceAware
 {
     private readonly NavigationService _navigationService;
     private readonly IServiceProvider _serviceProvider;
@@ -31,9 +30,9 @@ public class MainViewModel : SampleViewModelBase, IServiceAware
         _dialogService = dialogService;
         _regionManager = regionManager;
         // default views for different regions
-        _navigationService.RequestViewNavigation("ContentRegion", "ViewAlpha", false);
-        _navigationService.RequestViewNavigation("TransitioningContentRegion", "ViewAlpha", false);
-        Modules = new ObservableCollection<IModule>(modules);
+        _navigationService.RequestViewNavigation("ContentRegion", "ViewAlpha");
+        _navigationService.RequestViewNavigation("TransitioningContentRegion", "ViewAlpha");
+        Modules = [.. modules];
         ToViewCommand = ReactiveCommand.Create<string>(content => 
         {
             var viewName = content;
@@ -44,10 +43,18 @@ public class MainViewModel : SampleViewModelBase, IServiceAware
                 requestNew = true;
 
             }
-            _navigationService.RequestViewNavigation("ContentRegion", viewName, requestNew);
-            _navigationService.RequestViewNavigation("TabRegion", viewName, requestNew);
-            _navigationService.RequestViewNavigation("ItemsRegion", viewName, requestNew);
-            _navigationService.RequestViewNavigation("TransitioningContentRegion", viewName, requestNew);
+            _navigationService.RequestViewNavigation("ContentRegion", 
+                viewName, 
+                new NavigationParameters { { "requestNew", requestNew } });
+            _navigationService.RequestViewNavigation("TabRegion", 
+                viewName, 
+                new NavigationParameters { { "requestNew", requestNew } });
+            _navigationService.RequestViewNavigation("ItemsRegion", 
+                viewName, 
+                new NavigationParameters { { "requestNew", requestNew } });
+            _navigationService.RequestViewNavigation("TransitioningContentRegion",
+                viewName, 
+                new NavigationParameters { { "requestNew", requestNew } });
         });
         ShowCommand = ReactiveCommand.Create<string>(content =>
         {
@@ -94,14 +101,24 @@ public class MainViewModel : SampleViewModelBase, IServiceAware
             _logger.LogDebug($"ShowDialog over:{result}");
         });
 
+
+        UnloadViewCommand = ReactiveCommand.Create<NavigationContext>((context) =>
+        {
+            _regionManager.RequestViewUnload(context);
+        });
+
         _regionManager.NavigationSubscribe<NavigationContext>(n => 
         {
-            _logger.LogDebug($"Request to : {n.RegionName}.{n.TargetViewName}");
+            _logger.LogDebug($"Request to : {n.RegionName}.{n.ViewName}");
         });
         _regionManager.NavigationSubscribe<IRegion>(r => 
         {
             _logger.LogDebug($"New region : {r.Name}");
         });
+    }
+    public ReactiveCommand<NavigationContext, Unit> UnloadViewCommand
+    {
+        get;
     }
     public ReactiveCommand<string, Unit> ToViewCommand
     {

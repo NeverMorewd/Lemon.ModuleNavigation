@@ -1,11 +1,16 @@
 ﻿using Avalonia.Controls;
+using Lemon.ModuleNavigation.Abstractions;
+using Lemon.ModuleNavigation.Core;
+using System.Collections.Concurrent;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 
-namespace Lemon.ModuleNavigation.Avaloniaui;
+namespace Lemon.ModuleNavigation.Avaloniaui.RegionsOld;
 
-public class ContentRegion : AvaloniauiRegion
+public class ContentRegion : RegionBak
 {
+    private readonly ConcurrentDictionary<string, IView> _viewCache = new();
+    private readonly ConcurrentItem<(IView View, INavigationAware NavigationAware)> _current = new();
     private readonly ContentControl _contentControl;
     public ContentRegion(ContentControl contentControl, string name) : base()
     {
@@ -37,18 +42,37 @@ public class ContentRegion : AvaloniauiRegion
     {
         if(Content is NavigationContext current)
         {
-            if (target.TargetViewName == current.TargetViewName 
+            if (target.ViewName == current.ViewName 
                 && !target.RequestNew)
             {
                 return;
             }
         }
         Content = target;
+        Contexts.Add(target);
     }
 
-    public override void DeActivate(NavigationContext target)
+    public override void DeActivate(string regionName)
     {
-        Content = null;
+        if (Content is NavigationContext current)
+        {
+            if (current.ViewName == regionName)
+            {
+                Contexts.Remove(current);
+                Content = null;
+            }
+        }
+    }
+    public override void DeActivate(NavigationContext navigationContext)
+    {
+        if (Content is NavigationContext current)
+        {
+            if (current == navigationContext)
+            {
+                Contexts.Remove(current);
+                Content = null;
+            }
+        }
     }
     private void ViewContents_CollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
     {

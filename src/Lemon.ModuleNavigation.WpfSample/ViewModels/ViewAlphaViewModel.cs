@@ -1,11 +1,11 @@
 ﻿using Lemon.ModuleNavigation.Abstractions;
-using Lemon.ModuleNavigation.Dialogs;
+using Lemon.ModuleNavigation.Core;
 using ReactiveUI;
 using System.Reactive;
 
 namespace Lemon.ModuleNavigation.WpfSample.ViewModels;
 
-public class ViewAlphaViewModel : BaseViewModel, IDialogAware
+public class ViewAlphaViewModel : BaseNavigationViewModel, IDialogAware
 {
     public ViewAlphaViewModel()
     {
@@ -41,5 +41,17 @@ public class ViewAlphaViewModel : BaseViewModel, IDialogAware
     public void OnDialogOpened(IDialogParameters? parameters)
     {
         IsDialog = true;
+    }
+
+    public override bool IsNavigationTarget(NavigationContext navigationContext)
+    {
+        if (navigationContext.Parameters is not null)
+        {
+            if (navigationContext.Parameters.TryGetValue("requestNew", out bool requestNew))
+            {
+                return !requestNew;
+            }
+        }
+        return true;
     }
 }

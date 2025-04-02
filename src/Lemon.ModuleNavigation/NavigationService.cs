@@ -11,16 +11,16 @@ public class NavigationService : INavigationService
     private readonly List<IViewNavigationHandler> _viewHandlers = [];
 
     // reserve only one for now.
-    private readonly ConcurrentStack<(IModule module, NavigationParameters parameter)> _bufferModule = [];
-    private readonly ConcurrentStack<(string moduleName, NavigationParameters parameter)> _bufferModuleName = [];
-    private readonly ConcurrentStack<(string regionName, string viewName, NavigationParameters? parameter, bool requestNew)> _bufferViewName = [];
+    private readonly ConcurrentStack<(IModule module, NavigationParameters? parameter)> _bufferModule = [];
+    private readonly ConcurrentStack<(string moduleName, NavigationParameters? parameter)> _bufferModuleName = [];
+    private readonly ConcurrentStack<(string regionName, string viewName, NavigationParameters? parameter)> _bufferViewName = [];
 
     public NavigationService()
     {
 
     }
 
-    public void RequestModuleNavigate(IModule module, NavigationParameters parameters)
+    public void RequestModuleNavigate(IModule module, NavigationParameters? parameters)
     {
         foreach (var handler in _handlers)
         {
@@ -31,7 +31,7 @@ public class NavigationService : INavigationService
         }
         _bufferModule.Push((module, parameters));
     }
-    public void RequestModuleNavigate(string moduleName, NavigationParameters parameters)
+    public void RequestModuleNavigate(string moduleName, NavigationParameters? parameters)
     {
         foreach (var handler in _handlers)
         {
@@ -40,26 +40,56 @@ public class NavigationService : INavigationService
         _bufferModuleName.Push((moduleName, parameters));
     }
     public void RequestViewNavigation(string regionName,
-        string viewKey,
-        bool requestNew = false)
+       string viewName)
     {
         foreach (var handler in _viewHandlers)
         {
-            handler.OnNavigateTo(regionName, viewKey, requestNew);
+            handler.OnNavigateTo(regionName, viewName);
         }
-        _bufferViewName.Push((regionName, viewKey, null, requestNew));
+        _bufferViewName.Push((regionName, viewName, null));
     }
     public void RequestViewNavigation(string regionName,
-        string viewKey,
-        NavigationParameters parameters,
-        bool requestNew = false)
+        string viewName,
+        NavigationParameters parameters)
     {
         foreach (var handler in _viewHandlers)
         {
-            handler.OnNavigateTo(regionName, viewKey, parameters, requestNew);
+            handler.OnNavigateTo(regionName, viewName, parameters);
         }
-        _bufferViewName.Push((regionName, viewKey, parameters, requestNew));
+        _bufferViewName.Push((regionName, viewName, parameters));
     }
+    [Obsolete("requestNew was obsolete.Consider IsNavigationTarget() in INavigationAware instead.")]
+    public void RequestViewNavigation(string regionName,
+        string viewName,
+        bool requestNew)
+    {
+        foreach (var handler in _viewHandlers)
+        {
+            handler.OnNavigateTo(regionName, viewName);
+        }
+        _bufferViewName.Push((regionName, viewName, null));
+    }
+    [Obsolete("requestNew was obsolete.Consider IsNavigationTarget() in INavigationAware instead.")]
+    public void RequestViewNavigation(string regionName,
+        string viewName,
+        NavigationParameters parameters,
+        bool requestNew)
+    {
+        foreach (var handler in _viewHandlers)
+        {
+            handler.OnNavigateTo(regionName, viewName, parameters);
+        }
+        _bufferViewName.Push((regionName, viewName, parameters));
+    }
+
+    public void RequestViewUnload(string regionName, string viewName)
+    {
+        foreach (var handler in _viewHandlers)
+        {
+            handler.OnViewUnload(regionName, viewName);
+        }
+    }
+
     IDisposable IModuleNavigationService<IModule>.BindingNavigationHandler(IModuleNavigationHandler<IModule> moduleHandler)
     {
         _handlers.Add(moduleHandler);
@@ -90,15 +120,15 @@ public class NavigationService : INavigationService
     IDisposable IViewNavigationService.BindingViewNavigationHandler(IViewNavigationHandler handler)
     {
         _viewHandlers.Add(handler);
-        foreach (var (regionName, viewName, parameters, requestNew) in _bufferViewName)
+        foreach (var (regionName, viewName, parameters) in _bufferViewName)
         {
             if (parameters == null)
             {
-                handler.OnNavigateTo(regionName, viewName, requestNew);
+                handler.OnNavigateTo(regionName, viewName);
             }
             else
             {
-                handler.OnNavigateTo(regionName, viewName, parameters, requestNew);
+                handler.OnNavigateTo(regionName, viewName, parameters);
             }
         }
         return new DisposableAction(() =>

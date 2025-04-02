@@ -1,6 +1,6 @@
 ﻿using Lemon.ModuleNavigation.Abstractions;
 
-namespace Lemon.ModuleNavigation.Dialogs;
+namespace Lemon.ModuleNavigation.Core;
 
 /// <summary>
 /// An <see cref="IDialogResult"/> that contains <see cref="IDialogParameters"/> from the dialog

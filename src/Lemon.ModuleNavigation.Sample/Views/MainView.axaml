@@ -1,15 +1,15 @@
 <UserControl
+    d:DesignHeight="550"
+    d:DesignWidth="800"
+    mc:Ignorable="d"
     x:Class="Lemon.ModuleNavigation.Sample.Views.MainView"
+    x:DataType="vm:MainViewModel"
     xmlns="https://github.com/avaloniaui"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:lm="https://github.com/NeverMorewd/Lemon.ModuleNavigation"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:vm="clr-namespace:Lemon.ModuleNavigation.Sample.ViewModels"
-    d:DesignHeight="550"
-    d:DesignWidth="800"
-    x:DataType="vm:MainViewModel"
-    mc:Ignorable="d">
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
     <UserControl.Styles>
         <Style Selector="StackPanel.ForContainerShow">
             <Setter Property="Spacing" Value="5" />
@@ -42,13 +42,13 @@
             <Setter Property="CommandParameter" Value="{Binding $self.Tag}" />
             <Setter Property="VerticalContentAlignment" Value="Center" />
         </Style>
-		<Style Selector="Button.DialogShowDialogSync">
-			<Setter Property="Height" Value="30" />
-			<Setter Property="Width" Value="300" />
-			<Setter Property="Command" Value="{Binding ShowDialogSyncCommand}" />
-			<Setter Property="CommandParameter" Value="{Binding $self.Tag}" />
-			<Setter Property="VerticalContentAlignment" Value="Center" />
-		</Style>
+        <Style Selector="Button.DialogShowDialogSync">
+            <Setter Property="Height" Value="30" />
+            <Setter Property="Width" Value="300" />
+            <Setter Property="Command" Value="{Binding ShowDialogSyncCommand}" />
+            <Setter Property="CommandParameter" Value="{Binding $self.Tag}" />
+            <Setter Property="VerticalContentAlignment" Value="Center" />
+        </Style>
     </UserControl.Styles>
     <TabControl>
         <TabItem Header="Module">
@@ -59,9 +59,9 @@
                     Spacing="5">
                     <Label Content="Modules" Target="{Binding ElementName=ModuleLists}" />
                     <ListBox
-                        Name="ModuleLists"
                         Grid.Column="0"
                         ItemsSource="{Binding Modules}"
+                        Name="ModuleLists"
                         SelectedItem="{Binding SelectedModule, Mode=TwoWay}">
                         <ListBox.ItemTemplate>
                             <DataTemplate>
@@ -70,12 +70,12 @@
                         </ListBox.ItemTemplate>
                     </ListBox>
                 </StackPanel>
-                <StackPanel Grid.Column="1" Classes="ForContainerShow">
+                <StackPanel Classes="ForContainerShow" Grid.Column="1">
                     <Label Content="ContentControl" />
                     <Border Classes="HSeparator" />
                     <ContentControl lm:NavigationExtension.ModuleContainerName="NContentControl" />
                 </StackPanel>
-                <StackPanel Grid.Column="2" Classes="ForContainerShow">
+                <StackPanel Classes="ForContainerShow" Grid.Column="2">
                     <Label Content="TabControl" />
                     <Border Classes="HSeparator" />
                     <TabControl lm:NavigationExtension.ModuleContainerName="NTabControl">
@@ -84,29 +84,29 @@
                                 <StackPanel Orientation="Horizontal" Spacing="2">
                                     <TextBlock Text="{Binding Alias}" />
                                     <Button
-                                        Width="20"
-                                        Height="20"
-                                        Padding="-1,0,0,0"
-                                        HorizontalContentAlignment="Center"
-                                        VerticalContentAlignment="Center"
-                                        lm:NavigationExtension.CanUnload="{Binding CanUnload}"
                                         Content="X"
-                                        FontSize="11" />
+                                        FontSize="11"
+                                        Height="20"
+                                        HorizontalContentAlignment="Center"
+                                        Padding="-1,0,0,0"
+                                        VerticalContentAlignment="Center"
+                                        Width="20"
+                                        lm:NavigationExtension.CanUnload="{Binding CanUnload}" />
                                 </StackPanel>
                             </DataTemplate>
                         </TabControl.ItemTemplate>
                     </TabControl>
                 </StackPanel>
-                <StackPanel Grid.Column="3" Classes="ForContainerShow">
+                <StackPanel Classes="ForContainerShow" Grid.Column="3">
                     <Label Content="ListBox" />
                     <Border Classes="HSeparator" />
                     <ListBox
-                        MaxHeight="600"
-                        Margin="2"
-                        lm:NavigationExtension.ModuleContainerName="NListBox"
                         Background="Transparent"
                         BorderBrush="LemonChiffon"
-                        BorderThickness="1">
+                        BorderThickness="1"
+                        Margin="2"
+                        MaxHeight="600"
+                        lm:NavigationExtension.ModuleContainerName="NListBox">
                         <!--  https://github.com/AvaloniaUI/Avalonia/issues/17349  -->
                         <ListBox.ItemsPanel>
                             <ItemsPanelTemplate>
@@ -115,7 +115,7 @@
                         </ListBox.ItemsPanel>
                     </ListBox>
                 </StackPanel>
-                <StackPanel Grid.Column="4" Classes="ForContainerShow">
+                <StackPanel Classes="ForContainerShow" Grid.Column="4">
                     <Label Content="TransitioningContentControl" />
                     <Border Classes="HSeparator" />
                     <TransitioningContentControl lm:NavigationExtension.ModuleContainerName="NTransitioningContentControl" />
@@ -131,12 +131,12 @@
                     <Button Classes="ViewNavigation" Content="ViewAlpha.RequestNew" />
                     <Button Classes="ViewNavigation" Content="ViewBeta.RequestNew" />
                 </StackPanel>
-                <StackPanel Grid.Column="1" Classes="ForContainerShow">
+                <StackPanel Classes="ForContainerShow" Grid.Column="1">
                     <Label Content="ContentControl" />
                     <Border Classes="HSeparator" />
                     <ContentControl lm:NavigationExtension.RegionName="ContentRegion" />
                 </StackPanel>
-                <StackPanel Grid.Column="2" Classes="ForContainerShow">
+                <StackPanel Classes="ForContainerShow" Grid.Column="2">
                     <Label Content="TabControl" />
                     <Border Classes="HSeparator" />
                     <TabControl lm:NavigationExtension.RegionName="TabRegion">
@@ -144,23 +144,33 @@
                             <DataTemplate>
                                 <StackPanel Orientation="Horizontal" Spacing="2">
                                     <TextBlock Text="{Binding}" />
+                                    <Button
+                                        Content="X"
+                                        FontSize="11"
+                                        Height="20"
+                                        HorizontalContentAlignment="Center"
+                                        Padding="-1,0,0,0"
+                                        VerticalContentAlignment="Center"
+                                        Width="20"
+                                        Command="{Binding DataContext.UnloadViewCommand, RelativeSource={RelativeSource AncestorType=TabControl}}"
+                                        CommandParameter="{Binding}" />
                                 </StackPanel>
                             </DataTemplate>
                         </TabControl.ItemTemplate>
                     </TabControl>
                 </StackPanel>
-                <StackPanel Grid.Column="3" Classes="ForContainerShow">
+                <StackPanel Classes="ForContainerShow" Grid.Column="3">
                     <Label Content="ItemsControl" />
                     <Border Classes="HSeparator" />
                     <ListBox
-                        MaxHeight="600"
-                        Margin="2"
-                        lm:NavigationExtension.RegionName="ItemsRegion"
                         Background="Transparent"
-                        BorderBrush="Blue"
-                        BorderThickness="1" />
+                        BorderBrush="LemonChiffon"
+                        BorderThickness="1"
+                        Margin="2"
+                        MaxHeight="600"
+                        lm:NavigationExtension.RegionName="ItemsRegion" />
                 </StackPanel>
-                <StackPanel Grid.Column="4" Classes="ForContainerShow">
+                <StackPanel Classes="ForContainerShow" Grid.Column="4">
                     <Label Content="TransitioningContentControl" />
                     <Border Classes="HSeparator" />
                     <TransitioningContentControl lm:NavigationExtension.RegionName="TransitioningContentRegion" />
@@ -169,9 +179,9 @@
         </TabItem>
         <TabItem Header="Dialog">
             <StackPanel
-                Width="300"
                 Orientation="Vertical"
-                Spacing="5">
+                Spacing="5"
+                Width="300">
                 <Label Content="Dialogs" />
                 <Button
                     Classes="DialogShow"
@@ -209,9 +219,9 @@
                     <ContentControl Content="11" />
                 </ItemsControl>
                 <!--</ContentControl>-->
-                <ContentControl lm:NavigationExtension.RegionName="LeftRegion" DockPanel.Dock="Left" />
-                <ContentControl lm:NavigationExtension.RegionName="TopRegion" DockPanel.Dock="Top" />
-                <ContentControl lm:NavigationExtension.RegionName="BottomRegion" DockPanel.Dock="Bottom" />
+                <ContentControl DockPanel.Dock="Left" lm:NavigationExtension.RegionName="LeftRegion" />
+                <ContentControl DockPanel.Dock="Top" lm:NavigationExtension.RegionName="TopRegion" />
+                <ContentControl DockPanel.Dock="Bottom" lm:NavigationExtension.RegionName="BottomRegion" />
                 <TransitioningContentControl lm:NavigationExtension.RegionName="MainRegion" />
             </DockPanel>
         </TabItem>

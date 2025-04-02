@@ -7,15 +7,23 @@
     d:DesignHeight="450"
     d:DesignWidth="800"
     mc:Ignorable="d">
-    <Border BorderBrush="LemonChiffon" BorderThickness="2">
-        <StackPanel>
-            <TextBlock Text="{Binding Greeting}" />
-            <Button
-                Width="200"
-                Height="50"
+	<Border
+        Background="CadetBlue"
+        BorderBrush="LemonChiffon"
+        HorizontalAlignment="Stretch"
+        BorderThickness="1">
+		<StackPanel>
+			<TextBlock Text="{Binding Greeting}" />
+			<Button
+                HorizontalContentAlignment="Center"
+                VerticalContentAlignment="Center"
+                Command="{Binding UnloadViewCommand}"
+                Content="UnloadView"
+                IsVisible="{Binding !IsDialog}"/>
+			<Button
                 Command="{Binding CloseCommand}"
                 Content="CloseDialog"
                 IsVisible="{Binding IsDialog}" />
-        </StackPanel>
-    </Border>
+		</StackPanel>
+	</Border>
 </UserControl>

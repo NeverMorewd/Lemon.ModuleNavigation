@@ -1,9 +1,8 @@
 ﻿using Lemon.ModuleNavigation.Abstractions;
 
-namespace Lemon.ModuleNavigation.Dialogs
+namespace Lemon.ModuleNavigation.Core;
+
+public class DialogParameters : BaseParameters, IDialogParameters
 {
-    public class DialogParameters : BaseParameters, IDialogParameters
-    {
-        
-    }
+    
 }

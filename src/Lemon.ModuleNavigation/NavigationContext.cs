@@ -1,26 +1,36 @@
-﻿using Lemon.ModuleNavigation.Core;
+﻿using Lemon.ModuleNavigation.Abstractions;
+using Lemon.ModuleNavigation.Core;
 
 namespace Lemon.ModuleNavigation;
 
 public class NavigationContext
 {
-    private readonly Guid _guid;
+    [Obsolete("requestNew was obsolete.Consider IsNavigationTarget() in INavigationAware instead.")]
     internal NavigationContext(string viewName, 
         string regionName,
         IServiceProvider serviceProvider,
         bool requestNew,
         NavigationParameters? navigationParameters)
     {
-        TargetViewName = viewName;
+        ViewName = viewName;
         Parameters = navigationParameters;
         RequestNew = requestNew;
         RegionName = regionName;
-        _guid = Guid.NewGuid();
+        ServiceProvider = serviceProvider;
+    }
+    internal NavigationContext(string viewName,
+        string regionName,
+        IServiceProvider serviceProvider,
+        NavigationParameters? navigationParameters)
+    {
+        ViewName = viewName;
+        Parameters = navigationParameters;
+        RegionName = regionName;
         ServiceProvider = serviceProvider;
     }
     public static ViewNameComparer ViewNameComparer => new();
     public static StrictComparer StrictComparer => new();
-    public string TargetViewName 
+    public string ViewName 
     { 
         get; 
         private set; 
@@ -30,6 +40,7 @@ public class NavigationContext
         get; 
         private set; 
     }
+    [Obsolete("requestNew was obsolete.Consider IsNavigationTarget() in INavigationAware instead.")]
     public bool RequestNew
     {
         get;
@@ -40,19 +51,19 @@ public class NavigationContext
         get; 
         private set; 
     }
-    public Uri? Uri
-    {
-        get;
-        set;
-    }
-    public Guid Guid => _guid;
+    public int Key => GetHashCode();
     public IServiceProvider ServiceProvider
     {
         get;
     }
+    public IView? View
+    {
+        get;
+        set;
+    }
     public override string ToString()
     {
-        return TargetViewName;
+        return $"{RegionName}.{ViewName}";
     }
 }
 public class ViewNameComparer : IEqualityComparer<NavigationContext>
@@ -61,12 +72,12 @@ public class ViewNameComparer : IEqualityComparer<NavigationContext>
     {
         if (x == null && y == null) return true;
         if (x == null || y == null) return false;
-        return x.TargetViewName == y.TargetViewName;
+        return x.ViewName == y.ViewName;
     }
 
     public int GetHashCode(NavigationContext obj)
     {
-        return obj.TargetViewName.GetHashCode();
+        return obj.ViewName.GetHashCode();
     }
 }
 public class StrictComparer : IEqualityComparer<NavigationContext>
@@ -75,11 +86,11 @@ public class StrictComparer : IEqualityComparer<NavigationContext>
     {
         if (x == null && y == null) return true;
         if (x == null || y == null) return false;
-        return x.Guid == y.Guid;
+        return x.Key == y.Key;
     }
 
     public int GetHashCode(NavigationContext obj)
     {
-        return obj.Guid.GetHashCode();
+        return obj.Key.GetHashCode();
     }
 }
