@@ -41,7 +41,6 @@ public class MainViewModel : ReactiveObject, IServiceAware
             {
                 viewName = content.Replace(".RequestNew",string.Empty);
                 requestNew = true;
-
             }
             _navigationService.RequestViewNavigation("ContentRegion", 
                 viewName, 

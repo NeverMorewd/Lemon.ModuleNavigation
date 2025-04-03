@@ -1,4 +1,4 @@
-﻿using Lemon.ModuleNavigation.WpfSample.ViewModels;
+﻿using Lemon.ModuleNavigation.SampleViewModel;
 using Lemon.ModuleNavigation.WpfSample.Views;
 using Microsoft.Extensions.DependencyInjection;
 using System.Windows;

@@ -33,6 +33,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Lemon.ModuleNavigation.Avaloniaui\Lemon.ModuleNavigation.Avaloniaui.csproj" />
+    <ProjectReference Include="..\Lemon.ModuleNavigation.SampleViewModel\Lemon.ModuleNavigation.SampleViewModel.csproj" />
     <ProjectReference Include="..\Lemon.ModuleNavigation\Lemon.ModuleNavigation.csproj" />
   </ItemGroup>
 

@@ -21,6 +21,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Lemon.ModuleNavigation.SampleViewModel\Lemon.ModuleNavigation.SampleViewModel.csproj" />
     <ProjectReference Include="..\Lemon.ModuleNavigation.Sample\Lemon.ModuleNavigation.Sample.csproj" />
   </ItemGroup>
   <ItemGroup>

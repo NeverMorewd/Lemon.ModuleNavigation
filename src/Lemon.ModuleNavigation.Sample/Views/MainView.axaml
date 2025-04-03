@@ -51,77 +51,6 @@
         </Style>
     </UserControl.Styles>
     <TabControl>
-        <TabItem Header="Module">
-            <Grid ColumnDefinitions="auto,*,*,*,*" ShowGridLines="True">
-                <StackPanel
-                    Margin="0,0,2,0"
-                    Orientation="Vertical"
-                    Spacing="5">
-                    <Label Content="Modules" Target="{Binding ElementName=ModuleLists}" />
-                    <ListBox
-                        Grid.Column="0"
-                        ItemsSource="{Binding Modules}"
-                        Name="ModuleLists"
-                        SelectedItem="{Binding SelectedModule, Mode=TwoWay}">
-                        <ListBox.ItemTemplate>
-                            <DataTemplate>
-                                <TextBlock Text="{Binding Alias}" />
-                            </DataTemplate>
-                        </ListBox.ItemTemplate>
-                    </ListBox>
-                </StackPanel>
-                <StackPanel Classes="ForContainerShow" Grid.Column="1">
-                    <Label Content="ContentControl" />
-                    <Border Classes="HSeparator" />
-                    <ContentControl lm:NavigationExtension.ModuleContainerName="NContentControl" />
-                </StackPanel>
-                <StackPanel Classes="ForContainerShow" Grid.Column="2">
-                    <Label Content="TabControl" />
-                    <Border Classes="HSeparator" />
-                    <TabControl lm:NavigationExtension.ModuleContainerName="NTabControl">
-                        <TabControl.ItemTemplate>
-                            <DataTemplate>
-                                <StackPanel Orientation="Horizontal" Spacing="2">
-                                    <TextBlock Text="{Binding Alias}" />
-                                    <Button
-                                        Content="X"
-                                        FontSize="11"
-                                        Height="20"
-                                        HorizontalContentAlignment="Center"
-                                        Padding="-1,0,0,0"
-                                        VerticalContentAlignment="Center"
-                                        Width="20"
-                                        lm:NavigationExtension.CanUnload="{Binding CanUnload}" />
-                                </StackPanel>
-                            </DataTemplate>
-                        </TabControl.ItemTemplate>
-                    </TabControl>
-                </StackPanel>
-                <StackPanel Classes="ForContainerShow" Grid.Column="3">
-                    <Label Content="ListBox" />
-                    <Border Classes="HSeparator" />
-                    <ListBox
-                        Background="Transparent"
-                        BorderBrush="LemonChiffon"
-                        BorderThickness="1"
-                        Margin="2"
-                        MaxHeight="600"
-                        lm:NavigationExtension.ModuleContainerName="NListBox">
-                        <!--  https://github.com/AvaloniaUI/Avalonia/issues/17349  -->
-                        <ListBox.ItemsPanel>
-                            <ItemsPanelTemplate>
-                                <StackPanel />
-                            </ItemsPanelTemplate>
-                        </ListBox.ItemsPanel>
-                    </ListBox>
-                </StackPanel>
-                <StackPanel Classes="ForContainerShow" Grid.Column="4">
-                    <Label Content="TransitioningContentControl" />
-                    <Border Classes="HSeparator" />
-                    <TransitioningContentControl lm:NavigationExtension.ModuleContainerName="NTransitioningContentControl" />
-                </StackPanel>
-            </Grid>
-        </TabItem>
         <TabItem Header="View">
             <Grid ColumnDefinitions="auto,*,*,*,*" ShowGridLines="True">
                 <StackPanel Orientation="Vertical" Spacing="5">
@@ -209,21 +138,76 @@
                     Tag="ViewBeta" />
             </StackPanel>
         </TabItem>
-        <TabItem Header="Practice">
-            <DockPanel>
-                <!--<ContentControl DockPanel.Dock="Right" lm:NavigationExtension.RegionName="RightRegion">-->
-                <ItemsControl DockPanel.Dock="Right">
-                    <ContentControl Content="11" />
-                    <ContentControl Content="11" />
-                    <ContentControl Content="11" />
-                    <ContentControl Content="11" />
-                </ItemsControl>
-                <!--</ContentControl>-->
-                <ContentControl DockPanel.Dock="Left" lm:NavigationExtension.RegionName="LeftRegion" />
-                <ContentControl DockPanel.Dock="Top" lm:NavigationExtension.RegionName="TopRegion" />
-                <ContentControl DockPanel.Dock="Bottom" lm:NavigationExtension.RegionName="BottomRegion" />
-                <TransitioningContentControl lm:NavigationExtension.RegionName="MainRegion" />
-            </DockPanel>
+        <TabItem Header="Module">
+            <Grid ColumnDefinitions="auto,*,*,*,*" ShowGridLines="True">
+                <StackPanel
+                    Margin="0,0,2,0"
+                    Orientation="Vertical"
+                    Spacing="5">
+                    <Label Content="Modules" Target="{Binding ElementName=ModuleLists}" />
+                    <ListBox
+                        Grid.Column="0"
+                        ItemsSource="{Binding Modules}"
+                        Name="ModuleLists"
+                        SelectedItem="{Binding SelectedModule, Mode=TwoWay}">
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding Alias}" />
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+                </StackPanel>
+                <StackPanel Classes="ForContainerShow" Grid.Column="1">
+                    <Label Content="ContentControl" />
+                    <Border Classes="HSeparator" />
+                    <ContentControl lm:NavigationExtension.ModuleContainerName="NContentControl" />
+                </StackPanel>
+                <StackPanel Classes="ForContainerShow" Grid.Column="2">
+                    <Label Content="TabControl" />
+                    <Border Classes="HSeparator" />
+                    <TabControl lm:NavigationExtension.ModuleContainerName="NTabControl">
+                        <TabControl.ItemTemplate>
+                            <DataTemplate>
+                                <StackPanel Orientation="Horizontal" Spacing="2">
+                                    <TextBlock Text="{Binding Alias}" />
+                                    <Button
+                                        Content="X"
+                                        FontSize="11"
+                                        Height="20"
+                                        HorizontalContentAlignment="Center"
+                                        Padding="-1,0,0,0"
+                                        VerticalContentAlignment="Center"
+                                        Width="20"
+                                        lm:NavigationExtension.CanUnload="{Binding CanUnload}" />
+                                </StackPanel>
+                            </DataTemplate>
+                        </TabControl.ItemTemplate>
+                    </TabControl>
+                </StackPanel>
+                <StackPanel Classes="ForContainerShow" Grid.Column="3">
+                    <Label Content="ListBox" />
+                    <Border Classes="HSeparator" />
+                    <ListBox
+                        Background="Transparent"
+                        BorderBrush="LemonChiffon"
+                        BorderThickness="1"
+                        Margin="2"
+                        MaxHeight="600"
+                        lm:NavigationExtension.ModuleContainerName="NListBox">
+                        <!--  https://github.com/AvaloniaUI/Avalonia/issues/17349  -->
+                        <ListBox.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <StackPanel />
+                            </ItemsPanelTemplate>
+                        </ListBox.ItemsPanel>
+                    </ListBox>
+                </StackPanel>
+                <StackPanel Classes="ForContainerShow" Grid.Column="4">
+                    <Label Content="TransitioningContentControl" />
+                    <Border Classes="HSeparator" />
+                    <TransitioningContentControl lm:NavigationExtension.ModuleContainerName="NTransitioningContentControl" />
+                </StackPanel>
+            </Grid>
         </TabItem>
     </TabControl>
 </UserControl>

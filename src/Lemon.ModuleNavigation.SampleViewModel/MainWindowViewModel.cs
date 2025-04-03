@@ -4,7 +4,7 @@ using ReactiveUI;
 using System.Diagnostics;
 using System.Reactive;
 
-namespace Lemon.ModuleNavigation.WpfSample;
+namespace Lemon.ModuleNavigation.SampleViewModel;
 
 public class MainWindowViewModel : ReactiveObject, IServiceAware
 {

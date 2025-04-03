@@ -1,5 +1,5 @@
 ﻿using Lemon.ModuleNavigation.Abstractions;
-using Lemon.ModuleNavigation.Sample.ViewModels;
+using Lemon.ModuleNavigation.SampleViewModel;
 using System;
 
 namespace Lemon.ModuleNavigation.Sample.ModuleCs.ViewModels;

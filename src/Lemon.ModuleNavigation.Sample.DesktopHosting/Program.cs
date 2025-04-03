@@ -6,6 +6,7 @@ using Lemon.ModuleNavigation.Sample.ModuleBs;
 using Lemon.ModuleNavigation.Sample.ModuleCs;
 using Lemon.ModuleNavigation.Sample.ViewModels;
 using Lemon.ModuleNavigation.Sample.Views;
+using Lemon.ModuleNavigation.SampleViewModel;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;

@@ -3,18 +3,22 @@ using Lemon.ModuleNavigation.Core;
 using ReactiveUI;
 using System.Reactive;
 
-namespace Lemon.ModuleNavigation.WpfSample.ViewModels;
+namespace Lemon.ModuleNavigation.SampleViewModel;
 
-public class ViewBetaViewModel : BaseNavigationViewModel, IDialogAware
+public class ViewAlphaViewModel : BaseNavigationViewModel, IDialogAware
 {
-    public string Title => nameof(ViewBetaViewModel);
+    public ViewAlphaViewModel()
+    {
+    }
+
+    public string Title => nameof(ViewAlphaViewModel);
 
     public event Action<IDialogResult>? RequestClose;
-    public ReactiveCommand<Unit, Unit> CloseCommand => ReactiveCommand.Create(() => 
+    public ReactiveCommand<Unit, Unit> CloseCommand => ReactiveCommand.Create(() =>
     {
         var param = new DialogParameters
         {
-            { "from", nameof(ViewBetaViewModel) }
+            { "from", nameof(ViewAlphaViewModel) }
         };
         RequestClose?.Invoke(new DialogResult(ButtonResult.OK, param));
     });
@@ -31,13 +35,14 @@ public class ViewBetaViewModel : BaseNavigationViewModel, IDialogAware
 
     public void OnDialogClosed()
     {
-        
+       
     }
 
     public void OnDialogOpened(IDialogParameters? parameters)
     {
         IsDialog = true;
     }
+
     public override bool IsNavigationTarget(NavigationContext navigationContext)
     {
         if (navigationContext.Parameters is not null)
