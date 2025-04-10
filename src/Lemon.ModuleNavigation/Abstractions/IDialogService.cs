@@ -14,6 +14,5 @@ public interface IDialogService
 
     IDialogResult WaitShowDialog(string name,
         string? windowName = null,
-        IDialogParameters? parameters = null,
-        Action<IDialogResult>? callback = null);
+        IDialogParameters? parameters = null);
 }
