@@ -1,6 +1,6 @@
 <Project>
     <PropertyGroup>
-        <Version>2.1.1-rc</Version>
+        <Version>2.1.2-rc</Version>
         <Authors>Easley</Authors>
         <RepositoryUrl>https://github.com/NeverMorewd/Lemon.ModuleNavigation</RepositoryUrl>
         <PackageLicenseExpression>MIT</PackageLicenseExpression>
