@@ -1,0 +1,78 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.11.35312.102
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Lemon.ModuleNavigation", "src\Lemon.ModuleNavigation\Lemon.ModuleNavigation.csproj", "{9E271C3B-0D09-4318-BF49-4BE2952759D8}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{6E1EE4BE-93AB-4A7D-B080-E054855DDEA6}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+	EndProjectSection
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Lemon.ModuleNavigation.Avaloniaui", "src\Lemon.ModuleNavigation.Avaloniaui\Lemon.ModuleNavigation.Avaloniaui.csproj", "{3EDBF55F-6D3E-4BD0-A726-4BA84461C687}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Lemon.ModuleNavigation.Sample", "samples\Lemon.ModuleNavigation.Sample\Lemon.ModuleNavigation.Sample.csproj", "{0CCB72E9-102B-41E2-80A4-67D580041508}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Lemon.ModuleNavigation.Sample.DesktopHosting", "samples\Lemon.ModuleNavigation.Sample.DesktopHosting\Lemon.ModuleNavigation.Sample.DesktopHosting.csproj", "{48509E81-7077-402B-A208-2134A7476857}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Lemon.ModuleNavigation.Sample.Desktop", "samples\Lemon.ModuleNavigation.Sample.Desktop\Lemon.ModuleNavigation.Sample.Desktop.csproj", "{AF18E2B0-7ED3-4BDA-81BA-6A23B3C89F39}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lemon.ModuleNavigation.Sample.Browser", "samples\Lemon.ModuleNavigation.Sample.Browser\Lemon.ModuleNavigation.Sample.Browser.csproj", "{FDD2C508-3201-4659-8962-886C2CBF41BD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lemon.ModuleNavigation.Wpf", "src\Lemon.ModuleNavigation.Wpf\Lemon.ModuleNavigation.Wpf.csproj", "{2AE59E5E-900D-5CCB-0C30-F8DFAD324C9E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lemon.ModuleNavigation.WpfSample", "samples\Lemon.ModuleNavigation.WpfSample\Lemon.ModuleNavigation.WpfSample.csproj", "{8EC545BD-E076-A2DF-A7A4-2F11221AF297}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lemon.ModuleNavigation.SampleViewModel", "samples\Lemon.ModuleNavigation.SampleViewModel\Lemon.ModuleNavigation.SampleViewModel.csproj", "{99600F69-5901-4CEA-8C54-BFDC0751E207}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{9E271C3B-0D09-4318-BF49-4BE2952759D8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9E271C3B-0D09-4318-BF49-4BE2952759D8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9E271C3B-0D09-4318-BF49-4BE2952759D8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9E271C3B-0D09-4318-BF49-4BE2952759D8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3EDBF55F-6D3E-4BD0-A726-4BA84461C687}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3EDBF55F-6D3E-4BD0-A726-4BA84461C687}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3EDBF55F-6D3E-4BD0-A726-4BA84461C687}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3EDBF55F-6D3E-4BD0-A726-4BA84461C687}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0CCB72E9-102B-41E2-80A4-67D580041508}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0CCB72E9-102B-41E2-80A4-67D580041508}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0CCB72E9-102B-41E2-80A4-67D580041508}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0CCB72E9-102B-41E2-80A4-67D580041508}.Release|Any CPU.Build.0 = Release|Any CPU
+		{48509E81-7077-402B-A208-2134A7476857}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{48509E81-7077-402B-A208-2134A7476857}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{48509E81-7077-402B-A208-2134A7476857}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{48509E81-7077-402B-A208-2134A7476857}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AF18E2B0-7ED3-4BDA-81BA-6A23B3C89F39}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AF18E2B0-7ED3-4BDA-81BA-6A23B3C89F39}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AF18E2B0-7ED3-4BDA-81BA-6A23B3C89F39}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AF18E2B0-7ED3-4BDA-81BA-6A23B3C89F39}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FDD2C508-3201-4659-8962-886C2CBF41BD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FDD2C508-3201-4659-8962-886C2CBF41BD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FDD2C508-3201-4659-8962-886C2CBF41BD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FDD2C508-3201-4659-8962-886C2CBF41BD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2AE59E5E-900D-5CCB-0C30-F8DFAD324C9E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2AE59E5E-900D-5CCB-0C30-F8DFAD324C9E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2AE59E5E-900D-5CCB-0C30-F8DFAD324C9E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2AE59E5E-900D-5CCB-0C30-F8DFAD324C9E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8EC545BD-E076-A2DF-A7A4-2F11221AF297}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8EC545BD-E076-A2DF-A7A4-2F11221AF297}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8EC545BD-E076-A2DF-A7A4-2F11221AF297}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8EC545BD-E076-A2DF-A7A4-2F11221AF297}.Release|Any CPU.Build.0 = Release|Any CPU
+		{99600F69-5901-4CEA-8C54-BFDC0751E207}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{99600F69-5901-4CEA-8C54-BFDC0751E207}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{99600F69-5901-4CEA-8C54-BFDC0751E207}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{99600F69-5901-4CEA-8C54-BFDC0751E207}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {D8F466EB-6501-49CC-94ED-77E9348E1831}
+	EndGlobalSection
+EndGlobal

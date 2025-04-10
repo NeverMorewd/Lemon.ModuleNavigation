@@ -31,10 +31,9 @@ public class DialogService : IDialogService
 
     public IDialogResult WaitShowDialog(string name, 
         string? windowName = null, 
-        IDialogParameters? parameters = null,
-        Action<IDialogResult>? callback = null)
+        IDialogParameters? parameters = null)
     {
-       return ShowDialogCoreSync(name, windowName, parameters, callback);
+       return ShowDialogCoreSync(name, windowName, parameters);
     }
 
 
