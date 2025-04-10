@@ -32,9 +32,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Lemon.ModuleNavigation.Avaloniaui\Lemon.ModuleNavigation.Avaloniaui.csproj" />
+    <ProjectReference Include="..\..\src\Lemon.ModuleNavigation.Avaloniaui\Lemon.ModuleNavigation.Avaloniaui.csproj" />
+    <ProjectReference Include="..\..\src\Lemon.ModuleNavigation\Lemon.ModuleNavigation.csproj" />
     <ProjectReference Include="..\Lemon.ModuleNavigation.SampleViewModel\Lemon.ModuleNavigation.SampleViewModel.csproj" />
-    <ProjectReference Include="..\Lemon.ModuleNavigation\Lemon.ModuleNavigation.csproj" />
   </ItemGroup>
 
   <ItemGroup>

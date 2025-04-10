@@ -92,11 +92,7 @@ public class MainViewModel : ReactiveObject, IServiceAware
             };
             var result = _dialogService.WaitShowDialog(content, 
                 nameof(CustomDialogWindow), 
-                param,
-                result =>
-                {
-                    _logger.LogDebug($"Call back:{result}");
-                });
+                param);
             _logger.LogDebug($"ShowDialog over:{result}");
         });
 

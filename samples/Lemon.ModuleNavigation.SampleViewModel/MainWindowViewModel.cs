@@ -73,11 +73,7 @@ public class MainWindowViewModel : ReactiveObject, IServiceAware
             };
             var result = _dialogService.WaitShowDialog(content,
                 null,
-                param,
-                result =>
-                {
-                    Debug.WriteLine($"Call back:{result}");
-                });
+                param);
             Debug.WriteLine($"ShowDialog over:{result}");
         });
         UnloadViewCommand = ReactiveCommand.Create<NavigationContext>((context) =>

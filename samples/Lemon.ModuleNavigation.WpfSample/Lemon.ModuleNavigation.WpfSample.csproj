@@ -15,8 +15,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\src\Lemon.ModuleNavigation.Wpf\Lemon.ModuleNavigation.Wpf.csproj" />
     <ProjectReference Include="..\Lemon.ModuleNavigation.SampleViewModel\Lemon.ModuleNavigation.SampleViewModel.csproj" />
-    <ProjectReference Include="..\Lemon.ModuleNavigation.Wpf\Lemon.ModuleNavigation.Wpf.csproj" />
   </ItemGroup>
 
 </Project>

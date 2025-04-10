@@ -26,10 +26,10 @@ jobs:
         dotnet-version: 8.0.x
     - name: Install dependencies
       run: dotnet restore
-      working-directory: src/Lemon.ModuleNavigation.Sample.Desktop
+      working-directory: samples/Lemon.ModuleNavigation.Sample.Desktop
     - name: Build
       run: dotnet build --configuration Release --no-restore
-      working-directory: src/Lemon.ModuleNavigation.Sample.Desktop
+      working-directory: samples/Lemon.ModuleNavigation.Sample.Desktop
   build-wpf:
     runs-on: windows-2022
     steps:
@@ -40,7 +40,7 @@ jobs:
         dotnet-version: 8.0.x
     - name: Install dependencies
       run: dotnet restore
-      working-directory: src/Lemon.ModuleNavigation.WpfSample
+      working-directory: samples/Lemon.ModuleNavigation.WpfSample
     - name: Build WPF Sample
       run: dotnet build --configuration Release --no-restore
-      working-directory: src/Lemon.ModuleNavigation.WpfSample
+      working-directory: samples/Lemon.ModuleNavigation.WpfSample
