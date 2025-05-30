@@ -47,7 +47,8 @@ public class MainViewModel : ReactiveObject, IServiceAware
                 new NavigationParameters { { "requestNew", requestNew } });
             _navigationService.RequestViewNavigation("TabRegion", 
                 viewName, 
-                new NavigationParameters { { "requestNew", requestNew } });
+                new NavigationParameters { { "requestNew", requestNew } },
+                $"alias-{viewName}");
             _navigationService.RequestViewNavigation("ItemsRegion", 
                 viewName, 
                 new NavigationParameters { { "requestNew", requestNew } });

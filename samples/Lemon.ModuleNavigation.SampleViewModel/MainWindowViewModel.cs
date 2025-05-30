@@ -3,6 +3,7 @@ using Lemon.ModuleNavigation.Core;
 using ReactiveUI;
 using System.Diagnostics;
 using System.Reactive;
+using System.Reflection;
 
 namespace Lemon.ModuleNavigation.SampleViewModel;
 
@@ -32,7 +33,7 @@ public class MainWindowViewModel : ReactiveObject, IServiceAware
 
             }
             _navigationService.RequestViewNavigation("ContentRegion", viewName, new NavigationParameters { { "requestNew", requestNew } });
-            _navigationService.RequestViewNavigation("TabRegion", viewName, new NavigationParameters { { "requestNew", requestNew } });
+            _navigationService.RequestViewNavigation("TabRegion", viewName, new NavigationParameters { { "requestNew", requestNew } }, $"alias-{viewName}");
             _navigationService.RequestViewNavigation("ItemsRegion", viewName, new NavigationParameters { { "requestNew", requestNew } });
         });
 

@@ -40,21 +40,23 @@ public class NavigationService : INavigationService
         _bufferModuleName.Push((moduleName, parameters));
     }
     public void RequestViewNavigation(string regionName,
-       string viewName)
+       string viewName,
+       string? alias = null)
     {
         foreach (var handler in _viewHandlers)
         {
-            handler.OnNavigateTo(regionName, viewName);
+            handler.OnNavigateTo(regionName, viewName, alias);
         }
         _bufferViewName.Push((regionName, viewName, null));
     }
     public void RequestViewNavigation(string regionName,
         string viewName,
-        NavigationParameters parameters)
+        NavigationParameters parameters,
+        string? alias = null)
     {
         foreach (var handler in _viewHandlers)
         {
-            handler.OnNavigateTo(regionName, viewName, parameters);
+            handler.OnNavigateTo(regionName, viewName, parameters, alias);
         }
         _bufferViewName.Push((regionName, viewName, parameters));
     }
