@@ -21,12 +21,14 @@ public class NavigationContext
     internal NavigationContext(string viewName,
         string regionName,
         IServiceProvider serviceProvider,
-        NavigationParameters? navigationParameters)
+        NavigationParameters? navigationParameters,
+        string? alias)
     {
         ViewName = viewName;
         Parameters = navigationParameters;
         RegionName = regionName;
         ServiceProvider = serviceProvider;
+        Alias = alias;
     }
     public static ViewNameComparer ViewNameComparer => new();
     public static StrictComparer StrictComparer => new();
@@ -34,6 +36,11 @@ public class NavigationContext
     { 
         get; 
         private set; 
+    }
+    public string? Alias
+    {
+        get;
+        private set;
     }
     public NavigationParameters? Parameters 
     { 
