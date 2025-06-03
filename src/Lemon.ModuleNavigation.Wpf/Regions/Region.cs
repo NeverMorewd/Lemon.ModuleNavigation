@@ -80,10 +80,13 @@ public abstract class Region : IRegion
 
             view.DataContext = navigationAware;
             navigationAware.OnNavigatedTo(context);
-            navigationAware.RequestUnload += () =>
+            if (navigationAware is ICanUnload canUnloadNavigationAware)
             {
-                DeActivate(context);
-            };
+                canUnloadNavigationAware.RequestUnload += () =>
+                {
+                    DeActivate(context);
+                };
+            }
             Current.SetData((view, navigationAware));
             context.View = view;
             ViewCache.AddOrUpdate(context, view, (key, value) => view);
