@@ -5,7 +5,7 @@ using System.Reactive;
 
 namespace Lemon.ModuleNavigation.SampleViewModel;
 
-public class BaseNavigationViewModel : ReactiveObject, INavigationAware
+public class BaseNavigationViewModel : ReactiveObject, INavigationAware, ICanUnload
 {
     public virtual string Greeting => $"Welcome to {GetType().Name}[{Environment.ProcessId}][{Environment.CurrentManagedThreadId}]{Environment.NewLine}{DateTime.Now:yyyy-MM-dd HH-mm-ss.ffff}";
 
