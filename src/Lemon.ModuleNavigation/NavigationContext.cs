@@ -1,12 +1,14 @@
 ﻿using Lemon.ModuleNavigation.Abstractions;
 using Lemon.ModuleNavigation.Core;
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
 
 namespace Lemon.ModuleNavigation;
 
-public class NavigationContext
+public class NavigationContext : INotifyPropertyChanged
 {
     [Obsolete("requestNew was obsolete.Consider IsNavigationTarget() in INavigationAware instead.")]
-    internal NavigationContext(string viewName, 
+    internal NavigationContext(string viewName,
         string regionName,
         IServiceProvider serviceProvider,
         bool requestNew,
@@ -21,31 +23,34 @@ public class NavigationContext
     internal NavigationContext(string viewName,
         string regionName,
         IServiceProvider serviceProvider,
-        NavigationParameters? navigationParameters,
-        string? alias)
+        NavigationParameters? navigationParameters)
     {
         ViewName = viewName;
         Parameters = navigationParameters;
         RegionName = regionName;
         ServiceProvider = serviceProvider;
-        Alias = alias;
     }
     public static ViewNameComparer ViewNameComparer => new();
     public static StrictComparer StrictComparer => new();
-    public string ViewName 
-    { 
-        get; 
-        private set; 
-    }
-    public string? Alias
+    public string ViewName
     {
         get;
         private set;
     }
-    public NavigationParameters? Parameters 
-    { 
-        get; 
-        private set; 
+    private string? _alias;
+    public string? Alias
+    {
+        get => _alias;
+        set
+        {
+            _alias = value;
+            OnPropertyChanged();
+        }
+    }
+    public NavigationParameters? Parameters
+    {
+        get;
+        private set;
     }
     [Obsolete("requestNew was obsolete.Consider IsNavigationTarget() in INavigationAware instead.")]
     public bool RequestNew
@@ -54,9 +59,9 @@ public class NavigationContext
         private set;
     }
     public string RegionName
-    { 
-        get; 
-        private set; 
+    {
+        get;
+        private set;
     }
     public int Key => GetHashCode();
     public IServiceProvider ServiceProvider
@@ -71,6 +76,12 @@ public class NavigationContext
     public override string ToString()
     {
         return $"{RegionName}.{ViewName}";
+    }
+
+    public event PropertyChangedEventHandler? PropertyChanged;
+    protected void OnPropertyChanged([CallerMemberName] string? propertyName = null)
+    {
+        PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
     }
 }
 public class ViewNameComparer : IEqualityComparer<NavigationContext>

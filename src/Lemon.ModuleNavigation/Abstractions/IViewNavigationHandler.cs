@@ -5,12 +5,10 @@ namespace Lemon.ModuleNavigation.Abstractions;
 public interface IViewNavigationHandler
 {
     void OnNavigateTo(string regionName, 
-        string viewName,
-        string? alias = null);
+        string viewName);
     void OnNavigateTo(string regionName, 
         string viewName,
-        NavigationParameters parameters,
-        string? alias = null);
+        NavigationParameters parameters);
     void OnViewUnload(string regionName,
         string viewName);
 }

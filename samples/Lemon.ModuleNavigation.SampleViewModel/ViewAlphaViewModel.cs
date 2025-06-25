@@ -11,6 +11,7 @@ public class ViewAlphaViewModel : BaseNavigationViewModel, IDialogAware
     {
     }
 
+    public override string? Alias => "AlphaView";
     public string Title => nameof(ViewAlphaViewModel);
 
     public event Action<IDialogResult>? RequestClose;

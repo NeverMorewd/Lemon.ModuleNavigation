@@ -20,8 +20,7 @@ public interface IViewNavigationService
         bool requestNew);
 
     void RequestViewNavigation(string regionName,
-        string viewName, 
-        string? alias = null);
+        string viewName);
 
     /// <summary>
     /// RequestViewNavigation
@@ -41,8 +40,7 @@ public interface IViewNavigationService
 
     void RequestViewNavigation(string regionName,
         string viewName,
-        NavigationParameters parameters,
-        string? alias = null);
+        NavigationParameters parameters);
 
     /// <summary>
     /// RequestViewUnload
