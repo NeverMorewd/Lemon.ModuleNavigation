@@ -80,6 +80,7 @@ public abstract class Region : IRegion
 
             view.DataContext = navigationAware;
             navigationAware.OnNavigatedTo(context);
+            context.Alias = navigationAware.Alias;
             if (navigationAware is ICanUnload canUnloadNavigationAware)
             {
                 canUnloadNavigationAware.RequestUnload += () =>

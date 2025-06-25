@@ -41,9 +41,9 @@ public class RegionManager : IRegionManager
                 });
         }
     }
-    public void RequestViewNavigate(string regionName, string viewName, NavigationParameters? parameters = null, string? alias = null)
+    public void RequestViewNavigate(string regionName, string viewName, NavigationParameters? parameters = null)
     {
-        var context = new NavigationContext(viewName, regionName, _serviceProvider, parameters, alias);
+        var context = new NavigationContext(viewName, regionName, _serviceProvider, parameters);
         if (_regions.TryGetValue(regionName, out var region))
         {
             region.Activate(context);
