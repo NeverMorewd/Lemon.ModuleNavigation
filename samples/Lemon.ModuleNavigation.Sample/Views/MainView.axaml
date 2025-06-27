@@ -52,7 +52,7 @@
     </UserControl.Styles>
     <TabControl>
         <TabItem Header="View">
-            <Grid ColumnDefinitions="auto,*,*,*,*" ShowGridLines="True">
+            <Grid ColumnDefinitions="auto,*,*,*" ShowGridLines="True">
                 <StackPanel Orientation="Vertical" Spacing="5">
                     <Label Content="Views" />
                     <Button Classes="ViewNavigation" Content="ViewAlpha" />
@@ -98,11 +98,6 @@
                         Margin="2"
                         MaxHeight="600"
                         lm:NavigationExtension.RegionName="ItemsRegion" />
-                </StackPanel>
-                <StackPanel Classes="ForContainerShow" Grid.Column="4">
-                    <Label Content="TransitioningContentControl" />
-                    <Border Classes="HSeparator" />
-                    <TransitioningContentControl lm:NavigationExtension.RegionName="TransitioningContentRegion" />
                 </StackPanel>
             </Grid>
         </TabItem>

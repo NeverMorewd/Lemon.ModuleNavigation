@@ -15,4 +15,20 @@ public static class AvaloniauiExtensions
 
         return task.GetAwaiter().GetResult();
     }
+
+    public static async Task UIInvokeAsync(Action action)
+    {
+        if (!Dispatcher.UIThread.CheckAccess())
+            await Dispatcher.UIThread.InvokeAsync(action);
+        else
+            action();
+    }
+
+    public static T UIInvoke<T>(Func<T> action)
+    {
+        if (!Dispatcher.UIThread.CheckAccess())
+            return Dispatcher.UIThread.Invoke(action);
+        else
+            return action();
+    }
 }

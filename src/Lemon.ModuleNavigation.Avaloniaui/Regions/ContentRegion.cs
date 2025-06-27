@@ -1,7 +1,6 @@
 ﻿using Avalonia.Controls;
 using Avalonia.Controls.Templates;
 using Avalonia.Data;
-using Avalonia.Markup.Xaml.Templates;
 using Lemon.ModuleNavigation.Abstractions;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
@@ -11,10 +10,12 @@ namespace Lemon.ModuleNavigation.Avaloniaui.Regions;
 public class ContentRegion : Region, IContentRegionContext<IDataTemplate>
 {
     private readonly ContentControl _contentControl;
+    private readonly IDataTemplate _templateSelector;
     public ContentRegion(string name, ContentControl contentControl) : base(name)
     {
         _contentControl = contentControl;
-        SetBindingContentTemplate();
+        _templateSelector = new ContentRegionTemplateSelector(this);
+        _contentControl.DataTemplates.Add(_templateSelector);
         SetBindingContent();
     }
 
@@ -29,43 +30,20 @@ public class ContentRegion : Region, IContentRegionContext<IDataTemplate>
         }
     }
 
-    private IDataTemplate? _contentTemplate;
-    public IDataTemplate? ContentTemplate
+    IDataTemplate? IContentRegionContext<IDataTemplate>.ContentTemplate
     {
-        get => _contentTemplate;
+        get => _templateSelector;
         set
         {
-            _contentTemplate = value;
-            OnPropertyChanged();
+            //readonly
         }
     }
 
     public event PropertyChangedEventHandler? PropertyChanged;
 
-    /// <summary>
-    /// When Views with same ViewName were found, the latest one will be picked.
-    /// </summary>
-    /// <param name="target"></param>
     public override void Activate(NavigationContext target)
     {
-        if (ViewCache.TryGetValue(target, out IView? accurateView))
-        {
-            target.View = accurateView;
-            Content = target;
-        }
-        else if (ViewNameCache.TryGetValue(target.ViewName, out IView? view)
-            && view.DataContext is INavigationAware navigationAware
-            && navigationAware.IsNavigationTarget(target))
-        {
-            var context = Contexts.First(c => c.ViewName == target.ViewName);
-            context.View = view;
-            Content = context;
-        }
-        else
-        {
-            Contexts.Add(target);
-            Content = target;
-        }
+        Content = target;
     }
 
     public override void DeActivate(string regionName)
@@ -90,17 +68,17 @@ public class ContentRegion : Region, IContentRegionContext<IDataTemplate>
             }
         }
     }
-    
-    protected virtual void SetBindingContentTemplate()
-    {
-        ContentTemplate = RegionContentTemplate;
-        _contentControl.Bind(ContentControl.ContentTemplateProperty,
-               new Binding(nameof(ContentTemplate))
-               {
-                   Source = this,
-                   Mode = BindingMode.TwoWay
-               });
-    }
+
+    //protected virtual void SetBindingContentTemplate()
+    //{
+    //    ContentTemplate = RegionContentTemplate;
+    //    _contentControl.Bind(ContentControl.ContentTemplateProperty,
+    //           new Binding(nameof(ContentTemplate))
+    //           {
+    //               Source = this,
+    //               Mode = BindingMode.TwoWay
+    //           });
+    //}
     protected virtual void SetBindingContent()
     {
         _contentControl.Bind(ContentControl.ContentProperty,

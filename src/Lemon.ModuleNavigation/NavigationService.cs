@@ -117,7 +117,7 @@ public class NavigationService : INavigationService
         });
     }
 
-    IDisposable IViewNavigationService.BindingViewNavigationHandler(IViewNavigationHandler handler)
+    IDisposable IViewNavigationService.RegisterNavigationHandler(IViewNavigationHandler handler)
     {
         _viewHandlers.Add(handler);
         foreach (var (regionName, viewName, parameters) in _bufferViewName)

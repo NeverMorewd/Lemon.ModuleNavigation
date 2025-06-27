@@ -16,4 +16,15 @@ public static class RegionsExtension
             _ => throw new NotSupportedException($"Unsupported control:{control.GetType()}"),
         };
     }
+
+    public static IAsyncRegion ToAsyncRegion(this Control control, string name)
+    {
+        return control switch
+        {
+            //TabControl tabControl => new TabRegion(name, tabControl),
+            //ItemsControl itemsControl => new ItemsRegion(name, itemsControl),
+            ContentControl contentControl => new AsyncContentRegion(name, contentControl),
+            _ => throw new NotSupportedException($"Unsupported control:{control.GetType()}"),
+        };
+    }
 }

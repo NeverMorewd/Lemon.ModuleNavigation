@@ -4,7 +4,7 @@ namespace Lemon.ModuleNavigation.Abstractions;
 
 public interface IViewNavigationService
 {
-    IDisposable BindingViewNavigationHandler(IViewNavigationHandler handler);
+    IDisposable RegisterNavigationHandler(IViewNavigationHandler handler);
     /// <summary>
     /// RequestViewNavigation
     /// </summary>

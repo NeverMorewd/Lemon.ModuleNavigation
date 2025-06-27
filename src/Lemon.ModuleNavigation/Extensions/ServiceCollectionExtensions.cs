@@ -1,6 +1,7 @@
 ﻿using Lemon.ModuleNavigation;
 using Lemon.ModuleNavigation.Abstractions;
 using Lemon.ModuleNavigation.Internal;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 using System.Diagnostics.CodeAnalysis;
 
 namespace Microsoft.Extensions.DependencyInjection;
@@ -92,12 +93,6 @@ public static class ServiceCollectionExtensions
         return serviceDescriptors;
     }
 
-    /// <summary>
-    /// AddNavigationSupport
-    /// todo: auto generate with source generator
-    /// </summary>
-    /// <param name="serviceDescriptors"></param>
-    /// <returns></returns>
     public static IServiceCollection AddNavigationSupport(this IServiceCollection serviceDescriptors)
     {
         return serviceDescriptors
@@ -109,6 +104,62 @@ public static class ServiceCollectionExtensions
             .AddSingleton<IModuleManager, ModuleManager>()
             .AddSingleton<IRegionManager, RegionManager>();
     }
+
+    #region Async implementation
+    private static IServiceCollection AddAsyncViewNavigation(this IServiceCollection services)
+    {
+        services.TryAddSingleton<AsyncViewNavigationService>();
+        services.TryAddSingleton<IAsyncViewNavigationService>(sp => sp.GetRequiredService<AsyncViewNavigationService>());
+        services.TryAddSingleton<IAsyncViewNavigationHandler, AsyncViewNavigationHandler>();
+        services.AddSingleton<IAsyncRegionManager, AsyncRegionManager>();
+        return services;
+    }
+
+    public static IServiceCollection AddAsyncView<TView, TAsyncViewModel>(this IServiceCollection serviceDescriptors, string viewKey)
+        where TView : class, IView
+        where TAsyncViewModel : class, IAsyncNavigationAware
+    {
+        if (!ViewManager.InternalViewDiscriptions.TryAdd(key: viewKey,
+            new ViewDiscription
+            {
+                ViewKey = viewKey,
+                ViewClassName = typeof(TView).Name,
+                ViewModelType = typeof(TAsyncViewModel),
+                ViewType = typeof(TView)
+            }))
+        {
+            throw new InvalidOperationException($"Duplicated key is not allowed:{viewKey}!");
+        }
+
+        serviceDescriptors
+            .AddTransient<TAsyncViewModel>()
+            .AddTransient<TView>()
+            .AddKeyedTransient<IView>(viewKey, (sp, key) =>
+            {
+                var view = sp.GetRequiredService<TView>();
+                return view;
+            })
+            .AddKeyedTransient<IAsyncNavigationAware>(viewKey, (sp, key) =>
+            {
+                var viewModel = sp.GetRequiredService<TAsyncViewModel>();
+                return viewModel;
+            });
+        if (typeof(TAsyncViewModel).IsAssignableTo(typeof(IDialogAware)))
+        {
+            serviceDescriptors.AddKeyedTransient(viewKey, (sp, key) =>
+            {
+                var viewModel = sp.GetRequiredService<TAsyncViewModel>();
+                return (IDialogAware)viewModel;
+            });
+        }
+        return serviceDescriptors;
+    }
+
+    public static IServiceCollection AddAsyncNavigationSupport(this IServiceCollection serviceDescriptors)
+    {
+        return AddAsyncViewNavigation(serviceDescriptors);
+    }
+    #endregion
 
     public static IServiceCollection AddAppServiceProvider(this IServiceCollection serviceDescriptors,
         IServiceProvider serviceProvider)

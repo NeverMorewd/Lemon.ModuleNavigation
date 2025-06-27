@@ -184,4 +184,19 @@ public class RegionManager : IRegionManager
     {
         throw new NotImplementedException();
     }
+
+    public Task RequestViewNavigateAsync(string regionName, string viewName, NavigationParameters? parameters = null)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task RequestViewUnloadAsync(string regionName, string viewName)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task RequestViewUnloadAsync(NavigationContext context)
+    {
+        throw new NotImplementedException();
+    }
 }

@@ -14,4 +14,8 @@
     <ProjectReference Include="..\..\src\Lemon.ModuleNavigation\Lemon.ModuleNavigation.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="NewFolder\" />
+  </ItemGroup>
+
 </Project>

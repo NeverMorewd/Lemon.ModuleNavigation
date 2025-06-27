@@ -32,7 +32,13 @@ public class NavigationExtension
                 }
                 void LoadedHandler(object? sender, RoutedEventArgs e)
                 {
-                    if (control.DataContext is IServiceAware navigationProvider)
+                    if (control.DataContext is IAsyncServiceAware asyncServerAware)
+                    {
+                        var serviceProvider = asyncServerAware!.ServiceProvider;
+                        var handler = serviceProvider.GetRequiredService<IAsyncViewNavigationHandler>();
+                        handler.AsyncRegionManager.AddRegion(currentValue, control.ToAsyncRegion(currentValue));
+                    }
+                    else if (control.DataContext is IServiceAware navigationProvider)
                     {
                         var serviceProvider = navigationProvider!.ServiceProvider;
                         var handler = serviceProvider.GetRequiredService<INavigationHandler>();

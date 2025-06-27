@@ -64,6 +64,7 @@ public class NavigationContext : INotifyPropertyChanged
         private set;
     }
     public int Key => GetHashCode();
+    public int ViewKey => ViewName.GetHashCode();
     public IServiceProvider ServiceProvider
     {
         get;

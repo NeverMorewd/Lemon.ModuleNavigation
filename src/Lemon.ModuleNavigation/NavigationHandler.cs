@@ -18,7 +18,7 @@ public class NavigationHandler : INavigationHandler, IDisposable
         _regionManager = regionManager;
         _moduleManager = moduleManager;
         _cleanup1 = _navigationService.BindingNavigationHandler(this);
-        _cleanup2 = _navigationService.BindingViewNavigationHandler(this);
+        _cleanup2 = _navigationService.RegisterNavigationHandler(this);
     }
     public IRegionManager RegionManager => _regionManager;
     public IModuleManager ModuleManager => _moduleManager;
