@@ -68,13 +68,27 @@ public class AsyncRegionManager : IAsyncRegionManager
         }
     }
 
-    public Task RequestViewUnloadAsync(string regionName, string viewName, CancellationToken cancellationToken = default)
+    public async Task RequestViewUnloadAsync(string regionName, string viewName, CancellationToken cancellationToken = default)
     {
-        throw new NotImplementedException();
+        if (_regions.TryGetValue(regionName, out var region))
+        {
+            await region.DeActivateAsync(viewName);
+        }
+        else
+        {
+            throw new RegionNameNotFoundException(nameof(regionName));
+        }
     }
 
-    public Task RequestViewUnloadAsync(NavigationContext context, CancellationToken cancellationToken = default)
+    public async Task RequestViewUnloadAsync(NavigationContext context, CancellationToken cancellationToken = default)
     {
-        throw new NotImplementedException();
+        if (_regions.TryGetValue(context.RegionName, out var region))
+        {
+            await region.DeActivateAsync(context);
+        }
+        else
+        {
+            throw new RegionNameNotFoundException(nameof(context.RegionName));
+        }
     }
 }

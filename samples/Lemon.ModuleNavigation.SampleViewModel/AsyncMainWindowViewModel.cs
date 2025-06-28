@@ -20,20 +20,7 @@ public class AsyncMainWindowViewModel : ReactiveObject, IAsyncServiceAware
         _navigationService = navigationService;
         _navigationService.RequestViewNavigationAsync("ContentRegion", "ViewAlpha");
         ServiceProvider = serviceProvider;
-        NavigateToViewCommand = ReactiveCommand.CreateFromTask<string>(async content =>
-        {
-            var viewName = content;
-            var requestNew = false;
-            if (content.EndsWith(".RequestNew"))
-            {
-                viewName = content.Replace(".RequestNew", string.Empty);
-                requestNew = true;
-
-            }
-            await _navigationService.RequestViewNavigationAsync("ContentRegion", viewName, new NavigationParameters { { "requestNew", requestNew } });
-            //_navigationService.RequestViewNavigationAsync("TabRegion", viewName, new NavigationParameters { { "requestNew", requestNew } });
-            //_navigationService.RequestViewNavigationAsync("ItemsRegion", viewName, new NavigationParameters { { "requestNew", requestNew } });
-        });
+        NavigateToViewCommand = ReactiveCommand.CreateFromTask<string>(NavigationAsync);
 
         ShowCommand = ReactiveCommand.Create<string>(content =>
         {
@@ -104,5 +91,23 @@ public class AsyncMainWindowViewModel : ReactiveObject, IAsyncServiceAware
     public ReactiveCommand<string, Unit> ShowDialogSyncCommand
     {
         get;
+    }
+
+    private async Task NavigationAsync(string content)
+    {
+
+        var viewName = content;
+        var requestNew = false;
+        if (content.EndsWith(".RequestNew"))
+        {
+            viewName = content.Replace(".RequestNew", string.Empty);
+            requestNew = true;
+
+        }
+
+        await _navigationService.RequestViewNavigationAsync("ContentRegion", viewName, new NavigationParameters { { "requestNew", requestNew } });
+        //_navigationService.RequestViewNavigationAsync("TabRegion", viewName, new NavigationParameters { { "requestNew", requestNew } });
+        //_navigationService.RequestViewNavigationAsync("ItemsRegion", viewName, new NavigationParameters { { "requestNew", requestNew } });
+
     }
 }

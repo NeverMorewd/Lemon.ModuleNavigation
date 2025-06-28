@@ -12,8 +12,6 @@ public sealed record AsyncViewNavigationPair(IView View, IAsyncNavigationAware N
 
     public async Task OnNavigatedToAsync(NavigationContext context)
     {
-        View.DataContext = NavigationAware;
         await NavigationAware.OnNavigatedToAsync(context);
-        context.Alias = NavigationAware.Alias;
     }
 }

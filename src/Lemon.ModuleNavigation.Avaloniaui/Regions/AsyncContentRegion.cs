@@ -74,6 +74,12 @@ namespace Lemon.ModuleNavigation.Avaloniaui.Regions
         {
             try
             {
+
+                //if (Content is NavigationContext current)
+                //{
+                //    if(current.ViewName == target.ViewName)
+                //}
+
                 await AvaloniauiExtensions.UIInvokeAsync(() =>
                 {
                     IsNavigating = true;
@@ -120,9 +126,34 @@ namespace Lemon.ModuleNavigation.Avaloniaui.Regions
         }
 
 
-        public Task DeActivateAsync(NavigationContext target)
+        public async Task DeActivateAsync(NavigationContext target)
         {
-            throw new NotImplementedException();
+            if (Content is NavigationContext current)
+            {
+                if (current.ViewName == target.ViewName)
+                {
+                    await Dispatcher.UIThread.InvokeAsync(() =>
+                    {
+                        Content = null;
+                    });
+
+                }
+            }
+        }
+
+        public async Task DeActivateAsync(string viewName)
+        {
+            if (Content is NavigationContext current)
+            {
+                if (current.ViewName == viewName)
+                {
+                    await Dispatcher.UIThread.InvokeAsync(() =>
+                    {
+                        Content = null;
+                    });
+                    
+                }
+            }
         }
     }
 

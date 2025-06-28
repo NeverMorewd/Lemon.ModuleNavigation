@@ -92,6 +92,7 @@ public class AsyncContentRegionTemplateSelector : IDataTemplate
 
             await AvaloniauiExtensions.UIInvokeAsync(() =>
             {
+                //container.Content = null;
                 container.Content = view;
                 context.View = view;
             });
@@ -125,6 +126,7 @@ public class AsyncContentRegionTemplateSelector : IDataTemplate
             var canReuse = await cache.NavigationAware.IsNavigationTargetAsync(context);
             if (canReuse)
             {
+                //await _region.DeActivateAsync(context);
                 return cache.View;
             }
         }
@@ -139,7 +141,9 @@ public class AsyncContentRegionTemplateSelector : IDataTemplate
         }
 
         view.DataContext = pair.NavigationAware;
-        await pair.OnNavigatedToAsync(context);
+        await pair.NavigationAware.OnNavigatedToAsync(context);
+
+        context.Alias = pair.NavigationAware.Alias;
 
         if (pair.NavigationAware is IAsyncCanUnload canUnload)
         {

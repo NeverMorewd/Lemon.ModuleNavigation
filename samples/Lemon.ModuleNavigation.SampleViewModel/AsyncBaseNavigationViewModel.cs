@@ -26,9 +26,9 @@ namespace Lemon.ModuleNavigation.SampleViewModel
 
         public event Func<Task>? RequestUnloadAsync;
 
-        public virtual Task OnNavigatedToAsync(NavigationContext context)
+        public virtual async  Task OnNavigatedToAsync(NavigationContext context)
         {
-            return Task.CompletedTask;
+            await Task.Delay(TimeSpan.FromSeconds(3));
         }
 
         public virtual Task OnNavigatedFromAsync(NavigationContext context)
