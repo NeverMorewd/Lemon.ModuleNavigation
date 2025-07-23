@@ -18,6 +18,6 @@ sealed class Program
         => AppBuilder.Configure<App>()
             .UsePlatformDetect()
             .WithInterFont()
-        .UseReactiveUI()
+            .UseReactiveUI()
             .LogToTrace();
 }

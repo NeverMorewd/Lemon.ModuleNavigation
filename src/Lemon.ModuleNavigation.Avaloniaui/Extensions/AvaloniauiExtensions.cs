@@ -18,10 +18,11 @@ public static class AvaloniauiExtensions
 
     public static async Task UIInvokeAsync(Action action)
     {
-        if (!Dispatcher.UIThread.CheckAccess())
-            await Dispatcher.UIThread.InvokeAsync(action);
-        else
-            action();
+        await Dispatcher.UIThread.InvokeAsync(action);
+        //if (!Dispatcher.UIThread.CheckAccess())
+        //    await Dispatcher.UIThread.InvokeAsync(action);
+        //else
+        //    action();
     }
 
     public static T UIInvoke<T>(Func<T> action)
