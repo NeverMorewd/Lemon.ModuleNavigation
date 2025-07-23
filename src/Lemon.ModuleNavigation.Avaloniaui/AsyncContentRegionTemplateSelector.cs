@@ -6,6 +6,8 @@ using Lemon.ModuleNavigation.Abstractions;
 using Lemon.ModuleNavigation.Core;
 using Microsoft.Extensions.DependencyInjection;
 using System.Collections.Concurrent;
+using System.ComponentModel;
+using System.Xml.Linq;
 
 namespace Lemon.ModuleNavigation.Avaloniaui;
 
@@ -17,6 +19,8 @@ public class AsyncContentRegionTemplateSelector : IDataTemplate
     private readonly ConcurrentDictionary<int, Task<IView>> NavigationTasks = new();
     private readonly ConcurrentDictionary<int, TaskCompletionSource<IView>> NavigationCompletionSources = new();
     private readonly IAsyncRegion _region;
+
+    private readonly ContentControl _asyncContainer = new();
 
     public AsyncContentRegionTemplateSelector(IAsyncRegion region)
     {
@@ -50,13 +54,13 @@ public class AsyncContentRegionTemplateSelector : IDataTemplate
     {
         return AvaloniauiExtensions.UIInvoke(() => 
         {
-            var container = new ContentControl
-            {
-                Content = CreateLoadingIndicator()
-            };
-
-            _ = ResolveViewAsync(context, container);
-            return container;
+            //var container = new ContentControl
+            //{
+            //    Content = CreateLoadingIndicator()
+            //};
+            _asyncContainer.Content = CreateLoadingIndicator();
+            _ = ResolveViewAsync(context, _asyncContainer);
+            return _asyncContainer;
         });
     }
 
@@ -127,6 +131,12 @@ public class AsyncContentRegionTemplateSelector : IDataTemplate
             if (canReuse)
             {
                 //await _region.DeActivateAsync(context);
+                if (Current.TryTakeData(out var last))
+                {
+                    await last!.OnNavigatedFromAsync(context);
+                }
+                await cache.OnNavigatedToAsync(context);
+                Current.SetData(cache);
                 return cache.View;
             }
         }
