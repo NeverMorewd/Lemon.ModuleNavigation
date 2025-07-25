@@ -41,7 +41,7 @@ public class AsyncViewBetaViewModel : AsyncBaseNavigationViewModel, IDialogAware
     public override async Task<bool> IsNavigationTargetAsync(NavigationContext navigationContext)
     {
         /// Simulate a delay to mimic async operation
-        await Task.Delay(TimeSpan.FromSeconds(3));
+        await Task.Delay(TimeSpan.FromSeconds(1));
         if (navigationContext.Parameters is not null)
         {
             if (navigationContext.Parameters.TryGetValue("requestNew", out bool requestNew))

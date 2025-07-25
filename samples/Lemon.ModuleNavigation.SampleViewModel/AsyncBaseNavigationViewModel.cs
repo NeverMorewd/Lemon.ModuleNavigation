@@ -28,7 +28,7 @@ namespace Lemon.ModuleNavigation.SampleViewModel
 
         public virtual async  Task OnNavigatedToAsync(NavigationContext context)
         {
-            await Task.Delay(TimeSpan.FromSeconds(3));
+            await Task.Delay(TimeSpan.FromSeconds(2));
         }
 
         public virtual Task OnNavigatedFromAsync(NavigationContext context)
