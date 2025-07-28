@@ -3,6 +3,7 @@ using Lemon.ModuleNavigation.Core;
 using ReactiveUI;
 using System.Diagnostics;
 using System.Reactive;
+using System.Reflection;
 
 namespace Lemon.ModuleNavigation.SampleViewModel;
 

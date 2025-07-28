@@ -72,7 +72,7 @@
                         <TabControl.ItemTemplate>
                             <DataTemplate>
                                 <StackPanel Orientation="Horizontal" Spacing="2">
-                                    <TextBlock Text="{Binding}" />
+                                    <TextBlock Text="{Binding Alias}" />
                                     <Button
                                         Content="X"
                                         FontSize="11"

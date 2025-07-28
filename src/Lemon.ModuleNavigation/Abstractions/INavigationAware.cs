@@ -2,7 +2,7 @@
 
 public interface INavigationAware
 {
-    event Action? RequestUnload;
+    string? Alias { get; }
     void OnNavigatedTo(NavigationContext navigationContext);
     bool IsNavigationTarget(NavigationContext navigationContext);
     void OnNavigatedFrom(NavigationContext navigationContext);

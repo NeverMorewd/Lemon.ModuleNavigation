@@ -8,7 +8,7 @@ namespace Lemon.ModuleNavigation.SampleViewModel;
 public class ViewBetaViewModel : BaseNavigationViewModel, IDialogAware
 {
     public string Title => nameof(ViewBetaViewModel);
-
+    public override string? Alias => "BetaView";
     public event Action<IDialogResult>? RequestClose;
     public ReactiveCommand<Unit, Unit> CloseCommand => ReactiveCommand.Create(() => 
     {
