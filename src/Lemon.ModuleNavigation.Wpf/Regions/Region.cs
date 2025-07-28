@@ -68,19 +68,15 @@ public abstract class Region : IRegion
     protected IView? ResolveView(NavigationContext context)
     {
         var view = context.View;
+        INavigationAware? navigationAware;
+
         if (view is null)
         {
             view = context.ServiceProvider.GetRequiredKeyedService<IView>(context.ViewName);
-            var navigationAware = context.ServiceProvider.GetRequiredKeyedService<INavigationAware>(context.ViewName);
-
-            if (Current.TryTakeData(out var previousData))
-            {
-                previousData.NavigationAware.OnNavigatedFrom(context);
-            }
+            navigationAware = context.ServiceProvider.GetRequiredKeyedService<INavigationAware>(context.ViewName);
 
             view.DataContext = navigationAware;
-            navigationAware.OnNavigatedTo(context);
-            context.Alias = navigationAware.Alias;
+
             if (navigationAware is ICanUnload canUnloadNavigationAware)
             {
                 canUnloadNavigationAware.RequestUnload += () =>
@@ -88,12 +84,27 @@ public abstract class Region : IRegion
                     DeActivate(context);
                 };
             }
-            Current.SetData((view, navigationAware));
+
             context.View = view;
             ViewCache.AddOrUpdate(context, view, (key, value) => view);
         }
+        else
+        {
+            navigationAware = view.DataContext as INavigationAware
+                ?? context.ServiceProvider.GetRequiredKeyedService<INavigationAware>(context.ViewName);
+        }
+
+        context.Alias = navigationAware?.Alias;
+        if (Current.TryTakeData(out var previousData))
+        {
+            previousData.NavigationAware.OnNavigatedFrom(context);
+        }
+        navigationAware?.OnNavigatedTo(context);
+        Current.SetData((view, navigationAware!));
+
         return view;
     }
+
 
     protected virtual void WhenContextsAdded(IEnumerable<NavigationContext> contexts)
     {
