@@ -68,18 +68,15 @@ public abstract class Region : IRegion
     protected IView? ResolveView(NavigationContext context)
     {
         var view = context.View;
+        INavigationAware? navigationAware = null;
+
         if (view is null)
         {
             view = context.ServiceProvider.GetRequiredKeyedService<IView>(context.ViewName);
-            var navigationAware = context.ServiceProvider.GetRequiredKeyedService<INavigationAware>(context.ViewName);
-
-            if (Current.TryTakeData(out var previousData))
-            {
-                previousData.NavigationAware.OnNavigatedFrom(context);
-            }
+            navigationAware = context.ServiceProvider.GetRequiredKeyedService<INavigationAware>(context.ViewName);
 
             view.DataContext = navigationAware;
-            navigationAware.OnNavigatedTo(context);
+
             if (navigationAware is ICanUnload canUnloadNavigationAware)
             {
                 canUnloadNavigationAware.RequestUnload += () =>
@@ -87,10 +84,24 @@ public abstract class Region : IRegion
                     DeActivate(context);
                 };
             }
-            Current.SetData((view, navigationAware));
+
             context.View = view;
             ViewCache.AddOrUpdate(context, view, (key, value) => view);
         }
+        else
+        {
+            navigationAware = view.DataContext as INavigationAware
+                ?? context.ServiceProvider.GetRequiredKeyedService<INavigationAware>(context.ViewName);
+        }
+        if (Current.TryTakeData(out var previousData))
+        {
+            previousData.NavigationAware.OnNavigatedFrom(context);
+        }
+
+        navigationAware.OnNavigatedTo(context);
+
+        Current.SetData((view, navigationAware));
+        context.Alias = navigationAware.Alias;
         return view;
     }
 
@@ -127,31 +138,7 @@ public abstract class Region : IRegion
             {
                 return null;
             }
-            var view = context.View;
-            if (view is null)
-            {
-                view = context.ServiceProvider.GetRequiredKeyedService<IView>(context.ViewName);
-                var navigationAware = context.ServiceProvider.GetRequiredKeyedService<INavigationAware>(context.ViewName);
-
-                if (Current.TryTakeData(out var previousData))
-                {
-                    previousData.NavigationAware.OnNavigatedFrom(context);
-                }
-
-                view.DataContext = navigationAware;
-                navigationAware.OnNavigatedTo(context);
-                context.Alias = navigationAware.Alias;
-                if (navigationAware is ICanUnload canUnloadNavigationAware)
-                {
-                    canUnloadNavigationAware.RequestUnload += () =>
-                    {
-                        DeActivate(context);
-                    };
-                }
-                Current.SetData((view, navigationAware));
-                context.View = view;
-                ViewCache.AddOrUpdate(context, view, (key, value) => view);
-            }
+            var view = ResolveView(context);
             return view as Control;
         });
     }
