@@ -1,6 +1,6 @@
 # Lemon.ModuleNavigation
 <p align="center">
-    <img src="src/lemon-100.png" />
+    <img src="lemon-100.png" />
 </p>
 
 [![NuGet](https://img.shields.io/nuget/v/Lemon.ModuleNavigation.svg?style=flat-square&label=NuGet)](https://www.nuget.org/packages/Lemon.ModuleNavigation/)
