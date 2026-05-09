@@ -1,7 +1,19 @@
+
+
+*I’ve decided to archive this repository as it is no longer actively maintained.
+For future development and updates, please use the following repository instead:
+[AsyncNavigation](https://github.com/NeverMorewd/AsyncNavigation?utm_source=chatgpt.com)
+The new repository contains the latest improvements and will continue to receive updates and maintenance.
+Thank you to everyone who used and supported this project.*
+
+---
+
 # Lemon.ModuleNavigation
 <p align="center">
     <img src="lemon-100.png" />
 </p>
+
+
 
 [![NuGet](https://img.shields.io/nuget/v/Lemon.ModuleNavigation.svg?style=flat-square&label=NuGet)](https://www.nuget.org/packages/Lemon.ModuleNavigation/)
 
